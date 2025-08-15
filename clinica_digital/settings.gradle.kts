@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Clinica_digital_curitiba"
+rootProject.name = "clinica_digital"
 include(":app")

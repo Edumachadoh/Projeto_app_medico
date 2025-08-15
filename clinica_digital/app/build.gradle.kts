@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.clinica_digital_curitiba"
+    namespace = "com.example.clinica_digital"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.clinica_digital_curitiba"
+        applicationId = "com.example.clinica_digital"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
