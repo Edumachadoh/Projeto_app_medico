@@ -1,7 +1,6 @@
 package com.up.clinica_digital.models
 
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import java.time.LocalDateTime
 

@@ -1,4 +1,4 @@
-package com.up.clinica_digital.Dao
+package com.up.clinica_digital.relation_models
 
 import androidx.room.Embedded
 import androidx.room.Relation

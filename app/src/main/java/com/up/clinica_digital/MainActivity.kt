@@ -19,9 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.room.Room
@@ -59,7 +57,7 @@ class MainActivity : ComponentActivity() {
             try {
                 // Inserção de dados
                 val patient = Patient(
-                    id = "2",
+                    id = "3",
                     name = "Mariana Costa",
                     email = "mariana@gmail.com",
                     birthDate = "1992-08-15"
@@ -67,7 +65,7 @@ class MainActivity : ComponentActivity() {
                 db.patientDao().insertPatient(patient)
 
                 val doctor = Doctor(
-                    id = "3",
+                    id = "4",
                     name = "Dr. Rafael",
                     email = "rafael@gmail.com",
                     crm = "7890",
@@ -77,7 +75,7 @@ class MainActivity : ComponentActivity() {
                 db.doctorDao().insertDoctor(doctor)
 
                 val topic = ForumTopic(
-                    id = "103",
+                    id = "104",
                     title = "Manchas na pele",
                     content = "Tenho manchas que aparecem no sol, o que pode ser?",
                     authorId = "1",
@@ -86,7 +84,7 @@ class MainActivity : ComponentActivity() {
                 db.forumTopicDao().insertTopic(topic)
 
                 val comment = ForumComment(
-                    id = "c2",
+                    id = "c3",
                     topicId = topic.id,
                     authorId = "1",
                     content = "Também tenho esse problema, gostaria de saber mais.",
