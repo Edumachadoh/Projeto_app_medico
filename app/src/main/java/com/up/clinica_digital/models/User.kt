@@ -1,7 +1,10 @@
 package com.up.clinica_digital.models
 
-abstract class User (
-    val id: String,
-    val name: String,
-    val email: String
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+open class User(
+    open val id: String,
+    open val name: String,
+    open val email: String
 )
