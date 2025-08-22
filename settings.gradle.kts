@@ -21,4 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "clinica_digital"
 include(":app")
- 
