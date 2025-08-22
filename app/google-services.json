@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "423624589499",
+    "project_id": "clinica-digital-up",
+    "storage_bucket": "clinica-digital-up.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423624589499:android:524dcfea5edb5cad62299e",
+        "android_client_info": {
+          "package_name": "com.up.clinica_digital"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3B6qu2Nd7ixKb4ExINuRrjcAatMgbJe0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
