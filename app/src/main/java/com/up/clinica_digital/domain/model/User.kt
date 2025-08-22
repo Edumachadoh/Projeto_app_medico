@@ -1,6 +1,7 @@
 package com.up.clinica_digital.domain.model
 
 import android.os.Parcelable
+import com.up.clinica_digital.domain.common.HasId
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
