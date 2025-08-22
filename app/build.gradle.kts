@@ -6,11 +6,13 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
+
+    id("kotlin-parcelize")
 }
 
 android {
     namespace = "com.up.clinica_digital"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.up.clinica_digital"
