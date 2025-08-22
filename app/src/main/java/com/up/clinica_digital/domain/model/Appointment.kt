@@ -6,9 +6,9 @@ import java.time.LocalDateTime
 
 @Parcelize
 data class Appointment(
-    val id: String,
+    override val id: String,
     val doctorId: String,
     val patientId: String,
     val scheduledAt: LocalDateTime,
     val status: AppointmentStatus
-) : Parcelable
+) : HasId, Parcelable

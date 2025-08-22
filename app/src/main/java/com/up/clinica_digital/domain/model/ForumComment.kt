@@ -6,9 +6,9 @@ import java.time.LocalDateTime
 
 @Parcelize
 data class ForumComment(
-    val id: String,
+    override val id: String,
     val topicId: String,
     val authorId: String,
     val content: String,
     val createdAt: LocalDateTime
-) : Parcelable
+) : HasId, Parcelable
