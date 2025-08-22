@@ -30,4 +30,22 @@ class PatientController(private val db: AppDatabase) {
             }
         }
     }
+
+    fun updatePatient(patient: Patient) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                db.patientDao().updatePatient(patient)
+            } catch (e: Exception) {
+            }
+        }
+    }
+
+    fun deletePatient(patient: Patient) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                db.patientDao().deletePatient(patient)
+            } catch (e: Exception) {
+            }
+        }
+    }
 }
