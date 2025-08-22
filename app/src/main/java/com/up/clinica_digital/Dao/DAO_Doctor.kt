@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.up.clinica_digital.models.Doctor
 
 
@@ -18,6 +19,9 @@ interface DoctorDao {
 
     @Query("SELECT * FROM Doctor")
     suspend fun getAllDoctors(): List<Doctor>
+
+    @Update
+    suspend fun updateDoctor(medico: Doctor)
 
     @Delete
     suspend fun deleteDoctor(doctor: Doctor)

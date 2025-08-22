@@ -1,6 +1,6 @@
 package com.up.clinica_digital
 
-import AppDatabase
+import com.up.clinica_digital.data.AppDatabase
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -23,6 +23,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.room.Room
+import com.up.clinica_digital.controllers.PatientController
 import com.up.clinica_digital.models.Doctor
 import com.up.clinica_digital.models.ForumComment
 import com.up.clinica_digital.models.ForumTopic
@@ -36,6 +37,7 @@ import kotlinx.coroutines.withContext
 class MainActivity : ComponentActivity() {
 
     private lateinit var db: AppDatabase
+    private lateinit var patientController: PatientController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,70 +50,22 @@ class MainActivity : ComponentActivity() {
             .fallbackToDestructiveMigration()
             .build()
 
+        patientController = PatientController(db)
+
         val patientList = mutableStateListOf<Patient>()
         val topicList = mutableStateListOf<ForumTopic>()
         val commentList = mutableStateListOf<ForumComment>()
         val doctorList = mutableStateListOf<Doctor>()
 
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                // Inserção de dados
-                val patient = Patient(
-                    id = "3",
-                    name = "Mariana Costa",
-                    email = "mariana@gmail.com",
-                    birthDate = "1992-08-15"
-                )
-                db.patientDao().insertPatient(patient)
+        patientController.getPatients(patientList)
 
-                val doctor = Doctor(
-                    id = "4",
-                    name = "Dr. Rafael",
-                    email = "rafael@gmail.com",
-                    crm = "7890",
-                    rqe = "4567",
-                    specialization = "Dermatologia"
-                )
-                db.doctorDao().insertDoctor(doctor)
-
-                val topic = ForumTopic(
-                    id = "104",
-                    title = "Manchas na pele",
-                    content = "Tenho manchas que aparecem no sol, o que pode ser?",
-                    authorId = "1",
-                    createdAt = "2000-10-12"
-                )
-                db.forumTopicDao().insertTopic(topic)
-
-                val comment = ForumComment(
-                    id = "c3",
-                    topicId = topic.id,
-                    authorId = "1",
-                    content = "Também tenho esse problema, gostaria de saber mais.",
-                    createdAt = "1990-02-08"
-                )
-                db.forumCommentDao().insertComment(comment)
-
-                // Busca dos dados
-                val patientsFromDb = db.patientDao().getAllPatients()
-                val topicsFromDb = db.forumTopicDao().getAllForumTopics()
-                val commentsFromDb = db.forumCommentDao().getAllForumComments()
-                val doctorsFromDb = db.doctorDao().getAllDoctors()
-
-                withContext(Dispatchers.Main) {
-                    patientList.addAll(patientsFromDb)
-
-                    topicList.addAll(topicsFromDb)
-
-                    commentList.addAll(commentsFromDb)
-
-                    doctorList.addAll(doctorsFromDb)
-                }
-
-            } catch (e: Exception) {
-                Log.e("MainActivity", "Erro ao acessar o banco", e)
-            }
-        }
+        val patient = Patient(
+            id = "3",
+            name = "Mariana Costa",
+            email = "mariana@gmail.com",
+            birthDate = "1992-08-15"
+        )
+        patientController.insertPatient(patient)
 
         setContent {
             Clinica_digitalTheme {
