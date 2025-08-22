@@ -1,4 +1,4 @@
-package com.up.clinica_digital.domain.models
+package com.up.clinica_digital.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

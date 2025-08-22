@@ -1,4 +1,4 @@
-package com.up.clinica_digital.domain.models
+package com.up.clinica_digital.domain.model
 
 enum class AppointmentStatus {
     SCHEDULED,
