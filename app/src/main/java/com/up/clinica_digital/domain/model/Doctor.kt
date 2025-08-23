@@ -12,5 +12,6 @@ data class Doctor(
     override val passwordHash: String,
     val crm: String,
     val rqe: String,
-    val specialization: String
+    val specialization: String,
+    val uf: String,
 ) : User(id, name, email, cpf, passwordHash), Parcelable

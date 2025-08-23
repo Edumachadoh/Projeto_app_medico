@@ -18,7 +18,8 @@ class FirebaseDoctorRepository(
         "passwordHash" to passwordHash,
         "crm" to crm,
         "rqe" to rqe,
-        "specialization" to specialization
+        "specialization" to specialization,
+        "uf" to uf
     )
 
     override fun DocumentSnapshot.toDomain(): Doctor? {
@@ -31,7 +32,8 @@ class FirebaseDoctorRepository(
             passwordHash = data["passwordHash"] as? String ?: "",
             crm = data["crm"] as? String ?: "",
             rqe = data["rqe"] as? String ?: "",
-            specialization = data["specialization"] as? String ?: ""
+            specialization = data["specialization"] as? String ?: "",
+            uf = data["uf"] as? String ?: ""
         )
     }
 }
