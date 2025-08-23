@@ -1,4 +1,4 @@
-package com.up.clinica_digital.domain.usecase
+package com.up.clinica_digital.domain.usecase.user
 
 import com.up.clinica_digital.domain.interfaces.repository.IUserAuthRepository
 import com.up.clinica_digital.domain.interfaces.usecase.user.ILoginUserUseCase
