@@ -3,13 +3,13 @@ package com.up.clinica_digital.data.repository
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.up.clinica_digital.domain.common.HasId
-import com.up.clinica_digital.domain.repository.CrudRepository
+import com.up.clinica_digital.domain.interfaces.repository.ICrudRepository
 import kotlinx.coroutines.tasks.await
 
 abstract class FirebaseCrudRepository<T : HasId>(
     private val collectionPath: String,
     private val firestore: FirebaseFirestore
-) : CrudRepository<T> {
+) : ICrudRepository<T> {
 
     protected val collection = firestore.collection(collectionPath)
 

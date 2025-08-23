@@ -4,13 +4,13 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.up.clinica_digital.domain.model.Appointment
 import com.up.clinica_digital.domain.model.AppointmentStatus
-import com.up.clinica_digital.domain.repository.AppointmentRepository
+import com.up.clinica_digital.domain.interfaces.repository.IAppointmentRepository
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDateTime
 
 class FirebaseAppointmentRepository(
     firestore: FirebaseFirestore
-) : FirebaseCrudRepository<Appointment>("appointments", firestore), AppointmentRepository {
+) : FirebaseCrudRepository<Appointment>("appointments", firestore), IAppointmentRepository {
 
     override fun Appointment.toMap(): Map<String, Any> = mapOf(
         "id" to id,

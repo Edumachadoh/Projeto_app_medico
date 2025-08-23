@@ -3,12 +3,12 @@ package com.up.clinica_digital.data.repository
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.up.clinica_digital.domain.model.ForumTopic
-import com.up.clinica_digital.domain.repository.ForumTopicRepository
+import com.up.clinica_digital.domain.interfaces.repository.IForumTopicRepository
 import java.time.LocalDateTime
 
 class FirebaseForumTopicRepository(
     firestore: FirebaseFirestore
-) : FirebaseCrudRepository<ForumTopic>("forumTopics", firestore), ForumTopicRepository {
+) : FirebaseCrudRepository<ForumTopic>("forumTopics", firestore), IForumTopicRepository {
 
     override fun ForumTopic.toMap(): Map<String, Any> = mapOf(
         "id" to id,
