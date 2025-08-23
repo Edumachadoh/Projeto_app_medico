@@ -1,0 +1,12 @@
+package com.up.clinica_digital.domain.usecase.appointment
+
+import com.up.clinica_digital.domain.interfaces.repository.IAppointmentRepository
+import com.up.clinica_digital.domain.interfaces.usecase.appointment.IListByPatientUseCase
+import com.up.clinica_digital.domain.model.Appointment
+
+class ListByPatientUseCase(
+    private val repository: IAppointmentRepository
+) : IListByPatientUseCase {
+    override suspend fun invoke(patientId: String): List<Appointment> =
+        repository.listByPatient(patientId)
+}
