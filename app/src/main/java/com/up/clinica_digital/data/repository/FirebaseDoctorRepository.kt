@@ -34,10 +34,4 @@ class FirebaseDoctorRepository(
             specialization = data["specialization"] as? String ?: ""
         )
     }
-
-    override suspend fun validateCRM(crm: String): Boolean {
-        // TODO: Integração com API externa para validação do CRM
-        val snapshot = collection.whereEqualTo("crm", crm).get().await()
-        return snapshot.isEmpty
-    }
 }
