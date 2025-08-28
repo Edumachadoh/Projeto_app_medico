@@ -1,5 +1,5 @@
 [versions]
-agp = "8.10.1"
+agp = "8.12.1"
 converterSimplexml = "2.11.0"
 converterGson = "2.11.0"
 firebaseBom = "33.1.2"
