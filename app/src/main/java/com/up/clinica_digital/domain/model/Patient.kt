@@ -12,4 +12,4 @@ data class Patient(
     override val cpf: String,
     override val passwordHash: String,
     val birthDate: LocalDate
-) : User(id, name, email, cpf, passwordHash), Parcelable
+) : User(id, name, email, cpf, passwordHash, role = UserRole.PATIENT), Parcelable
