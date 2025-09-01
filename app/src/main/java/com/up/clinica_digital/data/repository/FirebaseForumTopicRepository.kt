@@ -25,7 +25,7 @@ class FirebaseForumTopicRepository(
             title = data["title"] as? String ?: "",
             content = data["content"] as? String ?: "",
             authorId = data["authorId"] as? String ?: "",
-            createdAt = LocalDateTime.parse(this["createdAt"] as? String ?: LocalDateTime.now().toString()),
+            createdAt = LocalDateTime.parse(data["createdAt"] as? String ?: LocalDateTime.now().toString()),
             comments = emptyList()
         )
     }

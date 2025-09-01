@@ -14,4 +14,4 @@ data class Doctor(
     val rqe: String,
     val specialization: String,
     val uf: String,
-) : User(id, name, email, cpf, passwordHash), Parcelable
+) : User(id, name, email, cpf, passwordHash, role = UserRole.DOCTOR), Parcelable
