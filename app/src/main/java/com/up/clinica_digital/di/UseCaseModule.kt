@@ -82,9 +82,9 @@ object UseCaseModule {
     fun provideLoginUserUseCase(repo: IUserAuthRepository) =
         LoginUserUseCase(repo)
 
-    @Provides @Singleton
-    fun provideValidateCRMUseCase(repo: IDoctorRepository) =
-        ValidateCRMUseCase(repo)
+//    @Provides @Singleton
+//    fun provideValidateCRMUseCase(repo: IDoctorRepository) =
+//        ValidateCRMUseCase(repo)
 
     @Provides @Singleton
     fun provideListAppointmentsByDoctorUseCase(repo: IAppointmentRepository) =
