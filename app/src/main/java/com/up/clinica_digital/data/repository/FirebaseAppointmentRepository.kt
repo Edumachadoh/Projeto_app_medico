@@ -34,7 +34,7 @@ class FirebaseAppointmentRepository(
             id = id,
             doctorId = data["doctorId"] as? String ?: "",
             patientId = data["patientId"] as? String ?: "",
-            scheduledAt = LocalDateTime.parse(this["birthDate"] as? String ?: LocalDateTime.now().toString()),
+            scheduledAt = LocalDateTime.parse(data["scheduledAt"] as? String ?: LocalDateTime.now().toString()),
             status = status
         )
     }

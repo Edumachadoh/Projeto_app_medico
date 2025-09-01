@@ -27,7 +27,7 @@ class FirebasePatientRepository(
             email = data["email"] as? String ?: "",
             cpf = data["cpf"] as? String ?: "",
             passwordHash = data["passwordHash"] as? String ?: "",
-            birthDate = LocalDate.parse(this["birthDate"] as? String ?: LocalDate.now().toString())
+            birthDate = LocalDate.parse(data["birthDate"] as? String ?: LocalDate.now().toString())
         )
     }
 }
