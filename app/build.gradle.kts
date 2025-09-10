@@ -22,6 +22,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "CFM_API_KEY", "5633276877") // ?? ANA: TESTAR. TALVEZ PRECISE DE ESCAPE P ASPAS?
     }
 
     buildTypes {
