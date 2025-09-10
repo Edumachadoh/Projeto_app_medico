@@ -14,14 +14,14 @@ import java.time.LocalDateTime
 class FirebaseForumCommentRepositoryIT {
 
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var repository: FirebaseForumCommentRepository
+    private lateinit var repository: FirebaseForumCommentRepositoryImpl
 
     @Before
     fun setup() {
         firestore = FirebaseFirestore.getInstance().apply {
             useEmulator("10.0.2.2", 8080)
         }
-        repository = FirebaseForumCommentRepository(firestore)
+        repository = FirebaseForumCommentRepositoryImpl(firestore)
     }
 
     @Test

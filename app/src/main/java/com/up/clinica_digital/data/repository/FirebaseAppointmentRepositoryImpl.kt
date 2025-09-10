@@ -8,9 +8,9 @@ import com.up.clinica_digital.domain.repository.AppointmentRepository
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDateTime
 
-class FirebaseAppointmentRepository(
+class FirebaseAppointmentRepositoryImpl(
     firestore: FirebaseFirestore
-) : FirebaseCrudRepository<Appointment>("appointments", firestore), AppointmentRepository {
+) : FirebaseCrudRepositoryImpl<Appointment>("appointments", firestore), AppointmentRepository {
 
     override fun Appointment.toMap(): Map<String, Any> = mapOf(
         "id" to id,

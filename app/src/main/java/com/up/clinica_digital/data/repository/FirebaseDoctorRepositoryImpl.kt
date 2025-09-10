@@ -5,9 +5,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.repository.DoctorRepository
 
-class FirebaseDoctorRepository(
+class FirebaseDoctorRepositoryImpl(
     firestore: FirebaseFirestore
-) : FirebaseCrudRepository<Doctor>("doctors", firestore), DoctorRepository {
+) : FirebaseCrudRepositoryImpl<Doctor>("doctors", firestore), DoctorRepository {
 
     override fun Doctor.toMap(): Map<String, Any> = mapOf(
         "id" to id,

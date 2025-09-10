@@ -6,9 +6,9 @@ import com.up.clinica_digital.domain.model.Patient
 import com.up.clinica_digital.domain.repository.PatientRepository
 import java.time.LocalDate
 
-class FirebasePatientRepository(
+class FirebasePatientRepositoryImpl(
     firestore: FirebaseFirestore
-) : FirebaseCrudRepository<Patient>("patients", firestore), PatientRepository {
+) : FirebaseCrudRepositoryImpl<Patient>("patients", firestore), PatientRepository {
 
     override fun Patient.toMap(): Map<String, Any> = mapOf(
         "id" to id,

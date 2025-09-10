@@ -6,9 +6,9 @@ import com.up.clinica_digital.domain.model.ForumComment
 import com.up.clinica_digital.domain.repository.ForumCommentRepository
 import java.time.LocalDateTime
 
-class FirebaseForumCommentRepository(
+class FirebaseForumCommentRepositoryImpl(
     firestore: FirebaseFirestore
-) : FirebaseCrudRepository<ForumComment>("forumComments", firestore), ForumCommentRepository {
+) : FirebaseCrudRepositoryImpl<ForumComment>("forumComments", firestore), ForumCommentRepository {
 
     override fun ForumComment.toMap(): Map<String, Any> = mapOf(
         "id" to id,

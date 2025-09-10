@@ -6,9 +6,9 @@ import com.up.clinica_digital.domain.model.ForumTopic
 import com.up.clinica_digital.domain.repository.ForumTopicRepository
 import java.time.LocalDateTime
 
-class FirebaseForumTopicRepository(
+class FirebaseForumTopicRepositoryImpl(
     firestore: FirebaseFirestore
-) : FirebaseCrudRepository<ForumTopic>("forumTopics", firestore), ForumTopicRepository {
+) : FirebaseCrudRepositoryImpl<ForumTopic>("forumTopics", firestore), ForumTopicRepository {
 
     override fun ForumTopic.toMap(): Map<String, Any> = mapOf(
         "id" to id,

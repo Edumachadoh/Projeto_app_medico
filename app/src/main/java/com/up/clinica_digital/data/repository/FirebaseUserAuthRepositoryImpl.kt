@@ -4,7 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.up.clinica_digital.domain.repository.UserAuthRepository
 import kotlinx.coroutines.tasks.await
 
-class FirebaseUserAuthRepository(
+class FirebaseUserAuthRepositoryImpl(
     private val auth: FirebaseAuth
 ) : UserAuthRepository {
 

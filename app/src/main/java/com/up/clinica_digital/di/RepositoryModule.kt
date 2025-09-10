@@ -23,35 +23,35 @@ object RepositoryModule {
     @Singleton
     fun provideUserRepository(
         auth: FirebaseAuth
-    ): UserAuthRepository = FirebaseUserAuthRepository(auth)
+    ): UserAuthRepository = FirebaseUserAuthRepositoryImpl(auth)
 
     @Provides
     @Singleton
     fun provideDoctorRepository(
         firestore: FirebaseFirestore
-    ): DoctorRepository = FirebaseDoctorRepository(firestore)
+    ): DoctorRepository = FirebaseDoctorRepositoryImpl(firestore)
 
     @Provides
     @Singleton
     fun providePatientRepository(
         firestore: FirebaseFirestore
-    ): PatientRepository = FirebasePatientRepository(firestore)
+    ): PatientRepository = FirebasePatientRepositoryImpl(firestore)
 
     @Provides
     @Singleton
     fun provideAppointmentRepository(
         firestore: FirebaseFirestore
-    ): AppointmentRepository = FirebaseAppointmentRepository(firestore)
+    ): AppointmentRepository = FirebaseAppointmentRepositoryImpl(firestore)
 
     @Provides
     @Singleton
     fun provideForumTopicRepository(
         firestore: FirebaseFirestore
-    ): ForumTopicRepository = FirebaseForumTopicRepository(firestore)
+    ): ForumTopicRepository = FirebaseForumTopicRepositoryImpl(firestore)
 
     @Provides
     @Singleton
     fun provideForumCommentRepository(
         firestore: FirebaseFirestore
-    ): ForumCommentRepository = FirebaseForumCommentRepository(firestore)
+    ): ForumCommentRepository = FirebaseForumCommentRepositoryImpl(firestore)
 }

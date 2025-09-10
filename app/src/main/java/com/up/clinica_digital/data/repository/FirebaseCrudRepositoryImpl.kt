@@ -6,7 +6,7 @@ import com.up.clinica_digital.domain.common.HasId
 import com.up.clinica_digital.domain.repository.CrudRepository
 import kotlinx.coroutines.tasks.await
 
-abstract class FirebaseCrudRepository<T : HasId>(
+abstract class FirebaseCrudRepositoryImpl<T : HasId>(
     private val collectionPath: String,
     private val firestore: FirebaseFirestore
 ) : CrudRepository<T> {

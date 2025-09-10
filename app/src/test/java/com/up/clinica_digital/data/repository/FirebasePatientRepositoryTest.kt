@@ -10,7 +10,7 @@ import java.time.LocalDate
 
 class FirebasePatientRepositoryTest {
 
-    private val repository = FirebasePatientRepository(mockk(relaxed = true))
+    private val repository = FirebasePatientRepositoryImpl(mockk(relaxed = true))
 
     @Test
     fun `patient toMap should correctly convert to Map`() {

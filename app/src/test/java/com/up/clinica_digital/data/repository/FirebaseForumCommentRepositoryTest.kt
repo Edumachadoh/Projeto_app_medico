@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 
 class FirebaseForumCommentRepositoryTest {
 
-    private val repository = FirebaseForumCommentRepository(mockk(relaxed = true))
+    private val repository = FirebaseForumCommentRepositoryImpl(mockk(relaxed = true))
 
     @Test
     fun `forum comment toMap should correctly convert to Map`() {

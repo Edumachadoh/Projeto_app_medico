@@ -10,7 +10,7 @@ import org.junit.Test
 
 class FirebaseDoctorRepositoryTest {
 
-    private val repository = FirebaseDoctorRepository(mockk(relaxed = true))
+    private val repository = FirebaseDoctorRepositoryImpl(mockk(relaxed = true))
 
     @Test
     fun `doctor toMap should correctly convert to Map`() {

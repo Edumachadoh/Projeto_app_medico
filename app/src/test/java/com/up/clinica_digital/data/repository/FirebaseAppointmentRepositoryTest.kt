@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 
 class FirebaseAppointmentRepositoryTest {
 
-    private val repository = FirebaseAppointmentRepository(mockk(relaxed = true))
+    private val repository = FirebaseAppointmentRepositoryImpl(mockk(relaxed = true))
 
     @Test
     fun `appointment toMap should correctly convert to Map`() {

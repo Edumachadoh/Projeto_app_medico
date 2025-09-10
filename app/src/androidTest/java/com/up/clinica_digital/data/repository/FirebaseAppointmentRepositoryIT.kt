@@ -15,14 +15,14 @@ import java.time.LocalDateTime
 class FirebaseAppointmentRepositoryIT {
 
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var repository: FirebaseAppointmentRepository
+    private lateinit var repository: FirebaseAppointmentRepositoryImpl
 
     @Before
     fun setup() {
         firestore = FirebaseFirestore.getInstance().apply {
             useEmulator("10.0.2.2", 8080)
         }
-        repository = FirebaseAppointmentRepository(firestore)
+        repository = FirebaseAppointmentRepositoryImpl(firestore)
     }
 
     @Test
