@@ -2,4 +2,4 @@ package com.up.clinica_digital.domain.repository
 
 import com.up.clinica_digital.domain.model.Patient
 
-interface IPatientRepository : ICrudRepository<Patient>
+interface PatientRepository : CrudRepository<Patient>
