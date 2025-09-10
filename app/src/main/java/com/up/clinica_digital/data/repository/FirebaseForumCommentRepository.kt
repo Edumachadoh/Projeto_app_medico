@@ -3,7 +3,7 @@ package com.up.clinica_digital.data.repository
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.up.clinica_digital.domain.model.ForumComment
-import com.up.clinica_digital.domain.interfaces.repository.IForumCommentRepository
+import com.up.clinica_digital.domain.repository.IForumCommentRepository
 import java.time.LocalDateTime
 
 class FirebaseForumCommentRepository(

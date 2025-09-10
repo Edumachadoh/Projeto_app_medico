@@ -1,6 +1,6 @@
 package com.up.clinica_digital.domain.usecase.appointment
 
-import com.up.clinica_digital.domain.interfaces.repository.IAppointmentRepository
+import com.up.clinica_digital.domain.repository.IAppointmentRepository
 import com.up.clinica_digital.domain.interfaces.usecase.appointment.IListByPatientUseCase
 import com.up.clinica_digital.domain.model.Appointment
 

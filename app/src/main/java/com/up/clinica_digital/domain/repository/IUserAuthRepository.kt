@@ -1,4 +1,4 @@
-package com.up.clinica_digital.domain.interfaces.repository
+package com.up.clinica_digital.domain.repository
 
 interface IUserAuthRepository {
     suspend fun login(email: String, password: String): String?

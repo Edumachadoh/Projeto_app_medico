@@ -3,7 +3,12 @@ package com.up.clinica_digital.di
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.up.clinica_digital.data.repository.*
-import com.up.clinica_digital.domain.interfaces.repository.*
+import com.up.clinica_digital.domain.repository.IAppointmentRepository
+import com.up.clinica_digital.domain.repository.IDoctorRepository
+import com.up.clinica_digital.domain.repository.IForumCommentRepository
+import com.up.clinica_digital.domain.repository.IForumTopicRepository
+import com.up.clinica_digital.domain.repository.IPatientRepository
+import com.up.clinica_digital.domain.repository.IUserAuthRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

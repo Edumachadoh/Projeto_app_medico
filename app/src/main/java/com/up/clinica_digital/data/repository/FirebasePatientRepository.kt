@@ -3,7 +3,7 @@ package com.up.clinica_digital.data.repository
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.up.clinica_digital.domain.model.Patient
-import com.up.clinica_digital.domain.interfaces.repository.IPatientRepository
+import com.up.clinica_digital.domain.repository.IPatientRepository
 import java.time.LocalDate
 
 class FirebasePatientRepository(

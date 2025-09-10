@@ -3,7 +3,7 @@ package com.up.clinica_digital.data.repository
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.up.clinica_digital.domain.common.HasId
-import com.up.clinica_digital.domain.interfaces.repository.ICrudRepository
+import com.up.clinica_digital.domain.repository.ICrudRepository
 import kotlinx.coroutines.tasks.await
 
 abstract class FirebaseCrudRepository<T : HasId>(

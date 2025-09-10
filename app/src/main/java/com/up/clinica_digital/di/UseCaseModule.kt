@@ -1,7 +1,12 @@
 package com.up.clinica_digital.di
 
 import com.up.clinica_digital.domain.model.*
-import com.up.clinica_digital.domain.interfaces.repository.*
+import com.up.clinica_digital.domain.repository.IAppointmentRepository
+import com.up.clinica_digital.domain.repository.IDoctorRepository
+import com.up.clinica_digital.domain.repository.IForumCommentRepository
+import com.up.clinica_digital.domain.repository.IForumTopicRepository
+import com.up.clinica_digital.domain.repository.IPatientRepository
+import com.up.clinica_digital.domain.repository.IUserAuthRepository
 import com.up.clinica_digital.domain.usecase.*
 import com.up.clinica_digital.domain.usecase.user.*
 import com.up.clinica_digital.domain.usecase.appointment.*

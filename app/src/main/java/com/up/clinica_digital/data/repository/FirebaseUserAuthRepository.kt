@@ -1,7 +1,7 @@
 package com.up.clinica_digital.data.repository
 
 import com.google.firebase.auth.FirebaseAuth
-import com.up.clinica_digital.domain.interfaces.repository.IUserAuthRepository
+import com.up.clinica_digital.domain.repository.IUserAuthRepository
 import kotlinx.coroutines.tasks.await
 
 class FirebaseUserAuthRepository(

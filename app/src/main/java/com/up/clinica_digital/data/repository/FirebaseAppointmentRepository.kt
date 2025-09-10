@@ -4,7 +4,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.up.clinica_digital.domain.model.Appointment
 import com.up.clinica_digital.domain.model.AppointmentStatus
-import com.up.clinica_digital.domain.interfaces.repository.IAppointmentRepository
+import com.up.clinica_digital.domain.repository.IAppointmentRepository
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDateTime
 
