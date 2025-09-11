@@ -2,6 +2,7 @@ package com.up.clinica_digital.di
 
 import com.up.clinica_digital.domain.model.*
 import com.up.clinica_digital.domain.repository.AppointmentRepository
+import com.up.clinica_digital.domain.repository.CfmRepository
 import com.up.clinica_digital.domain.repository.DoctorRepository
 import com.up.clinica_digital.domain.repository.ForumCommentRepository
 import com.up.clinica_digital.domain.repository.ForumTopicRepository
@@ -87,9 +88,10 @@ object UseCaseModule {
     fun provideLoginUserUseCase(repo: UserAuthRepository) =
         LoginUserUseCase(repo)
 
-//    @Provides @Singleton
-//    fun provideValidateCRMUseCase(repo: IDoctorRepository) =
-//        ValidateCRMUseCase(repo)
+    @Provides
+    @Singleton
+    fun provideValidateDoctorCrmUseCase(repo: CfmRepository) =
+        ValidateDoctorCrmUseCase(repo)
 
     @Provides @Singleton
     fun provideListAppointmentsByDoctorUseCase(repo: AppointmentRepository) =

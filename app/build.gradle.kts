@@ -14,6 +14,10 @@ android {
     namespace = "com.up.clinica_digital"
     compileSdk = 36
 
+    buildFeatures {
+        compose = true
+    }
+
     defaultConfig {
         applicationId = "com.up.clinica_digital"
         minSdk = 26
@@ -22,7 +26,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "CFM_API_KEY", "5633276877") // ?? ANA: TESTAR. TALVEZ PRECISE DE ESCAPE P ASPAS?
     }
 
     buildTypes {
@@ -40,9 +43,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
-    }
-    buildFeatures {
-        compose = true
     }
 }
 
