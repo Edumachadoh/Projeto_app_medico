@@ -1,11 +1,10 @@
 package com.up.clinica_digital.domain.usecase
 
 import com.up.clinica_digital.domain.common.HasId
-import com.up.clinica_digital.domain.interfaces.repository.ICrudRepository
-import com.up.clinica_digital.domain.interfaces.usecase.IGetEntityByIdUseCase
+import com.up.clinica_digital.domain.repository.CrudRepository
 
 class GetEntityByIdUseCase<T: HasId>(
-    private val repository: ICrudRepository<T>
-) : IGetEntityByIdUseCase<T> {
-    override suspend fun invoke(id: String): T? = repository.getById(id)
+    private val repository: CrudRepository<T>
+) {
+    suspend fun invoke(id: String): T? = repository.getById(id)
 }

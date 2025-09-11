@@ -12,14 +12,14 @@ import org.junit.runner.RunWith
 class FirebaseUserAuthRepositoryIT {
 
     private lateinit var auth: FirebaseAuth
-    private lateinit var repository: FirebaseUserAuthRepository
+    private lateinit var repository: FirebaseUserAuthRepositoryImpl
 
     @Before
     fun setup() {
         auth = FirebaseAuth.getInstance().apply {
             useEmulator("10.0.2.2", 9099)
         }
-        repository = FirebaseUserAuthRepository(auth)
+        repository = FirebaseUserAuthRepositoryImpl(auth)
     }
 
     @Test

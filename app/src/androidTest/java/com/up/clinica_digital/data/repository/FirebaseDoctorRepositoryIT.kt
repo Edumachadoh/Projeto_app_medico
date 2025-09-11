@@ -16,14 +16,14 @@ import org.junit.runner.RunWith
 class FirebaseDoctorRepositoryIT {
 
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var repository: FirebaseDoctorRepository
+    private lateinit var repository: FirebaseDoctorRepositoryImpl
 
     @Before
     fun setup() {
         firestore = FirebaseFirestore.getInstance().apply {
             useEmulator("10.0.2.2", 8080)
         }
-        repository = FirebaseDoctorRepository(firestore)
+        repository = FirebaseDoctorRepositoryImpl(firestore)
     }
 
     @Test

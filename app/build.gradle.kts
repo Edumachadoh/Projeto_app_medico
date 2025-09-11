@@ -14,6 +14,10 @@ android {
     namespace = "com.up.clinica_digital"
     compileSdk = 36
 
+    buildFeatures {
+        compose = true
+    }
+
     defaultConfig {
         applicationId = "com.up.clinica_digital"
         minSdk = 26
@@ -39,9 +43,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
-    }
-    buildFeatures {
-        compose = true
     }
 }
 

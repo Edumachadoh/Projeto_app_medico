@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 
 class FirebaseForumTopicRepositoryTest {
 
-    private val repository = FirebaseForumTopicRepository(mockk(relaxed = true))
+    private val repository = FirebaseForumTopicRepositoryImpl(mockk(relaxed = true))
 
     @Test
     fun `forum topic toMap should correctly convert to Map`() {

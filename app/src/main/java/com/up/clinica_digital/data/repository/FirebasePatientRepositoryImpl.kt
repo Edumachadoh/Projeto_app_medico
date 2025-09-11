@@ -3,12 +3,12 @@ package com.up.clinica_digital.data.repository
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.up.clinica_digital.domain.model.Patient
-import com.up.clinica_digital.domain.interfaces.repository.IPatientRepository
+import com.up.clinica_digital.domain.repository.PatientRepository
 import java.time.LocalDate
 
-class FirebasePatientRepository(
+class FirebasePatientRepositoryImpl(
     firestore: FirebaseFirestore
-) : FirebaseCrudRepository<Patient>("patients", firestore), IPatientRepository {
+) : FirebaseCrudRepositoryImpl<Patient>("patients", firestore), PatientRepository {
 
     override fun Patient.toMap(): Map<String, Any> = mapOf(
         "id" to id,

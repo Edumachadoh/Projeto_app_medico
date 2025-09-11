@@ -2,8 +2,15 @@ package com.up.clinica_digital.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.up.clinica_digital.data.remote.datasource.CfmRemoteDataSource
 import com.up.clinica_digital.data.repository.*
-import com.up.clinica_digital.domain.interfaces.repository.*
+import com.up.clinica_digital.domain.repository.AppointmentRepository
+import com.up.clinica_digital.domain.repository.CfmRepository
+import com.up.clinica_digital.domain.repository.DoctorRepository
+import com.up.clinica_digital.domain.repository.ForumCommentRepository
+import com.up.clinica_digital.domain.repository.ForumTopicRepository
+import com.up.clinica_digital.domain.repository.PatientRepository
+import com.up.clinica_digital.domain.repository.UserAuthRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,35 +25,41 @@ object RepositoryModule {
     @Singleton
     fun provideUserRepository(
         auth: FirebaseAuth
-    ): IUserAuthRepository = FirebaseUserAuthRepository(auth)
+    ): UserAuthRepository = FirebaseUserAuthRepositoryImpl(auth)
 
     @Provides
     @Singleton
     fun provideDoctorRepository(
         firestore: FirebaseFirestore
-    ): IDoctorRepository = FirebaseDoctorRepository(firestore)
+    ): DoctorRepository = FirebaseDoctorRepositoryImpl(firestore)
 
     @Provides
     @Singleton
     fun providePatientRepository(
         firestore: FirebaseFirestore
-    ): IPatientRepository = FirebasePatientRepository(firestore)
+    ): PatientRepository = FirebasePatientRepositoryImpl(firestore)
 
     @Provides
     @Singleton
     fun provideAppointmentRepository(
         firestore: FirebaseFirestore
-    ): IAppointmentRepository = FirebaseAppointmentRepository(firestore)
+    ): AppointmentRepository = FirebaseAppointmentRepositoryImpl(firestore)
 
     @Provides
     @Singleton
     fun provideForumTopicRepository(
         firestore: FirebaseFirestore
-    ): IForumTopicRepository = FirebaseForumTopicRepository(firestore)
+    ): ForumTopicRepository = FirebaseForumTopicRepositoryImpl(firestore)
 
     @Provides
     @Singleton
     fun provideForumCommentRepository(
         firestore: FirebaseFirestore
-    ): IForumCommentRepository = FirebaseForumCommentRepository(firestore)
+    ): ForumCommentRepository = FirebaseForumCommentRepositoryImpl(firestore)
+
+    @Provides
+    @Singleton
+    fun provideCfmRepository(
+        remoteDataSource: CfmRemoteDataSource
+    ): CfmRepository = CfmRepositoryImpl(remoteDataSource)
 }

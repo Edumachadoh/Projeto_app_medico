@@ -1,7 +1,13 @@
 package com.up.clinica_digital.di
 
 import com.up.clinica_digital.domain.model.*
-import com.up.clinica_digital.domain.interfaces.repository.*
+import com.up.clinica_digital.domain.repository.AppointmentRepository
+import com.up.clinica_digital.domain.repository.CfmRepository
+import com.up.clinica_digital.domain.repository.DoctorRepository
+import com.up.clinica_digital.domain.repository.ForumCommentRepository
+import com.up.clinica_digital.domain.repository.ForumTopicRepository
+import com.up.clinica_digital.domain.repository.PatientRepository
+import com.up.clinica_digital.domain.repository.UserAuthRepository
 import com.up.clinica_digital.domain.usecase.*
 import com.up.clinica_digital.domain.usecase.user.*
 import com.up.clinica_digital.domain.usecase.appointment.*
@@ -15,82 +21,83 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object UseCaseModule {
     @Provides @Singleton
-    fun provideCreateDoctorUseCase(repo: IDoctorRepository) =
+    fun provideCreateDoctorUseCase(repo: DoctorRepository) =
         CreateEntityUseCase<Doctor>(repo)
 
     @Provides @Singleton
-    fun provideUpdateDoctorUseCase(repo: IDoctorRepository) =
+    fun provideUpdateDoctorUseCase(repo: DoctorRepository) =
         UpdateEntityUseCase<Doctor>(repo)
 
     @Provides @Singleton
-    fun provideDeleteDoctorUseCase(repo: IDoctorRepository) =
+    fun provideDeleteDoctorUseCase(repo: DoctorRepository) =
         DeleteEntityUseCase<Doctor>(repo)
 
     @Provides @Singleton
-    fun provideListDoctorsUseCase(repo: IDoctorRepository) =
+    fun provideListDoctorsUseCase(repo: DoctorRepository) =
         ListEntitiesUseCase<Doctor>(repo)
 
     @Provides @Singleton
-    fun provideCreatePatientUseCase(repo: IPatientRepository) =
+    fun provideCreatePatientUseCase(repo: PatientRepository) =
         CreateEntityUseCase<Patient>(repo)
 
     @Provides @Singleton
-    fun provideUpdatePatientUseCase(repo: IPatientRepository) =
+    fun provideUpdatePatientUseCase(repo: PatientRepository) =
         UpdateEntityUseCase<Patient>(repo)
 
     @Provides @Singleton
-    fun provideDeletePatientUseCase(repo: IPatientRepository) =
+    fun provideDeletePatientUseCase(repo: PatientRepository) =
         DeleteEntityUseCase<Patient>(repo)
 
     @Provides @Singleton
-    fun provideListPatientsUseCase(repo: IPatientRepository) =
+    fun provideListPatientsUseCase(repo: PatientRepository) =
         ListEntitiesUseCase<Patient>(repo)
 
     @Provides @Singleton
-    fun provideCreateAppointmentUseCase(repo: IAppointmentRepository) =
+    fun provideCreateAppointmentUseCase(repo: AppointmentRepository) =
         CreateEntityUseCase<Appointment>(repo)
 
     @Provides @Singleton
-    fun provideUpdateAppointmentUseCase(repo: IAppointmentRepository) =
+    fun provideUpdateAppointmentUseCase(repo: AppointmentRepository) =
         UpdateEntityUseCase<Appointment>(repo)
 
     @Provides @Singleton
-    fun provideDeleteAppointmentUseCase(repo: IAppointmentRepository) =
+    fun provideDeleteAppointmentUseCase(repo: AppointmentRepository) =
         DeleteEntityUseCase<Appointment>(repo)
 
     @Provides @Singleton
-    fun provideListAppointmentsUseCase(repo: IAppointmentRepository) =
+    fun provideListAppointmentsUseCase(repo: AppointmentRepository) =
         ListEntitiesUseCase<Appointment>(repo)
 
     @Provides @Singleton
-    fun provideCreateForumTopicUseCase(repo: IForumTopicRepository) =
+    fun provideCreateForumTopicUseCase(repo: ForumTopicRepository) =
         CreateEntityUseCase<ForumTopic>(repo)
 
     @Provides @Singleton
-    fun provideListForumTopicsUseCase(repo: IForumTopicRepository) =
+    fun provideListForumTopicsUseCase(repo: ForumTopicRepository) =
         ListEntitiesUseCase<ForumTopic>(repo)
 
     @Provides @Singleton
-    fun provideCreateForumCommentUseCase(repo: IForumCommentRepository) =
+    fun provideCreateForumCommentUseCase(repo: ForumCommentRepository) =
         CreateEntityUseCase<ForumComment>(repo)
 
     @Provides @Singleton
-    fun provideListForumCommentsUseCase(repo: IForumCommentRepository) =
+    fun provideListForumCommentsUseCase(repo: ForumCommentRepository) =
         ListEntitiesUseCase<ForumComment>(repo)
 
     @Provides @Singleton
-    fun provideLoginUserUseCase(repo: IUserAuthRepository) =
+    fun provideLoginUserUseCase(repo: UserAuthRepository) =
         LoginUserUseCase(repo)
 
-//    @Provides @Singleton
-//    fun provideValidateCRMUseCase(repo: IDoctorRepository) =
-//        ValidateCRMUseCase(repo)
+    @Provides
+    @Singleton
+    fun provideValidateDoctorCrmUseCase(repo: CfmRepository) =
+        ValidateDoctorCrmUseCase(repo)
 
     @Provides @Singleton
-    fun provideListAppointmentsByDoctorUseCase(repo: IAppointmentRepository) =
+    fun provideListAppointmentsByDoctorUseCase(repo: AppointmentRepository) =
         ListByDoctorUseCase(repo)
 
     @Provides @Singleton
-    fun provideListAppointmentsByPatientUseCase(repo: IAppointmentRepository) =
+    fun provideListAppointmentsByPatientUseCase(repo: AppointmentRepository) =
         ListByPatientUseCase(repo)
 }

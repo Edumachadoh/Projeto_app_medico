@@ -1,11 +1,10 @@
 package com.up.clinica_digital.domain.usecase.user
 
-import com.up.clinica_digital.domain.interfaces.repository.IUserAuthRepository
-import com.up.clinica_digital.domain.interfaces.usecase.user.ILoginUserUseCase
+import com.up.clinica_digital.domain.repository.UserAuthRepository
 
 class LoginUserUseCase(
-    private val repository: IUserAuthRepository
-) : ILoginUserUseCase {
-    override suspend fun invoke(email: String, password: String): String? =
+    private val repository: UserAuthRepository
+) {
+    suspend fun invoke(email: String, password: String): String? =
         repository.login(email, password)
 }

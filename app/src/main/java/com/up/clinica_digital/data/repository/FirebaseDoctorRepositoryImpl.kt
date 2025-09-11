@@ -3,12 +3,11 @@ package com.up.clinica_digital.data.repository
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.up.clinica_digital.domain.model.Doctor
-import com.up.clinica_digital.domain.interfaces.repository.IDoctorRepository
-import kotlinx.coroutines.tasks.await
+import com.up.clinica_digital.domain.repository.DoctorRepository
 
-class FirebaseDoctorRepository(
+class FirebaseDoctorRepositoryImpl(
     firestore: FirebaseFirestore
-) : FirebaseCrudRepository<Doctor>("doctors", firestore), IDoctorRepository {
+) : FirebaseCrudRepositoryImpl<Doctor>("doctors", firestore), DoctorRepository {
 
     override fun Doctor.toMap(): Map<String, Any> = mapOf(
         "id" to id,
