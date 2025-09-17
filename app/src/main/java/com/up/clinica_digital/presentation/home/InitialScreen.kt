@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun InitialScreen(
-    onNavigateToCadastro: () -> Unit,
+    onNavigateToRegister: () -> Unit,
     onNavigateToLogin: () -> Unit
 ) {
     Box(
@@ -21,7 +21,7 @@ fun InitialScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Button(onClick = onNavigateToCadastro, modifier = Modifier.fillMaxWidth(0.7f)) {
+            Button(onClick = onNavigateToRegister, modifier = Modifier.fillMaxWidth(0.7f)) {
                 Text("Cadastrar")
             }
 
