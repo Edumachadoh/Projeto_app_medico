@@ -17,7 +17,7 @@ import java.util.UUID
 @Composable
 fun RegisterScreen(
     viewModel: AuthViewModel = hiltViewModel(),
-    onRegisterSuccess: () -> Unit,
+    onRegisterSuccess: (String) -> Unit,
     onNavigateToLogin: () -> Unit
 ) {
     val uiState by viewModel.authState.collectAsState()
@@ -158,7 +158,7 @@ fun RegisterScreen(
                 is AuthUiState.Success -> {
                     val userId = (uiState as AuthUiState.Success).userId
                     LaunchedEffect(userId) {
-                        onRegisterSuccess()
+                        onRegisterSuccess(userId)
                     }
                 }
             }
