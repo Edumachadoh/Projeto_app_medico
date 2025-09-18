@@ -2,8 +2,10 @@ package com.up.clinica_digital.data.repository
 
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.up.clinica_digital.domain.model.Appointment
 import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.repository.DoctorRepository
+import kotlinx.coroutines.tasks.await
 
 class FirebaseDoctorRepositoryImpl(
     firestore: FirebaseFirestore
@@ -34,5 +36,19 @@ class FirebaseDoctorRepositoryImpl(
             specialization = data["specialization"] as? String ?: "",
             uf = data["uf"] as? String ?: ""
         )
+    }
+
+    // ANA: o firebase não tem suporte nativo para queries do tipo LIKE. por isso o startAt e endAt. podem existir outras soluções, eu só não conheço! kkkk
+    override suspend fun listByUFAndSpeciality(
+        uf: String,
+        speciality: String
+    ): List<Doctor> {
+        val snapshot = collection
+            .whereEqualTo("uf", uf)
+            .startAt(speciality)
+            .endAt(speciality + '\uf8ff')
+            .get()
+            .await()
+        return snapshot.documents.mapNotNull { it.toDomain() }
     }
 }
