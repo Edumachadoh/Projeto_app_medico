@@ -7,6 +7,15 @@ import androidx.navigation.compose.composable
 import com.up.clinica_digital.presentation.auth.LoginScreen
 import com.up.clinica_digital.presentation.auth.RegisterScreen
 import com.up.clinica_digital.presentation.home.InitialScreen
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.up.clinica_digital.domain.model.UserRole
+import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavConfig
+import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavItem
+import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavigationBar
 
 @Composable
 fun AppNavGraph(navController: NavHostController) {
@@ -23,8 +32,8 @@ fun AppNavGraph(navController: NavHostController) {
 
         composable(Screen.Login.route) {
             LoginScreen(
-                onLoginSuccess = { userId ->
-                    navController.navigate(Screen.Home.route) {
+                onLoginSuccess = { userId, role ->
+                    navController.navigate(Screen.Home.createRoute(role)) {
                         popUpTo(Screen.Initial.route) { inclusive = true }
                     }
                 },
@@ -37,7 +46,7 @@ fun AppNavGraph(navController: NavHostController) {
         composable(Screen.Register.route) {
             RegisterScreen(
                 onRegisterSuccess = { userId ->
-                    navController.navigate(Screen.Home.route) {
+                    navController.navigate(Screen.Home.createRoute(UserRole.PATIENT)) {
                         popUpTo(Screen.Initial.route) { inclusive = true }
                     }
                 },
@@ -45,9 +54,11 @@ fun AppNavGraph(navController: NavHostController) {
             )
         }
 
-        composable(Screen.Home.route) {
-            // TODO: ir para a tela Home, após ser criada
-            androidx.compose.material3.Text("Bem-vindo!")
+        composable(Screen.Home.route) { backStackEntry ->
+            val roleArg = backStackEntry.arguments?.getString("role")
+            val role = UserRole.valueOf(roleArg ?: UserRole.PATIENT.name)
+
+            LoggedInNavGraph(navController, role)
         }
     }
 }

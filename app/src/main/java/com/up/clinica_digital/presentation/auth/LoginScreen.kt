@@ -9,11 +9,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.up.clinica_digital.domain.model.UserRole
 
 @Composable
 fun LoginScreen(
     viewModel: AuthViewModel = hiltViewModel(),
-    onLoginSuccess: (String) -> Unit,
+    onLoginSuccess: (String, UserRole) -> Unit,
     onNavigateToRegister: () -> Unit
 ) {
     val uiState by viewModel.authState.collectAsState()
@@ -77,9 +78,9 @@ fun LoginScreen(
                 Text(message, color = Color.Red)
             }
             is AuthUiState.Success -> {
-                val userId = (uiState as AuthUiState.Success).userId
-                LaunchedEffect(userId) {
-                    onLoginSuccess(userId)
+                val successState = uiState as AuthUiState.Success
+                LaunchedEffect(successState.userId) {
+                    onLoginSuccess(successState.userId, successState.role)
                 }
             }
         }
