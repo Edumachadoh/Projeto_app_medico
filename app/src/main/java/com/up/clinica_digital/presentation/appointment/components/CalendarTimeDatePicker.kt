@@ -36,12 +36,17 @@ fun CalendarTimeDatePicker(
 
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(24.dp),
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         DatePicker(state = datePickerState)
+        if (previewDateTime != null) {
+            Text("Hora selecionada: ${previewDateTime}")
+        }
+        Button(onClick = { showTimePicker = true }) {
+            Text("Selecionar horário")
+        }
 
         Button(
             onClick = {
@@ -64,6 +69,25 @@ fun CalendarTimeDatePicker(
         }
     }
 
+    // TimePicker em janela suspensa
+    if (showTimePicker) {
+        AlertDialog(
+            onDismissRequest = { showTimePicker = false },
+            confirmButton = {
+                TextButton(onClick = { showTimePicker = false }) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showTimePicker = false }) {
+                    Text("Cancelar")
+                }
+            },
+            text = {
+                TimePicker(state = timePickerState)
+            }
+        )
+    }
 }
 
 
