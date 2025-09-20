@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.up.clinica_digital.presentation.appointment.AppointmentScheduleScreen
 import com.up.clinica_digital.presentation.auth.LoginScreen
 import com.up.clinica_digital.presentation.auth.RegisterScreen
 import com.up.clinica_digital.presentation.home.InitialScreen
@@ -59,5 +60,19 @@ fun AppNavGraph(navController: NavHostController) {
 
             LoggedInNavGraph(navController, role)
         }
+
+        //a rota tem que receber {patientId}/{doctorId}
+        composable(Screen.Appointment.route) { backStackEntry ->
+            val doctorId = backStackEntry.arguments?.getString("doctorId")
+            val patientId = backStackEntry.arguments?.getString("patientId")
+            if (doctorId != null && patientId != null) {
+                AppointmentScheduleScreen(
+                    navController = navController,
+                    doctorId = doctorId,
+                    patientId = patientId
+                )
+            }
+        }
+
     }
 }
