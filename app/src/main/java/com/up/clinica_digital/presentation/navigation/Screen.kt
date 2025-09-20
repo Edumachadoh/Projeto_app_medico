@@ -9,4 +9,5 @@ sealed class Screen(val route: String) {
     object Home : Screen("home/{role}") {
         fun createRoute(role: UserRole) = "home/${role.name}"
     }
+    object Appointment : Screen("appointment_schedule/{patientId}/{doctorId}")
 }
