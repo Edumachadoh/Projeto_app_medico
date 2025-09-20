@@ -1,9 +1,13 @@
 package com.up.clinica_digital.presentation.navigation
 
+import com.up.clinica_digital.domain.model.UserRole
+
 sealed class Screen(val route: String) {
     object Initial : Screen("initial")
     object Login : Screen("login")
     object Register : Screen("register")
+    object Home : Screen("home/{role}") {
+        fun createRoute(role: UserRole) = "home/${role.name}"
+    }
     object Appointment : Screen("appointment_schedule/{patientId}/{doctorId}")
-    object Home : Screen("home") // TODO: alterar para a própria Home quando for criada
 }

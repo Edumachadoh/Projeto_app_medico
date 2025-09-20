@@ -100,4 +100,8 @@ object UseCaseModule {
     @Provides @Singleton
     fun provideListAppointmentsByPatientUseCase(repo: AppointmentRepository) =
         ListByPatientUseCase(repo)
+
+    @Provides @Singleton
+    fun provideListDoctorByUFAndSpecialityUseCase(repo: DoctorRepository) =
+        ListDoctorByUFAndSpecialityUseCase(repo)
 }

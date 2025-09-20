@@ -28,9 +28,12 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             _authState.value = AuthUiState.Loading
             try {
-                val userId = loginUseCase.invoke(email, password)
-                if (userId != null) {
-                    _authState.value = AuthUiState.Success(userId)
+                val result = loginUseCase.invoke(email, password)
+                if (result != null) {
+                    _authState.value = AuthUiState.Success(
+                        userId = result.userId,
+                        role = result.role
+                    )
                 } else {
                     _authState.value = AuthUiState.Error("Credenciais inválidas")
                 }
@@ -46,7 +49,7 @@ class AuthViewModel @Inject constructor(
             try {
                 val success = registerPatientUseCase.invoke(patient)
                 if (success) {
-                    _authState.value = AuthUiState.Success(patient.id)
+                    _authState.value = AuthUiState.Success(patient.id, patient.role)
                 } else {
                     _authState.value = AuthUiState.Error("Falha ao cadastrar paciente")
                 }
@@ -68,7 +71,7 @@ class AuthViewModel @Inject constructor(
 
                 val success = registerDoctorUseCase.invoke(doctor)
                 if (success) {
-                    _authState.value = AuthUiState.Success(doctor.id)
+                    _authState.value = AuthUiState.Success(doctor.id, doctor.role)
                 } else {
                     _authState.value = AuthUiState.Error("Falha ao cadastrar médico")
                 }
