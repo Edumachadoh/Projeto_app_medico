@@ -8,15 +8,9 @@ import com.up.clinica_digital.presentation.appointment.AppointmentScheduleScreen
 import com.up.clinica_digital.presentation.auth.LoginScreen
 import com.up.clinica_digital.presentation.auth.RegisterScreen
 import com.up.clinica_digital.presentation.home.InitialScreen
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.up.clinica_digital.domain.model.UserRole
-import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavConfig
-import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavItem
-import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavigationBar
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 
 @Composable
 fun AppNavGraph(navController: NavHostController) {
@@ -46,8 +40,8 @@ fun AppNavGraph(navController: NavHostController) {
 
         composable(Screen.Register.route) {
             RegisterScreen(
-                onRegisterSuccess = { userId ->
-                    navController.navigate(Screen.Home.createRoute(UserRole.PATIENT)) {
+                onRegisterSuccess = { userId, role ->
+                    navController.navigate(Screen.Home.createRoute(role)) {
                         popUpTo(Screen.Initial.route) { inclusive = true }
                     }
                 },
@@ -55,7 +49,12 @@ fun AppNavGraph(navController: NavHostController) {
             )
         }
 
-        composable(Screen.Home.route) { backStackEntry ->
+        composable(
+            route = Screen.Home.route,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
             val roleArg = backStackEntry.arguments?.getString("role")
             val role = UserRole.valueOf(roleArg ?: UserRole.PATIENT.name)
 
