@@ -75,6 +75,7 @@ dependencies {
     // Jetpack Navigation
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation("androidx.navigation:navigation-compose:2.7.3")
 
     // Jetpack ViewModel + LiveData + StateFlow
     implementation(libs.androidx.lifecycle.viewmodel.ktx)

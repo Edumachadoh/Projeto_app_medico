@@ -25,7 +25,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.up.clinica_digital.presentation.appointment.components.CalendarTimeDatePicker
 import com.up.clinica_digital.presentation.appointment.components.DoctorInformation
-import com.up.clinica_digital.presentation.appointment.components.TopNavigationBar
+import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
 import com.up.clinica_digital.ui.theme.ClinicaDigitalTheme
 
 @Composable

@@ -20,10 +20,17 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object UseCaseModule {
+    //region DOCTOR
     @Provides @Singleton
     fun provideCreateDoctorUseCase(repo: DoctorRepository) =
         CreateEntityUseCase<Doctor>(repo)
 
+    @Provides @Singleton
+    fun provideGetDoctorByIdUseCase(repo: DoctorRepository) =
+        GetEntityByIdUseCase<Doctor>(repo)
+    @Provides @Singleton
+    fun provideListDoctorsUseCase(repo: DoctorRepository) =
+        ListEntitiesUseCase<Doctor>(repo)
     @Provides @Singleton
     fun provideUpdateDoctorUseCase(repo: DoctorRepository) =
         UpdateEntityUseCase<Doctor>(repo)
@@ -33,13 +40,26 @@ object UseCaseModule {
         DeleteEntityUseCase<Doctor>(repo)
 
     @Provides @Singleton
-    fun provideListDoctorsUseCase(repo: DoctorRepository) =
-        ListEntitiesUseCase<Doctor>(repo)
+    fun provideValidateDoctorCrmUseCase(repo: CfmRepository) =
+        ValidateDoctorCrmUseCase(repo)
 
+    @Provides @Singleton
+    fun provideListDoctorByUFAndSpecialityUseCase(repo: DoctorRepository) =
+        ListDoctorByUFAndSpecialityUseCase(repo)
+    //endregion DOCTOR
+
+    //region PATIENT
     @Provides @Singleton
     fun provideCreatePatientUseCase(repo: PatientRepository) =
         CreateEntityUseCase<Patient>(repo)
 
+    @Provides @Singleton
+    fun provideListPatientsUseCase(repo: PatientRepository) =
+        ListEntitiesUseCase<Patient>(repo)
+
+    @Provides @Singleton
+    fun provideGetPatientByIdUseCase(repo: PatientRepository) =
+        GetEntityByIdUseCase<Patient>(repo)
     @Provides @Singleton
     fun provideUpdatePatientUseCase(repo: PatientRepository) =
         UpdateEntityUseCase<Patient>(repo)
@@ -47,14 +67,20 @@ object UseCaseModule {
     @Provides @Singleton
     fun provideDeletePatientUseCase(repo: PatientRepository) =
         DeleteEntityUseCase<Patient>(repo)
+    //endregion PATIENT
 
-    @Provides @Singleton
-    fun provideListPatientsUseCase(repo: PatientRepository) =
-        ListEntitiesUseCase<Patient>(repo)
-
+    //region APPOINTMENT
     @Provides @Singleton
     fun provideCreateAppointmentUseCase(repo: AppointmentRepository) =
         CreateEntityUseCase<Appointment>(repo)
+
+    @Provides @Singleton
+    fun provideListAppointmentsUseCase(repo: AppointmentRepository) =
+        ListEntitiesUseCase<Appointment>(repo)
+
+    @Provides @Singleton
+    fun provideGetAppointmentByIdUseCase(repo: AppointmentRepository) =
+        GetEntityByIdUseCase<Appointment>(repo)
 
     @Provides @Singleton
     fun provideUpdateAppointmentUseCase(repo: AppointmentRepository) =
@@ -65,9 +91,15 @@ object UseCaseModule {
         DeleteEntityUseCase<Appointment>(repo)
 
     @Provides @Singleton
-    fun provideListAppointmentsUseCase(repo: AppointmentRepository) =
-        ListEntitiesUseCase<Appointment>(repo)
+    fun provideListAppointmentsByDoctorUseCase(repo: AppointmentRepository) =
+        ListByDoctorUseCase(repo)
 
+    @Provides @Singleton
+    fun provideListAppointmentsByPatientUseCase(repo: AppointmentRepository) =
+        ListByPatientUseCase(repo)
+    //endregion APPOINTMENT
+
+    //region FORUM TOPIC
     @Provides @Singleton
     fun provideCreateForumTopicUseCase(repo: ForumTopicRepository) =
         CreateEntityUseCase<ForumTopic>(repo)
@@ -77,6 +109,20 @@ object UseCaseModule {
         ListEntitiesUseCase<ForumTopic>(repo)
 
     @Provides @Singleton
+    fun provideGetForumTopicByIdUseCase(repo: ForumTopicRepository) =
+        GetEntityByIdUseCase<ForumTopic>(repo)
+
+    @Provides @Singleton
+    fun provideUpdateForumTopicUseCase(repo: ForumTopicRepository) =
+        UpdateEntityUseCase<ForumTopic>(repo)
+
+    @Provides @Singleton
+    fun provideDeleteForumTopicUseCase(repo: ForumTopicRepository) =
+        DeleteEntityUseCase<ForumTopic>(repo)
+    //endregion FORUM TOPIC
+
+    //region FORUM COMMENT
+    @Provides @Singleton
     fun provideCreateForumCommentUseCase(repo: ForumCommentRepository) =
         CreateEntityUseCase<ForumComment>(repo)
 
@@ -85,23 +131,21 @@ object UseCaseModule {
         ListEntitiesUseCase<ForumComment>(repo)
 
     @Provides @Singleton
+    fun provideGetForumCommentByIdUseCase(repo: ForumCommentRepository) =
+        GetEntityByIdUseCase<ForumComment>(repo)
+
+    @Provides @Singleton
+    fun provideUpdateForumCommentUseCase(repo: ForumCommentRepository) =
+        UpdateEntityUseCase<ForumComment>(repo)
+
+    @Provides @Singleton
+    fun provideDeleteForumCommentUseCase(repo: ForumCommentRepository) =
+        DeleteEntityUseCase<ForumComment>(repo)
+    //endregion FORUM COMMENT
+
+    //region LOGIN
+    @Provides @Singleton
     fun provideLoginUserUseCase(repo: UserAuthRepository) =
         LoginUserUseCase(repo)
-
-    @Provides
-    @Singleton
-    fun provideValidateDoctorCrmUseCase(repo: CfmRepository) =
-        ValidateDoctorCrmUseCase(repo)
-
-    @Provides @Singleton
-    fun provideListAppointmentsByDoctorUseCase(repo: AppointmentRepository) =
-        ListByDoctorUseCase(repo)
-
-    @Provides @Singleton
-    fun provideListAppointmentsByPatientUseCase(repo: AppointmentRepository) =
-        ListByPatientUseCase(repo)
-
-    @Provides @Singleton
-    fun provideListDoctorByUFAndSpecialityUseCase(repo: DoctorRepository) =
-        ListDoctorByUFAndSpecialityUseCase(repo)
+    //endregion LOGIN
 }

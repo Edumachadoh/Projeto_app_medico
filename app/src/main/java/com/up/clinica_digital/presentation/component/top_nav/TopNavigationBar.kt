@@ -1,4 +1,4 @@
-package com.up.clinica_digital.presentation.appointment.components
+package com.up.clinica_digital.presentation.component.top_nav
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
