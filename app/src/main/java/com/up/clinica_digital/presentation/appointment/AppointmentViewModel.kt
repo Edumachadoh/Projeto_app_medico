@@ -74,4 +74,13 @@ class AppointmentViewModel @Inject constructor(
             }
         }
     }
+
+    fun clearDateTime() {
+        _uiState.update { it.copy(selectedDateTime = null) }
+    }
+
+    fun confirmAppointment() {
+        _uiState.update { it.copy(isConfirmed = true) }
+    }
+
 }

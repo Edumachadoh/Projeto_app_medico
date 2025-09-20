@@ -11,6 +11,7 @@ import com.up.clinica_digital.presentation.home.InitialScreen
 import com.up.clinica_digital.domain.model.UserRole
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.up.clinica_digital.presentation.appointment.ConfirmAppointmentScreen
 
 @Composable
 fun AppNavGraph(navController: NavHostController) {
@@ -61,10 +62,16 @@ fun AppNavGraph(navController: NavHostController) {
             LoggedInNavGraph(navController, role)
         }
 
-        //a rota tem que receber {patientId}/{doctorId}
-        composable(Screen.Appointment.route) { backStackEntry ->
+        composable(
+            route = Screen.Appointment.route,
+            arguments = listOf(
+                navArgument("patientId") { type = NavType.StringType },
+                navArgument("doctorId") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
             val doctorId = backStackEntry.arguments?.getString("doctorId")
             val patientId = backStackEntry.arguments?.getString("patientId")
+
             if (doctorId != null && patientId != null) {
                 AppointmentScheduleScreen(
                     navController = navController,
@@ -72,6 +79,25 @@ fun AppNavGraph(navController: NavHostController) {
                     patientId = patientId
                 )
             }
+        }
+        composable(
+            route = Screen.ConfirmAppointment.route,
+            arguments = listOf(
+                navArgument("patientId") { type = NavType.StringType },
+                navArgument("doctorId") { type = NavType.StringType },
+                navArgument("dateTime") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val patientId = backStackEntry.arguments?.getString("patientId")!!
+            val doctorId = backStackEntry.arguments?.getString("doctorId")!!
+            val dateTime = backStackEntry.arguments?.getString("dateTime")!!
+
+            ConfirmAppointmentScreen(
+                navController = navController,
+                doctorId = doctorId,
+                patientId = patientId,
+                dateTime = dateTime
+            )
         }
 
     }
