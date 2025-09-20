@@ -17,7 +17,7 @@ import java.util.UUID
 @Composable
 fun RegisterScreen(
     viewModel: AuthViewModel = hiltViewModel(),
-    onRegisterSuccess: (String) -> Unit,
+    onRegisterSuccess: (String, UserRole) -> Unit,
     onNavigateToLogin: () -> Unit
 ) {
     val uiState by viewModel.authState.collectAsState()
@@ -28,8 +28,10 @@ fun RegisterScreen(
     var cpf by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
+    // ESPECÍFICO PARA PACIENTE
     var birthDate by remember { mutableStateOf("") }
 
+    // ESPECÍFICOS PARA MÉDICO
     var crm by remember { mutableStateOf("") }
     var rqe by remember { mutableStateOf("") }
     var specialization by remember { mutableStateOf("") }
@@ -81,6 +83,17 @@ fun RegisterScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
+            if (role == UserRole.PATIENT) {
+                Spacer(Modifier.height(8.dp))
+
+                OutlinedTextField(
+                    value = birthDate, onValueChange = { birthDate = it },
+                    label = { Text("Data de Nascimento (AAAA-MM-DD)") },
+                    placeholder = { Text("1990-01-15") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
             if (role == UserRole.DOCTOR) {
                 Spacer(Modifier.height(8.dp))
 
@@ -89,15 +102,21 @@ fun RegisterScreen(
                     label = { Text("CRM") }, modifier = Modifier.fillMaxWidth()
                 )
 
+                Spacer(Modifier.height(8.dp))
+
                 OutlinedTextField(
                     value = rqe, onValueChange = { rqe = it },
                     label = { Text("RQE") }, modifier = Modifier.fillMaxWidth()
                 )
 
+                Spacer(Modifier.height(8.dp))
+
                 OutlinedTextField(
                     value = specialization, onValueChange = { specialization = it },
                     label = { Text("Especialização") }, modifier = Modifier.fillMaxWidth()
                 )
+
+                Spacer(Modifier.height(8.dp))
 
                 OutlinedTextField(
                     value = uf, onValueChange = { uf = it },
@@ -110,16 +129,24 @@ fun RegisterScreen(
             Button(
                 onClick = {
                     if (role == UserRole.PATIENT) {
-                        // TODO: rever a geração de IDs
-                        val patient = Patient(
-                            id = UUID.randomUUID().toString(),
-                            name = name,
-                            email = email,
-                            cpf = cpf,
-                            passwordHash = password,
-                            birthDate = LocalDate.parse(birthDate)
-                        )
-                        viewModel.registerPatient(patient)
+                        if (birthDate.isEmpty()) {
+                            return@Button
+                        }
+
+                        try {
+                            val patient = Patient(
+                                id = UUID.randomUUID().toString(),
+                                name = name,
+                                email = email,
+                                cpf = cpf,
+                                passwordHash = password,
+                                birthDate = LocalDate.parse(birthDate)
+                            )
+                            viewModel.registerPatient(patient)
+                        } catch (e: Exception) {
+                            // TODO: Lidar com exceção de birth date inválida
+                            return@Button
+                        }
                     } else {
                         val doctor = Doctor(
                             id = UUID.randomUUID().toString(),
@@ -157,8 +184,9 @@ fun RegisterScreen(
                 }
                 is AuthUiState.Success -> {
                     val userId = (uiState as AuthUiState.Success).userId
+                    val role = (uiState as AuthUiState.Success).role
                     LaunchedEffect(userId) {
-                        onRegisterSuccess(userId)
+                        onRegisterSuccess(userId, role)
                     }
                 }
             }
