@@ -10,14 +10,13 @@ sealed class Screen(val route: String) {
     object Home : Screen("home/{role}") {
         fun createRoute(role: UserRole) = "home/${role.name}"
     }
-    // ROTA DE AGENDAMENTO CORRIGIDA
+
     object Appointment : Screen("appointment_schedule/{patientId}/{doctorId}") {
         fun createRoute(patientId: String, doctorId: String): String {
             return "appointment_schedule/$patientId/$doctorId"
         }
     }
 
-    // NOVA ROTA DE CONFIRMAÇÃO
     object ConfirmAppointment : Screen("confirm_appointment/{patientId}/{doctorId}/{dateTime}") {
         fun createRoute(patientId: String, doctorId: String, dateTime: LocalDateTime): String {
             return "confirm_appointment/$patientId/$doctorId/$dateTime"
