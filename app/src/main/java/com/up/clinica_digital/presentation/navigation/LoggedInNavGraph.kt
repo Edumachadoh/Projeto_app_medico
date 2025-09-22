@@ -19,6 +19,8 @@ import com.up.clinica_digital.presentation.appointment.ConfirmAppointmentScreen
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavConfig
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavItem
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavigationBar
+import com.up.clinica_digital.presentation.profile.ProfileScreen
+
 
 
 @Composable
@@ -106,13 +108,14 @@ fun LoggedInNavGraph(
                 }
             }
             composable(BottomNavItem.Perfil.route) {
-                androidx.compose.foundation.layout.Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = androidx.compose.ui.Alignment.Center
-                ) {
-                    androidx.compose.material3.Text("Perfil Screen")
-                }
+                ProfileScreen(
+                    userName = "Carlos Henrique",     //CAUE: até então não conectei nada com api ou algo o tipo...
+                    userEmail = "carlos@email.com",
+                    userCPF = "CPF: 10010010010",
+                    onEditProfile = {}
+                )
             }
+
             composable(BottomNavItem.Chat.route) {
                 androidx.compose.foundation.layout.Box(
                     modifier = Modifier.fillMaxSize(),
