@@ -26,6 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import com.up.clinica_digital.presentation.appointment.components.CalendarTimeDatePicker
 import com.up.clinica_digital.presentation.appointment.components.DoctorInformation
 import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
+import com.up.clinica_digital.presentation.navigation.Screen
 import com.up.clinica_digital.ui.theme.ClinicaDigitalTheme
 
 @Composable
@@ -79,7 +80,15 @@ fun AppointmentScheduleScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(
                         onClick = {
-                            viewModel.scheduleAppointment(patientId)
+                            uiState.selectedDateTime?.let { dateTime ->
+                                navController.navigate(
+                                    Screen.ConfirmAppointment.createRoute(
+                                        patientId = patientId,
+                                        doctorId = doctorId,
+                                        dateTime = dateTime
+                                    )
+                                )
+                            }
                         },
                         enabled = uiState.selectedDateTime != null
                     ) {

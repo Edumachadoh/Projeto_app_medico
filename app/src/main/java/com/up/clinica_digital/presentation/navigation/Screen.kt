@@ -1,6 +1,7 @@
 package com.up.clinica_digital.presentation.navigation
 
 import com.up.clinica_digital.domain.model.UserRole
+import java.time.LocalDateTime
 
 sealed class Screen(val route: String) {
     object Initial : Screen("initial")
@@ -9,5 +10,16 @@ sealed class Screen(val route: String) {
     object Home : Screen("home/{role}") {
         fun createRoute(role: UserRole) = "home/${role.name}"
     }
-    object Appointment : Screen("appointment_schedule/{patientId}/{doctorId}")
+
+    object Appointment : Screen("appointment_schedule/{patientId}/{doctorId}") {
+        fun createRoute(patientId: String, doctorId: String): String {
+            return "appointment_schedule/$patientId/$doctorId"
+        }
+    }
+
+    object ConfirmAppointment : Screen("confirm_appointment/{patientId}/{doctorId}/{dateTime}") {
+        fun createRoute(patientId: String, doctorId: String, dateTime: LocalDateTime): String {
+            return "confirm_appointment/$patientId/$doctorId/$dateTime"
+        }
+    }
 }
