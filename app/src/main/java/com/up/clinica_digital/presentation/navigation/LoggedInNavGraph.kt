@@ -7,11 +7,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.up.clinica_digital.domain.model.UserRole
+import com.up.clinica_digital.presentation.appointment.AppointmentScheduleScreen
+import com.up.clinica_digital.presentation.appointment.ConfirmAppointmentScreen
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavConfig
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavItem
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavigationBar
@@ -56,13 +60,42 @@ fun LoggedInNavGraph(
                     androidx.compose.material3.Text("Lista de Médicos")
                 }
             }
-            composable(BottomNavItem.Agendar.route) {
-                androidx.compose.foundation.layout.Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = androidx.compose.ui.Alignment.Center
-                ) {
-                    androidx.compose.material3.Text("Agendar Screen")
+            composable(
+                route = Screen.Appointment.route,
+                arguments = listOf(
+                    navArgument("patientId") { type = NavType.StringType },
+                    navArgument("doctorId") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val doctorId = backStackEntry.arguments?.getString("doctorId")
+                val patientId = backStackEntry.arguments?.getString("patientId")
+
+                if (doctorId != null && patientId != null) {
+                    AppointmentScheduleScreen(
+                        navController = parentNavController,
+                        doctorId = doctorId,
+                        patientId = patientId
+                    )
                 }
+            }
+            composable(
+                route = Screen.ConfirmAppointment.route,
+                arguments = listOf(
+                    navArgument("patientId") { type = NavType.StringType },
+                    navArgument("doctorId") { type = NavType.StringType },
+                    navArgument("dateTime") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val patientId = backStackEntry.arguments?.getString("patientId")!!
+                val doctorId = backStackEntry.arguments?.getString("doctorId")!!
+                val dateTime = backStackEntry.arguments?.getString("dateTime")!!
+
+                ConfirmAppointmentScreen(
+                    navController = parentNavController,
+                    doctorId = doctorId,
+                    patientId = patientId,
+                    dateTime = dateTime
+                )
             }
             composable(BottomNavItem.Consultas.route) {
                 androidx.compose.foundation.layout.Box(
