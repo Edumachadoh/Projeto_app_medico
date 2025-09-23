@@ -21,6 +21,7 @@ import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavItem
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavigationBar
 import com.up.clinica_digital.presentation.doctor.DoctorsListScreen
 import com.up.clinica_digital.presentation.profile.ProfileScreen
+import com.up.clinica_digital.presentation.chat.ChatPatient
 
 
 
@@ -118,13 +119,9 @@ fun LoggedInNavGraph(
             }
 
             composable(BottomNavItem.Chat.route) {
-                androidx.compose.foundation.layout.Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = androidx.compose.ui.Alignment.Center
-                ) {
-                    androidx.compose.material3.Text("Chat Screen")
-                }
+                ChatPatient(onBack = { parentNavController.popBackStack() })
             }
+
 
             // Médico
             composable(BottomNavItem.Agenda.route) {
