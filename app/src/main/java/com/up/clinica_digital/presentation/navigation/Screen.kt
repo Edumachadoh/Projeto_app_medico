@@ -12,7 +12,7 @@ sealed class Screen(val route: String) {
     }
 
     object DoctorsList : Screen("doctors_list_screen")
-
+    object DoctorDetails : Screen("doctor_details")
     object Appointment : Screen("appointment_schedule/{patientId}/{doctorId}") {
         fun createRoute(patientId: String, doctorId: String): String {
             return "appointment_schedule/$patientId/$doctorId"

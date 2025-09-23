@@ -50,4 +50,8 @@ class DoctorsViewModel @Inject constructor(
             _uiState.update { it.copy(isLoading = false, doctors = filteredList) }
         }
     }
+
+    fun SelectDoctor(doctor: Doctor){
+        _uiState.update { it.copy(selectedDoctor = doctor)}
+    }
 }

@@ -1,5 +1,6 @@
 package com.up.clinica_digital.presentation.doctor
 
+import android.widget.Button
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -56,13 +57,16 @@ fun DoctorsListScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(uiState.doctors) { doctor ->
-                        DoctorItem(doctor = doctor)
+                        Button(onClick = {}) {
+                            DoctorItem(doctor = doctor)
+                        }
                     }
                 }
             }
         }
     }
 }
+
 
 @Composable
 fun DoctorItem(doctor: Doctor) {
@@ -71,7 +75,15 @@ fun DoctorItem(doctor: Doctor) {
     ) {
         Text(text = doctor.name, fontWeight = FontWeight.Bold, fontSize = 16.sp)
         Spacer(Modifier.height(4.dp))
-        Text(text = "CRM ${doctor.crm} RQE ${doctor.rqe}", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        Text(text = "Especialista em ${doctor.specialization}", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(
+            text = "CRM ${doctor.crm} RQE ${doctor.rqe}",
+            fontSize = 14.sp,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Text(
+            text = "Especialista em ${doctor.specialization}",
+            fontSize = 14.sp,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }

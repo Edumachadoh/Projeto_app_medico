@@ -59,6 +59,11 @@ fun LoggedInNavGraph(
                 DoctorsListScreen()
             }
             composable(
+                route = Screen.DoctorDetails.route,
+                ){
+
+            }
+            composable(
                 route = Screen.Appointment.route,
                 arguments = listOf(
                     navArgument("patientId") { type = NavType.StringType },
