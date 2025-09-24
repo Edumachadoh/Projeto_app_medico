@@ -14,8 +14,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.up.clinica_digital.domain.model.UserRole
-import com.up.clinica_digital.presentation.appointment.AppointmentScheduleScreen
-import com.up.clinica_digital.presentation.appointment.ConfirmAppointmentScreen
+import com.up.clinica_digital.presentation.appointment.schedule.AppointmentScheduleScreen
+import com.up.clinica_digital.presentation.appointment.schedule.ConfirmAppointmentScreen
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavConfig
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavItem
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavigationBar
