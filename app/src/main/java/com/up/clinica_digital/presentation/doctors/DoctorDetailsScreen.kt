@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -16,12 +17,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
 import com.up.clinica_digital.presentation.doctor.DoctorsViewModel
+import com.up.clinica_digital.presentation.navigation.Screen
 
 @Composable
 fun DoctorDetailsScreen(
     navController: NavController,
     viewModel: DoctorsViewModel = hiltViewModel(),
-    doctorId: String
+    doctorId: String,
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -41,6 +43,10 @@ fun DoctorDetailsScreen(
             Text(text = uiState.doctor?.name ?: "")
             Text(text = uiState.doctor?.specialization?: "")
             Text(text = uiState.doctor?.crm?: "")
+
+            TextButton(onClick = { navController.navigate(Screen.Appointment.createRoute("1",doctorId))}) {
+                Text("Agendar consulta")
+            }
         }
     }
 }
