@@ -22,7 +22,7 @@ import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavigation
 import com.up.clinica_digital.presentation.doctor.DoctorsListScreen
 import com.up.clinica_digital.presentation.profile.ProfileScreen
 import com.up.clinica_digital.presentation.chat.ChatPatient
-
+import com.up.clinica_digital.presentation.doctors.DoctorDetailsScreen
 
 
 @Composable
@@ -57,12 +57,19 @@ fun LoggedInNavGraph(
             // TODO: adicionar rotas para cada tela do app!
             // Paciente
             composable(BottomNavItem.Medicos.route) {
-                DoctorsListScreen()
+                DoctorsListScreen(navController = parentNavController)
             }
             composable(
                 route = Screen.DoctorDetails.route,
-                ){
-
+                arguments = listOf(navArgument("doctorId") {type = NavType.StringType})
+            ){ backStackEntry ->
+                val doctorId = backStackEntry.arguments?.getString("doctorId")
+                if(doctorId != null){
+                    DoctorDetailsScreen(
+                        navController = parentNavController,
+                        doctorId = doctorId
+                    )
+                }
             }
             composable(
                 route = Screen.Appointment.route,

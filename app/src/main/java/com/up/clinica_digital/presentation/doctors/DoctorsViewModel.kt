@@ -3,7 +3,8 @@ package com.up.clinica_digital.presentation.doctor
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.up.clinica_digital.domain.model.Doctor
-import com.up.clinica_digital.domain.model.UserRole
+import com.up.clinica_digital.domain.usecase.GetEntityByIdUseCase
+import com.up.clinica_digital.presentation.doctors.DoctorUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,6 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DoctorsViewModel @Inject constructor(
+    private val getDoctorUseCase: GetEntityByIdUseCase<Doctor>
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(DoctorUIState())
@@ -51,7 +53,16 @@ class DoctorsViewModel @Inject constructor(
         }
     }
 
-    fun SelectDoctor(doctor: Doctor){
-        _uiState.update { it.copy(selectedDoctor = doctor)}
+    fun loadDoctor(doctorId: String) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
+            try {
+                val doctor = getDoctorUseCase.invoke(doctorId)
+                _uiState.update { it.copy(doctor = doctor, isLoading = false) }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(error = e.message ?: "Erro desconhecido", isLoading = false) }
+            }
+        }
     }
+
 }

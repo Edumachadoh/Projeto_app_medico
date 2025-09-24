@@ -11,14 +11,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.up.clinica_digital.domain.model.Doctor
+import com.up.clinica_digital.presentation.navigation.Screen
+import com.up.clinica_digital.ui.theme.ClinicaDigitalTheme
 
 @Composable
 fun DoctorsListScreen(
-    viewModel: DoctorsViewModel = hiltViewModel()
+    viewModel: DoctorsViewModel = hiltViewModel(),
+    navController: NavController
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -57,7 +62,7 @@ fun DoctorsListScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(uiState.doctors) { doctor ->
-                        Button(onClick = {}) {
+                        Button(onClick = {navController.navigate(Screen.DoctorDetails.createRoute(doctorId = doctor.id))}) {
                             DoctorItem(doctor = doctor)
                         }
                     }
@@ -87,3 +92,4 @@ fun DoctorItem(doctor: Doctor) {
         )
     }
 }
+
