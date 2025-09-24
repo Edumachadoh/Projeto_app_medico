@@ -56,9 +56,11 @@ fun LoggedInNavGraph(
         ) {
             // TODO: adicionar rotas para cada tela do app!
             // Paciente
+            //...
             composable(BottomNavItem.Medicos.route) {
-                DoctorsListScreen(navController = parentNavController)
+                DoctorsListScreen(navController = bottomNavController)
             }
+
             composable(
                 route = Screen.DoctorDetails.route,
                 arguments = listOf(navArgument("doctorId") {type = NavType.StringType})
@@ -66,7 +68,7 @@ fun LoggedInNavGraph(
                 val doctorId = backStackEntry.arguments?.getString("doctorId")
                 if(doctorId != null){
                     DoctorDetailsScreen(
-                        navController = parentNavController,
+                        navController = bottomNavController,
                         doctorId = doctorId
                     )
                 }

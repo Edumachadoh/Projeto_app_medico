@@ -14,19 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.up.clinica_digital.presentation.appointment.AppointmentScheduleUiState
-import com.up.clinica_digital.presentation.appointment.AppointmentViewModel
 import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
 import com.up.clinica_digital.presentation.doctor.DoctorsViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 
 @Composable
 fun DoctorDetailsScreen(
     navController: NavController,
-    viewModel: AppointmentViewModel = hiltViewModel(),
+    viewModel: DoctorsViewModel = hiltViewModel(),
     doctorId: String
 ) {
     val uiState by viewModel.uiState.collectAsState()
