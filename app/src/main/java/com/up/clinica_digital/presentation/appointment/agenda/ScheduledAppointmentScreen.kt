@@ -51,7 +51,7 @@ fun ScheduledAppointmentsScreen(
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        items(uiState.doctors) { doctor ->
+                        items() { doctor ->
                             Button(onClick = {navController.navigate(Screen.DoctorDetails.createRoute(doctorId = doctor.id))}) {
                                 DoctorItem(doctor = doctor)
                             }

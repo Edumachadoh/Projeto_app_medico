@@ -47,12 +47,12 @@ class ScheduledAppointmentViewModel @Inject constructor(
         }
     }
 
-    suspend fun onSearchQueryChange(query: String) {
+    fun onSearchQueryChange(query: String) {
         _searchQuery.value = query
         filterAppointments(query)
     }
 
-    private suspend fun filterAppointments(query: String) {
+    private fun filterAppointments(query: String) {
 
         val filteredList = if (query.isBlank()) {
             allScheduledAppointments
