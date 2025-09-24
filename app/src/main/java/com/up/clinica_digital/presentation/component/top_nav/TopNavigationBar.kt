@@ -39,12 +39,3 @@ fun TopNavigationBar(
         )
     )
 }
-
-@Preview
-@Composable
-fun TopNavigationBarPreview() {
-    ClinicaDigitalTheme {
-        val navController = rememberNavController()
-        TopNavigationBar(navController)
-    }
-}

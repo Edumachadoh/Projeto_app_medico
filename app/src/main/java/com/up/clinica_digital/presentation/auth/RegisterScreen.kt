@@ -14,6 +14,7 @@ import com.up.clinica_digital.domain.model.UserRole
 import java.time.LocalDate
 import java.util.UUID
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(
     viewModel: AuthViewModel = hiltViewModel(),
@@ -37,159 +38,171 @@ fun RegisterScreen(
     var specialization by remember { mutableStateOf("") }
     var uf by remember { mutableStateOf("") }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Top
-    ) {
-        Text("Cadastro", style = MaterialTheme.typography.headlineMedium)
-
-        Spacer(Modifier.height(16.dp))
-
-        if (role == null) {
-            Text("Escolha seu perfil:")
-            Spacer(Modifier.height(8.dp))
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                Button(onClick = { role = UserRole.PATIENT }) { Text("Paciente") }
-                Button(onClick = { role = UserRole.DOCTOR }) { Text("Médico") }
-            }
-        } else {
-            OutlinedTextField(
-                value = name, onValueChange = { name = it },
-                label = { Text("Nome") }, modifier = Modifier.fillMaxWidth()
+    Scaffold(topBar = {
+        TopAppBar(title = {
+            Text(
+                "Cadastro",
+                style = MaterialTheme.typography.headlineMedium
             )
+        })
+    }) {
+        innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(24.dp),
+            verticalArrangement = Arrangement.Top
+        ) {
 
-            Spacer(Modifier.height(8.dp))
-
-            OutlinedTextField(
-                value = email, onValueChange = { email = it },
-                label = { Text("Email") }, modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(Modifier.height(8.dp))
-
-            OutlinedTextField(
-                value = cpf, onValueChange = { cpf = it },
-                label = { Text("CPF") }, modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(Modifier.height(8.dp))
-
-            OutlinedTextField(
-                value = password, onValueChange = { password = it },
-                label = { Text("Senha") },
-                visualTransformation = PasswordVisualTransformation(),
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            if (role == UserRole.PATIENT) {
-                Spacer(Modifier.height(8.dp))
-
-                OutlinedTextField(
-                    value = birthDate, onValueChange = { birthDate = it },
-                    label = { Text("Data de Nascimento (AAAA-MM-DD)") },
-                    placeholder = { Text("1990-01-15") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-
-            if (role == UserRole.DOCTOR) {
-                Spacer(Modifier.height(8.dp))
-
-                OutlinedTextField(
-                    value = crm, onValueChange = { crm = it },
-                    label = { Text("CRM") }, modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(Modifier.height(8.dp))
-
-                OutlinedTextField(
-                    value = rqe, onValueChange = { rqe = it },
-                    label = { Text("RQE") }, modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(Modifier.height(8.dp))
-
-                OutlinedTextField(
-                    value = specialization, onValueChange = { specialization = it },
-                    label = { Text("Especialização") }, modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(Modifier.height(8.dp))
-
-                OutlinedTextField(
-                    value = uf, onValueChange = { uf = it },
-                    label = { Text("UF") }, modifier = Modifier.fillMaxWidth()
-                )
-            }
 
             Spacer(Modifier.height(16.dp))
 
-            Button(
-                onClick = {
-                    if (role == UserRole.PATIENT) {
-                        if (birthDate.isEmpty()) {
-                            return@Button
-                        }
+            if (role == null) {
+                Text("Escolha seu perfil:")
+                Spacer(Modifier.height(8.dp))
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+                    Button(onClick = { role = UserRole.PATIENT }) { Text("Paciente") }
+                    Button(onClick = { role = UserRole.DOCTOR }) { Text("Médico") }
+                }
+            } else {
+                OutlinedTextField(
+                    value = name, onValueChange = { name = it },
+                    label = { Text("Nome") }, modifier = Modifier.fillMaxWidth()
+                )
 
-                        try {
-                            val patient = Patient(
+                Spacer(Modifier.height(8.dp))
+
+                OutlinedTextField(
+                    value = email, onValueChange = { email = it },
+                    label = { Text("Email") }, modifier = Modifier.fillMaxWidth()
+                )
+
+                Spacer(Modifier.height(8.dp))
+
+                OutlinedTextField(
+                    value = cpf, onValueChange = { cpf = it },
+                    label = { Text("CPF") }, modifier = Modifier.fillMaxWidth()
+                )
+
+                Spacer(Modifier.height(8.dp))
+
+                OutlinedTextField(
+                    value = password, onValueChange = { password = it },
+                    label = { Text("Senha") },
+                    visualTransformation = PasswordVisualTransformation(),
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                if (role == UserRole.PATIENT) {
+                    Spacer(Modifier.height(8.dp))
+
+                    OutlinedTextField(
+                        value = birthDate, onValueChange = { birthDate = it },
+                        label = { Text("Data de Nascimento (AAAA-MM-DD)") },
+                        placeholder = { Text("1990-01-15") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
+                if (role == UserRole.DOCTOR) {
+                    Spacer(Modifier.height(8.dp))
+
+                    OutlinedTextField(
+                        value = crm, onValueChange = { crm = it },
+                        label = { Text("CRM") }, modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Spacer(Modifier.height(8.dp))
+
+                    OutlinedTextField(
+                        value = rqe, onValueChange = { rqe = it },
+                        label = { Text("RQE") }, modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Spacer(Modifier.height(8.dp))
+
+                    OutlinedTextField(
+                        value = specialization, onValueChange = { specialization = it },
+                        label = { Text("Especialização") }, modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Spacer(Modifier.height(8.dp))
+
+                    OutlinedTextField(
+                        value = uf, onValueChange = { uf = it },
+                        label = { Text("UF") }, modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
+                Spacer(Modifier.height(16.dp))
+
+                Button(
+                    onClick = {
+                        if (role == UserRole.PATIENT) {
+                            if (birthDate.isEmpty()) {
+                                return@Button
+                            }
+
+                            try {
+                                val patient = Patient(
+                                    id = UUID.randomUUID().toString(),
+                                    name = name,
+                                    email = email,
+                                    cpf = cpf,
+                                    passwordHash = password,
+                                    birthDate = LocalDate.parse(birthDate)
+                                )
+                                viewModel.registerPatient(patient)
+                            } catch (e: Exception) {
+                                // TODO: Lidar com exceção de birth date inválida
+                                return@Button
+                            }
+                        } else {
+                            val doctor = Doctor(
                                 id = UUID.randomUUID().toString(),
                                 name = name,
                                 email = email,
                                 cpf = cpf,
                                 passwordHash = password,
-                                birthDate = LocalDate.parse(birthDate)
+                                crm = crm,
+                                rqe = rqe,
+                                specialization = specialization,
+                                uf = uf
                             )
-                            viewModel.registerPatient(patient)
-                        } catch (e: Exception) {
-                            // TODO: Lidar com exceção de birth date inválida
-                            return@Button
+                            viewModel.registerDoctor(doctor)
                         }
-                    } else {
-                        val doctor = Doctor(
-                            id = UUID.randomUUID().toString(),
-                            name = name,
-                            email = email,
-                            cpf = cpf,
-                            passwordHash = password,
-                            crm = crm,
-                            rqe = rqe,
-                            specialization = specialization,
-                            uf = uf
-                        )
-                        viewModel.registerDoctor(doctor)
-                    }
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Cadastrar")
-            }
-
-            Spacer(Modifier.height(8.dp))
-
-            TextButton(onClick = onNavigateToLogin) {
-                Text("Já tem conta? Faça login")
-            }
-
-            Spacer(Modifier.height(16.dp))
-
-            when (uiState) {
-                is AuthUiState.Idle -> Unit
-                is AuthUiState.Loading -> CircularProgressIndicator()
-                is AuthUiState.Error -> {
-                    val message = (uiState as AuthUiState.Error).message
-                    Text(message, color = Color.Red)
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Cadastrar")
                 }
-                is AuthUiState.Success -> {
-                    val userId = (uiState as AuthUiState.Success).userId
-                    val role = (uiState as AuthUiState.Success).role
-                    LaunchedEffect(userId) {
-                        onRegisterSuccess(userId, role)
+
+                Spacer(Modifier.height(8.dp))
+
+                TextButton(onClick = onNavigateToLogin) {
+                    Text("Já tem conta? Faça login")
+                }
+
+                Spacer(Modifier.height(16.dp))
+
+                when (uiState) {
+                    is AuthUiState.Idle -> Unit
+                    is AuthUiState.Loading -> CircularProgressIndicator()
+                    is AuthUiState.Error -> {
+                        val message = (uiState as AuthUiState.Error).message
+                        Text(message, color = Color.Red)
+                    }
+                    is AuthUiState.Success -> {
+                        val userId = (uiState as AuthUiState.Success).userId
+                        val role = (uiState as AuthUiState.Success).role
+                        LaunchedEffect(userId) {
+                            onRegisterSuccess(userId, role)
+                        }
                     }
                 }
             }
         }
     }
+
 }

@@ -62,43 +62,5 @@ fun AppNavGraph(navController: NavHostController) {
             LoggedInNavGraph(navController, role)
         }
 
-        composable(
-            route = Screen.Appointment.route,
-            arguments = listOf(
-                navArgument("patientId") { type = NavType.StringType },
-                navArgument("doctorId") { type = NavType.StringType }
-            )
-        ) { backStackEntry ->
-            val doctorId = backStackEntry.arguments?.getString("doctorId")
-            val patientId = backStackEntry.arguments?.getString("patientId")
-
-            if (doctorId != null && patientId != null) {
-                AppointmentScheduleScreen(
-                    navController = navController,
-                    doctorId = doctorId,
-                    patientId = patientId
-                )
-            }
-        }
-        composable(
-            route = Screen.ConfirmAppointment.route,
-            arguments = listOf(
-                navArgument("patientId") { type = NavType.StringType },
-                navArgument("doctorId") { type = NavType.StringType },
-                navArgument("dateTime") { type = NavType.StringType }
-            )
-        ) { backStackEntry ->
-            val patientId = backStackEntry.arguments?.getString("patientId")!!
-            val doctorId = backStackEntry.arguments?.getString("doctorId")!!
-            val dateTime = backStackEntry.arguments?.getString("dateTime")!!
-
-            ConfirmAppointmentScreen(
-                navController = navController,
-                doctorId = doctorId,
-                patientId = patientId,
-                dateTime = dateTime
-            )
-        }
-
     }
 }
