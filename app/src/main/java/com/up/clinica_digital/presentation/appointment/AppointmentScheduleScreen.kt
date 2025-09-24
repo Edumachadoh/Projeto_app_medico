@@ -18,16 +18,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.up.clinica_digital.presentation.appointment.components.CalendarTimeDatePicker
 import com.up.clinica_digital.presentation.appointment.components.DoctorInformation
 import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
 import com.up.clinica_digital.presentation.navigation.Screen
-import com.up.clinica_digital.ui.theme.ClinicaDigitalTheme
 
 @Composable
 fun AppointmentScheduleScreen(
@@ -97,18 +94,5 @@ fun AppointmentScheduleScreen(
                 }
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun AppointmentScheduleScreenPreview() {
-    ClinicaDigitalTheme {
-        val navController = rememberNavController()
-        AppointmentScheduleScreen(
-            navController = navController,
-            doctorId = "1",
-            patientId = "1"
-        )
     }
 }
