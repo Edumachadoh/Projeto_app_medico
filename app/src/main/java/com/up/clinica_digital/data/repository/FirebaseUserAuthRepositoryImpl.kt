@@ -12,21 +12,73 @@ class FirebaseUserAuthRepositoryImpl(
     private val firestore: FirebaseFirestore
 ) : UserAuthRepository {
 
-    override suspend fun login(email: String, password: String): LoginResult? = try {
-        val result = auth.signInWithEmailAndPassword(email, password).await()
-        val uid = result.user?.uid ?: return null
+    override suspend fun login(email: String, password: String): LoginResult? {
+        return try {
+            if (!isValidEmail(email.trim())) return null
 
-        val snapshot = firestore.collection("users")
-            .document(uid)
-            .get()
-            .await()
+            val doctorQuery = firestore.collection("doctors")
+                .whereEqualTo("email", email.trim())
+                .get()
+                .await()
 
-        val roleString = snapshot.getString("role") ?: return null
-        val role = UserRole.valueOf(roleString)
+            if (!doctorQuery.isEmpty) {
+                val doctorDoc = doctorQuery.documents[0]
+                val storedPassword = doctorDoc.getString("passwordHash")
 
-        LoginResult(userId = uid, role = role)
-    } catch (e: Exception) {
-        null
+                if (storedPassword == password) {
+                    val firebaseUid = signInOrCreateFirebaseUser(email.trim(), password)
+
+                    return if (firebaseUid != null) {
+                        LoginResult(userId = firebaseUid, role = UserRole.DOCTOR)
+                    } else {
+                        LoginResult(userId = doctorDoc.id, role = UserRole.DOCTOR)
+                    }
+                }
+            }
+
+            val patientQuery = firestore.collection("patients")
+                .whereEqualTo("email", email.trim())
+                .get()
+                .await()
+
+            if (!patientQuery.isEmpty) {
+                val patientDoc = patientQuery.documents[0]
+                val storedPassword = patientDoc.getString("passwordHash")
+
+                if (storedPassword == password) {
+                    val firebaseUid = signInOrCreateFirebaseUser(email.trim(), password)
+
+                    return if (firebaseUid != null) {
+                        LoginResult(userId = firebaseUid, role = UserRole.PATIENT)
+                    } else {
+                        LoginResult(userId = patientDoc.id, role = UserRole.PATIENT)
+                    }
+                }
+            }
+
+            null
+        } catch (e: Exception) {
+            println("Login error: ${e.message}")
+            null
+        }
+    }
+
+    private suspend fun signInOrCreateFirebaseUser(email: String, password: String): String? {
+        return try {
+            val result = auth.signInWithEmailAndPassword(email, password).await()
+            result.user?.uid
+        } catch (signInException: Exception) {
+            try {
+                val createResult = auth.createUserWithEmailAndPassword(email, password).await()
+                createResult.user?.uid
+            } catch (createException: Exception) {
+                null
+            }
+        }
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
     override suspend fun register(email: String, password: String): String? = try {
