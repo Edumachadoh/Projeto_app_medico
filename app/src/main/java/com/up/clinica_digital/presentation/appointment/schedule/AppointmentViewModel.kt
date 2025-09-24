@@ -1,4 +1,4 @@
-package com.up.clinica_digital.presentation.appointment
+package com.up.clinica_digital.presentation.appointment.schedule
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,4 +1,4 @@
-package com.up.clinica_digital.presentation.appointment
+package com.up.clinica_digital.presentation.appointment.schedule
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
