@@ -147,5 +147,13 @@ object UseCaseModule {
     @Provides @Singleton
     fun provideLoginUserUseCase(repo: UserAuthRepository) =
         LoginUserUseCase(repo)
+
+    @Provides @Singleton
+    fun provideLogoutUseCase(repo: UserAuthRepository) =
+        LogoutUseCase(repo)
+
+    @Provides @Singleton
+    fun provideGetCurrentUserIdUseCase(repo: UserAuthRepository) =
+        GetCurrentUserIdUseCase(repo)
     //endregion LOGIN
 }
