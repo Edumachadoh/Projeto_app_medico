@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun ConfirmAppointmentScreen(
     navController: NavHostController,
-    viewModel: AppointmentViewModel = hiltViewModel(),
+    viewModel: AppointmentScheduleViewModel = hiltViewModel(),
     doctorId: String,
     dateTime: String
 ) {

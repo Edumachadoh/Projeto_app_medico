@@ -21,7 +21,7 @@ import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
-class AppointmentViewModel @Inject constructor(
+class AppointmentScheduleViewModel @Inject constructor(
     private val appointmentScheduleUseCase: CreateEntityUseCase<Appointment>,
     private val getDoctorUseCase: GetEntityByIdUseCase<Doctor>,
     getCurrentUserIdUseCase: GetCurrentUserIdUseCase
@@ -82,12 +82,12 @@ class AppointmentViewModel @Inject constructor(
         }
     }
 
-    fun clearDateTime() {
-        _uiState.update { it.copy(selectedDateTime = null) }
-    }
-
-    fun confirmAppointment() {
-        _uiState.update { it.copy(isConfirmed = true) }
-    }
+//    fun clearDateTime() {
+//        _uiState.update { it.copy(selectedDateTime = null) }
+//    }
+//
+//    fun confirmAppointment() {
+//        _uiState.update { it.copy(isConfirmed = true) }
+//    }
 
 }

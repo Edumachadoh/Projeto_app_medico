@@ -28,7 +28,7 @@ import com.up.clinica_digital.presentation.navigation.Screen
 
 @Composable
 fun AppointmentScheduleScreen(
-    viewModel: AppointmentViewModel = hiltViewModel(),
+    viewModel: AppointmentScheduleViewModel = hiltViewModel(),
     navController: NavHostController,
     doctorId: String,
 ) {

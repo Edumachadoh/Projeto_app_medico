@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.up.clinica_digital.presentation.navigation.Screen
 
 @Composable
 fun ScheduledAppointmentsScreen(
@@ -62,7 +63,9 @@ fun ScheduledAppointmentsScreen(
                             val doctor = state.doctors[appointment.doctorId]
                             if (doctor != null) {
                                 Button(onClick = {
-                                    navController.navigate()
+                                    navController.navigate(
+                                        Screen.AppointmentDetails.createRoute(appointment.id)
+                                    )
                                 }) {
                                     AppointmentItem(appointment = appointment, doctor = doctor)
                                 }

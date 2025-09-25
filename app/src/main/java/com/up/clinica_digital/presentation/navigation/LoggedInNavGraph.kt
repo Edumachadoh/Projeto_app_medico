@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.up.clinica_digital.domain.model.UserRole
 import com.up.clinica_digital.presentation.appointment.agenda.ScheduledAppointmentsScreen
+import com.up.clinica_digital.presentation.appointment.details.AppointmentDetailsScreen
 import com.up.clinica_digital.presentation.appointment.schedule.AppointmentScheduleScreen
 import com.up.clinica_digital.presentation.appointment.schedule.ConfirmAppointmentScreen
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavConfig
@@ -120,6 +121,14 @@ fun LoggedInNavGraph(
                 ) {
                     ScheduledAppointmentsScreen(parentNavController)
                 }
+            }
+
+            //Detalhes consulta
+            composable(
+                route = Screen.AppointmentDetails.route,
+                arguments = listOf(navArgument("appointmentId") { type = NavType.StringType })
+            ) {
+                AppointmentDetailsScreen(navController = parentNavController)
             }
 
             //Perfil

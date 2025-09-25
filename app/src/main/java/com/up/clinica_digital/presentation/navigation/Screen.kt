@@ -10,8 +10,6 @@ sealed class Screen(val route: String) {
     object Home : Screen("home/{role}") {
         fun createRoute(role: UserRole) = "home/${role.name}"
     }
-
-    object DoctorsList : Screen("doctors_list_screen")
     object DoctorDetails : Screen("doctor_details/{doctorId}") {
         fun createRoute(doctorId: String): String{
             return "doctor_details/$doctorId"
@@ -22,10 +20,13 @@ sealed class Screen(val route: String) {
             return "appointment_schedule/$doctorId"
         }
     }
-
     object ConfirmAppointment : Screen("confirm_appointment/{doctorId}/{dateTime}") {
         fun createRoute( doctorId: String, dateTime: LocalDateTime): String {
             return "confirm_appointment/$doctorId/$dateTime"
         }
+    }
+
+    object AppointmentDetails : Screen("appointment_details/{appointmentId}") {
+        fun createRoute(appointmentId: String) = "appointment_details/$appointmentId"
     }
 }
