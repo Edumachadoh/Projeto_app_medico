@@ -50,10 +50,7 @@ fun DoctorDetailsScreen(
                     horizontalArrangement = Arrangement.Center){
                     Button(onClick = {
                 navController.navigate(
-                    Screen.Appointment.createRoute(
-                        "1",
-                        doctorId
-                    )
+                    Screen.Appointment.createRoute(doctorId)
                 )
                     })
                     {
