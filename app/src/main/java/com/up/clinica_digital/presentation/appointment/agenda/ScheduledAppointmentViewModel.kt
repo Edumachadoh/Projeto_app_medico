@@ -48,20 +48,23 @@ class ScheduledAppointmentViewModel @Inject constructor(
     }
 
     fun onSearchQueryChange(query: String) {
-        _searchQuery.value = query
-        filterAppointments(query)
+        viewModelScope.launch {
+            _searchQuery.value = query
+            filterAppointments(query)
+        }
     }
 
     private fun filterAppointments(query: String) {
-
-        val filteredList = if (query.isBlank()) {
-            allScheduledAppointments
-        } else {
-            allScheduledAppointments.filter { appointment ->
-                val doctor = getDoctorByIdUseCase.invoke(appointment.doctorId)
-                doctor?.name?.contains(query, ignoreCase = true) == true
+        viewModelScope.launch {
+            val filteredList = if (query.isBlank()) {
+                allScheduledAppointments
+            } else {
+                allScheduledAppointments.filter { appointment ->
+                    val doctor = getDoctorByIdUseCase.invoke(appointment.doctorId)
+                    doctor?.name?.contains(query, ignoreCase = true) == true
+                }
             }
+            _scheduledAppointmentUiState.update { ScheduledAppointmentUiState.Success(filteredList) }
         }
-        _scheduledAppointmentUiState.update { ScheduledAppointmentUiState.Success(filteredList) }
     }
 }
