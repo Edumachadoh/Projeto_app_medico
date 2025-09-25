@@ -25,6 +25,7 @@ import com.up.clinica_digital.presentation.doctor.DoctorsListScreen
 import com.up.clinica_digital.presentation.profile.ProfileScreen
 import com.up.clinica_digital.presentation.chat.ChatPatient
 import com.up.clinica_digital.presentation.doctors.DoctorDetailsScreen
+import com.up.clinica_digital.presentation.forum.ForumScreen
 
 
 @Composable
@@ -67,10 +68,10 @@ fun LoggedInNavGraph(
             //Detalhes Médico
             composable(
                 route = Screen.DoctorDetails.route,
-                arguments = listOf(navArgument("doctorId") {type = NavType.StringType})
-            ){ backStackEntry ->
+                arguments = listOf(navArgument("doctorId") { type = NavType.StringType })
+            ) { backStackEntry ->
                 val doctorId = backStackEntry.arguments?.getString("doctorId")
-                if(doctorId != null){
+                if (doctorId != null) {
                     DoctorDetailsScreen(
                         navController = bottomNavController,
                         doctorId = doctorId
@@ -78,7 +79,7 @@ fun LoggedInNavGraph(
                 }
             }
 
-            //Agendar Consulta
+            // Agendamento
             composable(
                 route = Screen.Appointment.route,
                 arguments = listOf(
@@ -87,12 +88,20 @@ fun LoggedInNavGraph(
             ) { backStackEntry ->
                 val doctorId = backStackEntry.arguments?.getString("doctorId")
 
-                if (doctorId != null ) {
+                if (doctorId != null) {
                     AppointmentScheduleScreen(
                         navController = parentNavController,
                         doctorId = doctorId
                     )
                 }
+            }
+
+            // Forum
+            composable(
+                route = Screen.Forum.route,
+
+                ) {
+                ForumScreen()
             }
 
             //Confirmar Agendamento Consulta
