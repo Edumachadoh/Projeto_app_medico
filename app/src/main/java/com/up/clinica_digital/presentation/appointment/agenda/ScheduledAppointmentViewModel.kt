@@ -21,7 +21,7 @@ class ScheduledAppointmentViewModel @Inject constructor(
     private val getDoctorByIdUseCase: GetEntityByIdUseCase<Doctor>
 ) : ViewModel() {
 
-    private var allScheduledAppointments = listOf<Appointment>()
+    var allScheduledAppointments = listOf<Appointment>()
 
     private val _scheduledAppointmentUiState = MutableStateFlow<ScheduledAppointmentUiState>(
         ScheduledAppointmentUiState.Idle)
@@ -29,6 +29,9 @@ class ScheduledAppointmentViewModel @Inject constructor(
 
     private val _searchQuery = mutableStateOf("")
     val searchQuery: State<String> = _searchQuery
+
+    private val _doctor = mutableStateOf<Doctor?>(null)
+    val doctor: State<Doctor?> = _doctor
 
     init {
         loadInitialAppointments()
@@ -65,6 +68,12 @@ class ScheduledAppointmentViewModel @Inject constructor(
                 }
             }
             _scheduledAppointmentUiState.update { ScheduledAppointmentUiState.Success(filteredList) }
+        }
+    }
+
+    fun getDoctorById(doctorId: String): Doctor {
+        viewModelScope.launch {
+            return@launch getDoctorByIdUseCase.invoke(doctorId)
         }
     }
 }
