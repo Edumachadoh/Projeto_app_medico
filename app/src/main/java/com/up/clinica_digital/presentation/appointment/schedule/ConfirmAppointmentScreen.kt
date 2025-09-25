@@ -21,7 +21,6 @@ fun ConfirmAppointmentScreen(
     navController: NavHostController,
     viewModel: AppointmentViewModel = hiltViewModel(),
     doctorId: String,
-    patientId: String,
     dateTime: String
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -106,7 +105,7 @@ fun ConfirmAppointmentScreen(
                             Text("Voltar")
                         }
                         Button(
-                            onClick = { viewModel.scheduleAppointment(patientId) },
+                            onClick = { viewModel.scheduleAppointment() },
                             modifier = Modifier.weight(1f)
                         ) {
                             Text("Agendar")

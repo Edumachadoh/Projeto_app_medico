@@ -76,18 +76,15 @@ fun LoggedInNavGraph(
             composable(
                 route = Screen.Appointment.route,
                 arguments = listOf(
-                    navArgument("patientId") { type = NavType.StringType },
                     navArgument("doctorId") { type = NavType.StringType }
                 )
             ) { backStackEntry ->
                 val doctorId = backStackEntry.arguments?.getString("doctorId")
-                val patientId = backStackEntry.arguments?.getString("patientId")
 
-                if (doctorId != null && patientId != null) {
+                if (doctorId != null ) {
                     AppointmentScheduleScreen(
                         navController = parentNavController,
-                        doctorId = doctorId,
-                        patientId = patientId
+                        doctorId = doctorId
                     )
                 }
             }
@@ -106,7 +103,6 @@ fun LoggedInNavGraph(
                 ConfirmAppointmentScreen(
                     navController = parentNavController,
                     doctorId = doctorId,
-                    patientId = patientId,
                     dateTime = dateTime
                 )
             }

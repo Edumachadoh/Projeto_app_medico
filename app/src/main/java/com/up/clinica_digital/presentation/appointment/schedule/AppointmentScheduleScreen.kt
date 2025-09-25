@@ -31,7 +31,6 @@ fun AppointmentScheduleScreen(
     viewModel: AppointmentViewModel = hiltViewModel(),
     navController: NavHostController,
     doctorId: String,
-    patientId: String
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -80,7 +79,6 @@ fun AppointmentScheduleScreen(
                             uiState.selectedDateTime?.let { dateTime ->
                                 navController.navigate(
                                     Screen.ConfirmAppointment.createRoute(
-                                        patientId = patientId,
                                         doctorId = doctorId,
                                         dateTime = dateTime
                                     )
