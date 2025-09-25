@@ -11,6 +11,7 @@ import com.up.clinica_digital.domain.usecase.appointment.ListByPatientUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,17 +22,14 @@ class ScheduledAppointmentViewModel @Inject constructor(
     private val getDoctorByIdUseCase: GetEntityByIdUseCase<Doctor>
 ) : ViewModel() {
 
-    var allScheduledAppointments = listOf<Appointment>()
-
-    private val _scheduledAppointmentUiState = MutableStateFlow<ScheduledAppointmentUiState>(
-        ScheduledAppointmentUiState.Idle)
-    val scheduledAppointmentUiState: StateFlow<ScheduledAppointmentUiState> = _scheduledAppointmentUiState
+    private val _uiState = MutableStateFlow<ScheduledAppointmentUiState>(ScheduledAppointmentUiState.Loading)
+    val uiState: StateFlow<ScheduledAppointmentUiState> = _uiState.asStateFlow()
 
     private val _searchQuery = mutableStateOf("")
     val searchQuery: State<String> = _searchQuery
 
-    private val _doctor = mutableStateOf<Doctor?>(null)
-    val doctor: State<Doctor?> = _doctor
+    private var allAppointments = listOf<Appointment>()
+    private val doctorsMap = mutableMapOf<String, Doctor>()
 
     init {
         loadInitialAppointments()
@@ -39,41 +37,48 @@ class ScheduledAppointmentViewModel @Inject constructor(
 
     private fun loadInitialAppointments() {
         viewModelScope.launch {
-            _scheduledAppointmentUiState.update { ScheduledAppointmentUiState.Loading }
+            _uiState.value = ScheduledAppointmentUiState.Loading
             try {
-                val appointments = getPatientScheduledAppointmentsUseCase.invoke("1")
-                allScheduledAppointments = appointments
-                _scheduledAppointmentUiState.update { ScheduledAppointmentUiState.Success(appointments) }
+                // Simula um ID de paciente. Substitua pelo ID do paciente logado.
+                val patientId = "p1"
+                allAppointments = getPatientScheduledAppointmentsUseCase.invoke(patientId)
+
+                // Busca os detalhes dos médicos de forma eficiente
+                allAppointments.map { it.doctorId }.distinct().forEach { doctorId ->
+                    if (!doctorsMap.containsKey(doctorId)) {
+                        getDoctorByIdUseCase.invoke(doctorId)?.let { doctor ->
+                            doctorsMap[doctorId] = doctor
+                        }
+                    }
+                }
+
+                _uiState.value = ScheduledAppointmentUiState.Success(
+                    scheduledAppointments = allAppointments,
+                    doctors = doctorsMap
+                )
             } catch (e: Exception) {
-                _scheduledAppointmentUiState.update { ScheduledAppointmentUiState.Error(e.message ?: "Erro desconhecido") }
+                _uiState.value = ScheduledAppointmentUiState.Error(e.message ?: "Erro desconhecido")
             }
         }
     }
 
     fun onSearchQueryChange(query: String) {
-        viewModelScope.launch {
-            _searchQuery.value = query
-            filterAppointments(query)
-        }
+        _searchQuery.value = query
+        filterAppointments(query)
     }
 
     private fun filterAppointments(query: String) {
-        viewModelScope.launch {
-            val filteredList = if (query.isBlank()) {
-                allScheduledAppointments
-            } else {
-                allScheduledAppointments.filter { appointment ->
-                    val doctor = getDoctorByIdUseCase.invoke(appointment.doctorId)
-                    doctor?.name?.contains(query, ignoreCase = true) == true
-                }
+        val filteredList = if (query.isBlank()) {
+            allAppointments
+        } else {
+            allAppointments.filter { appointment ->
+                val doctor = doctorsMap[appointment.doctorId]
+                doctor?.name?.contains(query, ignoreCase = true) == true
             }
-            _scheduledAppointmentUiState.update { ScheduledAppointmentUiState.Success(filteredList) }
         }
-    }
-
-    fun getDoctorById(doctorId: String): Doctor {
-        viewModelScope.launch {
-            return@launch getDoctorByIdUseCase.invoke(doctorId)
-        }
+        _uiState.value = ScheduledAppointmentUiState.Success(
+            scheduledAppointments = filteredList,
+            doctors = doctorsMap
+        )
     }
 }

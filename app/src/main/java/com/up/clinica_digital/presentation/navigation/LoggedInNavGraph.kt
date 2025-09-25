@@ -14,6 +14,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.up.clinica_digital.domain.model.UserRole
+import com.up.clinica_digital.presentation.appointment.agenda.ScheduledAppointmentsScreen
 import com.up.clinica_digital.presentation.appointment.schedule.AppointmentScheduleScreen
 import com.up.clinica_digital.presentation.appointment.schedule.ConfirmAppointmentScreen
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavConfig
@@ -55,12 +56,14 @@ fun LoggedInNavGraph(
             modifier = Modifier.padding(paddingValues)
         ) {
             // TODO: adicionar rotas para cada tela do app!
-            // Paciente
-            //...
+            // -------------------------------------Paciente-------------------------------------
+
+            //Lista de Médicos
             composable(BottomNavItem.Medicos.route) {
                 DoctorsListScreen(navController = bottomNavController)
             }
 
+            //Detalhes Médico
             composable(
                 route = Screen.DoctorDetails.route,
                 arguments = listOf(navArgument("doctorId") {type = NavType.StringType})
@@ -73,6 +76,8 @@ fun LoggedInNavGraph(
                     )
                 }
             }
+
+            //Agendar Consulta
             composable(
                 route = Screen.Appointment.route,
                 arguments = listOf(
@@ -88,15 +93,15 @@ fun LoggedInNavGraph(
                     )
                 }
             }
+
+            //Confirmar Agendamento Consulta
             composable(
                 route = Screen.ConfirmAppointment.route,
                 arguments = listOf(
-                    navArgument("patientId") { type = NavType.StringType },
                     navArgument("doctorId") { type = NavType.StringType },
                     navArgument("dateTime") { type = NavType.StringType }
                 )
             ) { backStackEntry ->
-                val patientId = backStackEntry.arguments?.getString("patientId")!!
                 val doctorId = backStackEntry.arguments?.getString("doctorId")!!
                 val dateTime = backStackEntry.arguments?.getString("dateTime")!!
 
@@ -106,14 +111,18 @@ fun LoggedInNavGraph(
                     dateTime = dateTime
                 )
             }
+
+            //Lista de Consultas
             composable(BottomNavItem.Consultas.route) {
                 androidx.compose.foundation.layout.Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = androidx.compose.ui.Alignment.Center
                 ) {
-                    androidx.compose.material3.Text("Consultas Screen")
+                    ScheduledAppointmentsScreen(parentNavController)
                 }
             }
+
+            //Perfil
             composable(BottomNavItem.Perfil.route) {
                 ProfileScreen(
                     userName = "Carlos Henrique",     //CAUE: até então não conectei nada com api ou algo o tipo...
@@ -123,12 +132,13 @@ fun LoggedInNavGraph(
                 )
             }
 
+            //Chat
             composable(BottomNavItem.Chat.route) {
                 ChatPatient(onBack = { parentNavController.popBackStack() })
             }
 
 
-            // Médico
+            // -------------------------------------Médico-------------------------------------
             composable(BottomNavItem.Agenda.route) {
                 androidx.compose.foundation.layout.Box(
                     modifier = Modifier.fillMaxSize(),

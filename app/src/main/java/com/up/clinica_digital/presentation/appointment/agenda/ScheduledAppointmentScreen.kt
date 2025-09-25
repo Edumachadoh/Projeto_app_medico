@@ -16,42 +16,21 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.up.clinica_digital.domain.model.Doctor
-
 
 @Composable
 fun ScheduledAppointmentsScreen(
     navController: NavController,
     viewModel: ScheduledAppointmentViewModel = hiltViewModel(),
-    onSelectAppointment: () -> Unit
 ) {
-    val uiState by viewModel.scheduledAppointmentUiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
-    when (uiState) {
-        is ScheduledAppointmentUiState.Idle -> Unit
-        is ScheduledAppointmentUiState.Loading -> CircularProgressIndicator()
-        is ScheduledAppointmentUiState.Error -> {
-            val message = (uiState as ScheduledAppointmentUiState.Error).message
-            Text(message, color = Color.Red)
-        }
-
-        is ScheduledAppointmentUiState.Success -> {
-            val successState = uiState as ScheduledAppointmentUiState.Success
-            LaunchedEffect(successState.scheduledAppointments) {
-                onSelectAppointment()
-            }
-        }
-    }
     Scaffold { paddingValues ->
         Column(
             modifier = Modifier
@@ -70,16 +49,28 @@ fun ScheduledAppointmentsScreen(
             Text("Consultas", style = MaterialTheme.typography.titleLarge)
             Spacer(Modifier.height(16.dp))
 
+            when (val state = uiState) {
+                is ScheduledAppointmentUiState.Loading -> CircularProgressIndicator()
+                is ScheduledAppointmentUiState.Error -> {
+                    Text(state.message, color = Color.Red)
+                }
+                is ScheduledAppointmentUiState.Success -> {
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        items(viewModel.allScheduledAppointments) { appointment ->
-                            Button(onClick = {}) {
-                                AppointmentItem(appointment = appointment, doctor = viewModel.getDoctorById(appointment.doctorId))
+                        items(state.scheduledAppointments) { appointment ->
+                            val doctor = state.doctors[appointment.doctorId]
+                            if (doctor != null) {
+                                Button(onClick = {
+                                    navController.navigate()
+                                }) {
+                                    AppointmentItem(appointment = appointment, doctor = doctor)
+                                }
                             }
                         }
                     }
                 }
+            }
         }
     }
 }
