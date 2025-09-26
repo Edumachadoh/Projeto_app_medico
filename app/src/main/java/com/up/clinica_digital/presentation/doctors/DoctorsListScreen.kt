@@ -62,7 +62,7 @@ fun DoctorsListScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(uiState.doctors) { doctor ->
-                        Button(onClick = {navController.navigate(Screen.DoctorDetails.createRoute(doctorId = doctor.id))}) {
+                        OutlinedButton(onClick = {navController.navigate(Screen.DoctorDetails.createRoute(doctorId = doctor.id))}) {
                             DoctorItem(doctor = doctor)
                         }
                     }
