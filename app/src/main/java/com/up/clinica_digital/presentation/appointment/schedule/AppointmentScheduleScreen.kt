@@ -1,4 +1,4 @@
-package com.up.clinica_digital.presentation.appointment
+package com.up.clinica_digital.presentation.appointment.schedule
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,10 +28,9 @@ import com.up.clinica_digital.presentation.navigation.Screen
 
 @Composable
 fun AppointmentScheduleScreen(
-    viewModel: AppointmentViewModel = hiltViewModel(),
+    viewModel: AppointmentScheduleViewModel = hiltViewModel(),
     navController: NavHostController,
     doctorId: String,
-    patientId: String
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -80,7 +79,6 @@ fun AppointmentScheduleScreen(
                             uiState.selectedDateTime?.let { dateTime ->
                                 navController.navigate(
                                     Screen.ConfirmAppointment.createRoute(
-                                        patientId = patientId,
                                         doctorId = doctorId,
                                         dateTime = dateTime
                                     )

@@ -1,5 +1,7 @@
-package com.up.clinica_digital.presentation.appointment
+package com.up.clinica_digital.presentation.appointment.schedule
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.up.clinica_digital.domain.model.Appointment
@@ -7,6 +9,7 @@ import com.up.clinica_digital.domain.model.AppointmentStatus
 import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.usecase.CreateEntityUseCase
 import com.up.clinica_digital.domain.usecase.GetEntityByIdUseCase
+import com.up.clinica_digital.domain.usecase.user.GetCurrentUserIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,13 +21,17 @@ import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
-class AppointmentViewModel @Inject constructor(
+class AppointmentScheduleViewModel @Inject constructor(
     private val appointmentScheduleUseCase: CreateEntityUseCase<Appointment>,
-    private val getDoctorUseCase: GetEntityByIdUseCase<Doctor>
+    private val getDoctorUseCase: GetEntityByIdUseCase<Doctor>,
+    getCurrentUserIdUseCase: GetCurrentUserIdUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AppointmentScheduleUiState())
     val uiState: StateFlow<AppointmentScheduleUiState> = _uiState.asStateFlow()
+
+    private val _userId = mutableStateOf(getCurrentUserIdUseCase.invoke().toString())
+    val userId: State<String> = _userId
 
     fun loadDoctor(doctorId: String) {
         viewModelScope.launch {
@@ -42,7 +49,7 @@ class AppointmentViewModel @Inject constructor(
         _uiState.update { it.copy(selectedDateTime = dateTime) }
     }
 
-    fun scheduleAppointment(patientId: String) {
+    fun scheduleAppointment() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             val currentState = _uiState.value
@@ -57,7 +64,7 @@ class AppointmentViewModel @Inject constructor(
             val appointment = Appointment(
                 id = UUID.randomUUID().toString(),
                 doctorId = doctor.id,
-                patientId = patientId, // Você precisará obter o ID do paciente logado
+                patientId = userId.value,
                 scheduledAt = selectedDateTime,
                 status = AppointmentStatus.SCHEDULED
             )
@@ -75,12 +82,12 @@ class AppointmentViewModel @Inject constructor(
         }
     }
 
-    fun clearDateTime() {
-        _uiState.update { it.copy(selectedDateTime = null) }
-    }
-
-    fun confirmAppointment() {
-        _uiState.update { it.copy(isConfirmed = true) }
-    }
+//    fun clearDateTime() {
+//        _uiState.update { it.copy(selectedDateTime = null) }
+//    }
+//
+//    fun confirmAppointment() {
+//        _uiState.update { it.copy(isConfirmed = true) }
+//    }
 
 }

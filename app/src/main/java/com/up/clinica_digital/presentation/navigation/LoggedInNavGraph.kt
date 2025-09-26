@@ -14,8 +14,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.up.clinica_digital.domain.model.UserRole
-import com.up.clinica_digital.presentation.appointment.AppointmentScheduleScreen
-import com.up.clinica_digital.presentation.appointment.ConfirmAppointmentScreen
+import com.up.clinica_digital.presentation.appointment.agenda.ScheduledAppointmentsScreen
+import com.up.clinica_digital.presentation.appointment.details.AppointmentDetailsScreen
+import com.up.clinica_digital.presentation.appointment.schedule.AppointmentScheduleScreen
+import com.up.clinica_digital.presentation.appointment.schedule.ConfirmAppointmentScreen
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavConfig
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavItem
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavigationBar
@@ -23,6 +25,7 @@ import com.up.clinica_digital.presentation.doctor.DoctorsListScreen
 import com.up.clinica_digital.presentation.profile.ProfileScreen
 import com.up.clinica_digital.presentation.chat.ChatPatient
 import com.up.clinica_digital.presentation.doctors.DoctorDetailsScreen
+//import com.up.clinica_digital.presentation.forum.ForumScreen
 
 
 @Composable
@@ -55,69 +58,89 @@ fun LoggedInNavGraph(
             modifier = Modifier.padding(paddingValues)
         ) {
             // TODO: adicionar rotas para cada tela do app!
-            // Paciente
-            //...
+            // -------------------------------------Paciente-------------------------------------
+
+            //Lista de Médicos
             composable(BottomNavItem.Medicos.route) {
                 DoctorsListScreen(navController = bottomNavController)
             }
 
+            //Detalhes Médico
             composable(
                 route = Screen.DoctorDetails.route,
-                arguments = listOf(navArgument("doctorId") {type = NavType.StringType})
-            ){ backStackEntry ->
+                arguments = listOf(navArgument("doctorId") { type = NavType.StringType })
+            ) { backStackEntry ->
                 val doctorId = backStackEntry.arguments?.getString("doctorId")
-                if(doctorId != null){
+                if (doctorId != null) {
                     DoctorDetailsScreen(
                         navController = bottomNavController,
                         doctorId = doctorId
                     )
                 }
             }
+
+            // Agendamento
             composable(
                 route = Screen.Appointment.route,
                 arguments = listOf(
-                    navArgument("patientId") { type = NavType.StringType },
                     navArgument("doctorId") { type = NavType.StringType }
                 )
             ) { backStackEntry ->
                 val doctorId = backStackEntry.arguments?.getString("doctorId")
-                val patientId = backStackEntry.arguments?.getString("patientId")
 
-                if (doctorId != null && patientId != null) {
+                if (doctorId != null) {
                     AppointmentScheduleScreen(
                         navController = parentNavController,
-                        doctorId = doctorId,
-                        patientId = patientId
+                        doctorId = doctorId
                     )
                 }
             }
+
+            // Forum
+            composable(
+                route = Screen.Forum.route,
+
+                ) {
+                //ForumScreen()
+            }
+
+            //Confirmar Agendamento Consulta
             composable(
                 route = Screen.ConfirmAppointment.route,
                 arguments = listOf(
-                    navArgument("patientId") { type = NavType.StringType },
                     navArgument("doctorId") { type = NavType.StringType },
                     navArgument("dateTime") { type = NavType.StringType }
                 )
             ) { backStackEntry ->
-                val patientId = backStackEntry.arguments?.getString("patientId")!!
                 val doctorId = backStackEntry.arguments?.getString("doctorId")!!
                 val dateTime = backStackEntry.arguments?.getString("dateTime")!!
 
                 ConfirmAppointmentScreen(
                     navController = parentNavController,
                     doctorId = doctorId,
-                    patientId = patientId,
                     dateTime = dateTime
                 )
             }
+
+            //Lista de Consultas
             composable(BottomNavItem.Consultas.route) {
                 androidx.compose.foundation.layout.Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = androidx.compose.ui.Alignment.Center
                 ) {
-                    androidx.compose.material3.Text("Consultas Screen")
+                    ScheduledAppointmentsScreen(parentNavController)
                 }
             }
+
+            //Detalhes consulta
+            composable(
+                route = Screen.AppointmentDetails.route,
+                arguments = listOf(navArgument("appointmentId") { type = NavType.StringType })
+            ) {
+                AppointmentDetailsScreen(navController = parentNavController)
+            }
+
+            //Perfil
             composable(BottomNavItem.Perfil.route) {
                 ProfileScreen(
                     userName = "Carlos Henrique",     //CAUE: até então não conectei nada com api ou algo o tipo...
@@ -127,12 +150,13 @@ fun LoggedInNavGraph(
                 )
             }
 
+            //Chat
             composable(BottomNavItem.Chat.route) {
                 ChatPatient(onBack = { parentNavController.popBackStack() })
             }
 
 
-            // Médico
+            // -------------------------------------Médico-------------------------------------
             composable(BottomNavItem.Agenda.route) {
                 androidx.compose.foundation.layout.Box(
                     modifier = Modifier.fillMaxSize(),

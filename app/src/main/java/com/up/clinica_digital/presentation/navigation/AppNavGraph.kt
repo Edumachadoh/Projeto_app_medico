@@ -4,14 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.up.clinica_digital.presentation.appointment.AppointmentScheduleScreen
 import com.up.clinica_digital.presentation.auth.LoginScreen
 import com.up.clinica_digital.presentation.auth.RegisterScreen
 import com.up.clinica_digital.presentation.home.InitialScreen
 import com.up.clinica_digital.domain.model.UserRole
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import com.up.clinica_digital.presentation.appointment.ConfirmAppointmentScreen
 
 @Composable
 fun AppNavGraph(navController: NavHostController) {

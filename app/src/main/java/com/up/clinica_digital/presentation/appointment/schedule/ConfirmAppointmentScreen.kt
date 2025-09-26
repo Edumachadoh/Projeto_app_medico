@@ -1,4 +1,4 @@
-package com.up.clinica_digital.presentation.appointment
+package com.up.clinica_digital.presentation.appointment.schedule
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -19,9 +19,8 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun ConfirmAppointmentScreen(
     navController: NavHostController,
-    viewModel: AppointmentViewModel = hiltViewModel(),
+    viewModel: AppointmentScheduleViewModel = hiltViewModel(),
     doctorId: String,
-    patientId: String,
     dateTime: String
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -106,7 +105,7 @@ fun ConfirmAppointmentScreen(
                             Text("Voltar")
                         }
                         Button(
-                            onClick = { viewModel.scheduleAppointment(patientId) },
+                            onClick = { viewModel.scheduleAppointment() },
                             modifier = Modifier.weight(1f)
                         ) {
                             Text("Agendar")

@@ -1,4 +1,4 @@
-package com.up.clinica_digital.presentation.appointment
+package com.up.clinica_digital.presentation.appointment.schedule
 
 import com.up.clinica_digital.domain.model.Doctor
 import java.time.LocalDateTime

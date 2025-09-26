@@ -21,11 +21,11 @@ class DoctorsViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     private val allDoctors = listOf(
-        Doctor("1", "Dr. Dracula", "dracula@email.com", "111", "", "123456", "654321", "Hematologia", "SP"),
-        Doctor("2", "Dr. Frankenstein", "frank@email.com", "222", "", "654321", "123456", "Clínica Geral", "SP"),
-        Doctor("3", "Dr. Jekyll", "jekyll@email.com", "333", "", "987654", "456789", "Psiquiatria", "RJ"),
-        Doctor("4", "Dr. House", "house@email.com", "444", "", "112233", "332211", "Nefrologia", "SP"),
-        Doctor("5", "Dr. Estranho", "strange@email.com", "555", "", "554433", "334455", "Neurocirurgia", "EUA")
+        Doctor("1", "Dr. Saturnino", "saturnino@email.com", "111", "", "123456", "654321", "Cirurgia Bariátrica", "SP"),
+        Doctor("2", "Dr. Drauzio", "drauzio@email.com", "222", "", "654321", "123456", "Oncologia", "SP"),
+        Doctor("3", "Dra. Gabriele", "bi@email.com", "333", "", "987654", "456789", "Cirurgia Plástica", "RJ"),
+        Doctor("4", "Dr. Luis", "luis@email.com", "444", "", "112233", "332211", "Clínica Geral", "SP"),
+        Doctor("5", "Dr. Gregory", "gregory@email.com", "555", "", "554433", "334455", "Nefrologia", "EUA")
     )
 
     init {
@@ -56,12 +56,16 @@ class DoctorsViewModel @Inject constructor(
     fun loadDoctor(doctorId: String) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            try {
+            /*try {
                 val doctor = getDoctorUseCase.invoke(doctorId)
                 _uiState.update { it.copy(doctor = doctor, isLoading = false) }
             } catch (e: Exception) {
                 _uiState.update { it.copy(error = e.message ?: "Erro desconhecido", isLoading = false) }
-            }
+            }*/
+
+            val doctor = allDoctors.find { it.id == doctorId }
+
+            _uiState.update { it.copy(isLoading = false, doctor = doctor) }
         }
     }
 

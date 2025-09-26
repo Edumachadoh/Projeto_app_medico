@@ -7,7 +7,7 @@ object BottomNavConfig {
         return when (role) {
             UserRole.PATIENT -> listOf(
                 BottomNavItem.Medicos,
-                BottomNavItem.Agendar,
+                BottomNavItem.Forum,
                 BottomNavItem.Consultas,
                 BottomNavItem.Perfil,
                 BottomNavItem.Chat
