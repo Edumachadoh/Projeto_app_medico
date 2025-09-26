@@ -25,7 +25,6 @@ import com.up.clinica_digital.presentation.doctor.DoctorsListScreen
 import com.up.clinica_digital.presentation.profile.ProfileScreen
 import com.up.clinica_digital.presentation.chat.ChatPatient
 import com.up.clinica_digital.presentation.doctors.DoctorDetailsScreen
-import com.up.clinica_digital.presentation.forum.ForumScreen
 
 
 @Composable
@@ -97,12 +96,12 @@ fun LoggedInNavGraph(
             }
 
             // Forum
-            composable(
-                route = Screen.Forum.route,
-
-                ) {
-                ForumScreen()
-            }
+//            composable(
+//                route = Screen.Forum.route,
+//
+//                ) {
+//                ForumScreen()
+//            }
 
             //Confirmar Agendamento Consulta
             composable(

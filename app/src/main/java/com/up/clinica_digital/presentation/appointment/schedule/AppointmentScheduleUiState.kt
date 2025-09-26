@@ -5,9 +5,8 @@ import java.time.LocalDateTime
 
 data class AppointmentScheduleUiState(
     val doctor: Doctor? = null,
-    var selectedDateTime: LocalDateTime? = null,
+    val selectedDateTime: LocalDateTime? = null,
     val isLoading: Boolean = false,
     val error: String? = null,
-    val appointmentScheduled: Boolean = false,
-    var isConfirmed: Boolean = false
+    val appointmentScheduled: Boolean = false
 )

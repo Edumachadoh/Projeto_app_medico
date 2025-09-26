@@ -1,20 +1,9 @@
 package com.up.clinica_digital.presentation.appointment.schedule
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -48,13 +37,15 @@ fun AppointmentScheduleScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
                 .padding(20.dp),
-            verticalArrangement = Arrangement.Top
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = "Agendamento",
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.align(Alignment.Start)
             )
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -64,6 +55,16 @@ fun AppointmentScheduleScreen(
                 Text(text = "Erro: ${uiState.error}", color = Color.Red)
             } else if (uiState.appointmentScheduled) {
                 Text("Consulta agendada com sucesso!")
+                Button(onClick = {
+                    // Navega para a tela de consultas e limpa a pilha de volta
+                    navController.navigate(Screen.Home.createRoute(com.up.clinica_digital.domain.model.UserRole.PATIENT)) {
+                        popUpTo(Screen.Home.createRoute(com.up.clinica_digital.domain.model.UserRole.PATIENT)) {
+                            inclusive = true
+                        }
+                    }
+                }) {
+                    Text("Ver minhas consultas")
+                }
             } else {
                 uiState.doctor?.let { doctor ->
                     DoctorInformation(doctor)
@@ -76,19 +77,14 @@ fun AppointmentScheduleScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(
                         onClick = {
-                            uiState.selectedDateTime?.let { dateTime ->
-                                navController.navigate(
-                                    Screen.ConfirmAppointment.createRoute(
-                                        doctorId = doctorId,
-                                        dateTime = dateTime
-                                    )
-                                )
-                            }
+                            viewModel.scheduleAppointment(doctorId)
                         },
                         enabled = uiState.selectedDateTime != null
                     ) {
                         Text("Agendar")
                     }
+                } ?: run {
+                    Text("Médico não encontrado.")
                 }
             }
         }
