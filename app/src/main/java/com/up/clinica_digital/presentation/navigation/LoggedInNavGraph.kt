@@ -142,9 +142,7 @@ fun LoggedInNavGraph(
             //Perfil
             composable(BottomNavItem.Perfil.route) {
                 ProfileScreen(
-                    userName = "Carlos Henrique",     //CAUE: até então não conectei nada com api ou algo o tipo...
-                    userEmail = "carlos@email.com",
-                    userCPF = "CPF: 10010010010",
+                    userRole = userRole,
                     onEditProfile = {}
                 )
             }
