@@ -4,16 +4,17 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.model.Patient
 import com.up.clinica_digital.domain.model.User
 import com.up.clinica_digital.domain.model.UserRole
 import com.up.clinica_digital.domain.usecase.GetEntityByIdUseCase
 import com.up.clinica_digital.domain.usecase.user.GetCurrentUserIdUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val getPatientByIdUseCase: GetEntityByIdUseCase<Patient>,
     private val getDoctorByIdUseCase: GetEntityByIdUseCase<Doctor>,
@@ -34,8 +35,8 @@ class ProfileViewModel @Inject constructor(
 
             try{
                 val  user: User? = when(userRole){
-                    UserRole.PATIENT -> getDoctorByIdUseCase.invoke(userId)
-                    UserRole.DOCTOR -> getPatientByIdUseCase.invoke(userId)
+                    UserRole.PATIENT -> getPatientByIdUseCase.invoke(userId)
+                    UserRole.DOCTOR -> getDoctorByIdUseCase.invoke(userId)
                 }
 
                 if (user != null){
