@@ -79,7 +79,7 @@ class AppointmentAgendaViewModel @Inject constructor(
             allAppointments
         } else {
             allAppointments.filter { appointment ->
-                val patient = patientMap[appointment.doctorId]
+                val patient = patientMap[appointment.patientId]
                 patient?.name?.contains(query, ignoreCase = true) == true
             }
         }
