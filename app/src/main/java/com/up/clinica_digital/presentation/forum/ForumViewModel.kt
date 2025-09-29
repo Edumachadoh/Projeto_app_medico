@@ -1,7 +1,5 @@
 package com.up.clinica_digital.presentation.forum
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.up.clinica_digital.domain.model.ForumComment
@@ -20,11 +18,12 @@ class ForumViewModel @Inject constructor() : ViewModel() {
 
     private val _uiState = MutableStateFlow<ForumUiState>(ForumUiState.Loading)
     val uiState: StateFlow<ForumUiState> = _uiState.asStateFlow()
-    
-    private val _topicUiState = mutableStateOf<TopicUiState>(TopicUiState.Idle)
-    val topicUiState: State<TopicUiState> = _topicUiState
-    private val _searchQuery = mutableStateOf("")
-    val searchQuery: State<String> = _searchQuery
+
+    private val _topicUiState = MutableStateFlow<TopicUiState>(TopicUiState.Loading)
+    val topicUiState: StateFlow<TopicUiState> = _topicUiState.asStateFlow()
+
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
     private var allTopics = listOf<ForumTopic>()
 
@@ -110,8 +109,15 @@ class ForumViewModel @Inject constructor() : ViewModel() {
         _uiState.value = ForumUiState.Success(filteredList)
     }
 
-    fun loadTopic(topicId: String){
+    fun loadTopic(topicId: String) {
         viewModelScope.launch {
+            _topicUiState.value = TopicUiState.Loading
+            val topic = allTopics.find { it.id == topicId }
+            if (topic != null) {
+                _topicUiState.value = TopicUiState.Success(topic)
+            } else {
+                _topicUiState.value = TopicUiState.Error("Tópico não encontrado")
+            }
         }
     }
 }

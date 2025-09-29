@@ -1,6 +1,5 @@
 package com.up.clinica_digital.presentation.forum
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -8,13 +7,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -25,37 +23,44 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
-import com.up.clinica_digital.presentation.navigation.Screen
 import java.time.format.DateTimeFormatter
 
 @Composable
 fun TopicItemScreen(
     viewModel: ForumViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
+    topicId: String?
 ) {
-    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+    LaunchedEffect(topicId) {
+        if (topicId != null) {
+            viewModel.loadTopic(topicId)
+        }
+    }
 
-    val uiState by viewModel.uiState.collectAsState()
+    val topicUiState by viewModel.topicUiState.collectAsState()
 
-    when (val state = uiState) {
-        is ForumUiState.Loading -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+    Scaffold(
+        modifier = Modifier.fillMaxWidth(),
+        topBar = { TopNavigationBar(navController) }
+    ) { paddingValues ->
+        when (val state = topicUiState) {
+            is TopicUiState.Loading -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
             }
-        }
 
-        is ForumUiState.Error -> {
-            Text(state.message, color = Color.Red)
-        }
+            is TopicUiState.Error -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text(state.message, color = Color.Red)
+                }
+            }
 
-        is ForumUiState.Success -> {
+            is TopicUiState.Success -> {
+                val topic = state.topic
+                val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
 
-            // Lista de Tópicos
-            Scaffold(
-                modifier = Modifier.fillMaxWidth(),
-                topBar = { TopNavigationBar(navController) }
-            ) { paddingValues ->
-                Column(modifier = Modifier.padding(16.dp). padding(paddingValues)) {
+                Column(modifier = Modifier.padding(16.dp).padding(paddingValues)) {
                     Text(
                         text = topic.title,
                         style = MaterialTheme.typography.titleLarge,
@@ -74,21 +79,33 @@ fun TopicItemScreen(
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
                             text = "Comentários (${topic.comments.size})",
-                            style = MaterialTheme.typography.titleSmall,
+                            style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         topic.comments.forEach { comment ->
-                            Text(
-                                text = "${comment.authorId}: ${comment.content}",
-                                style = MaterialTheme.typography.bodySmall
-                            )
-                            Spacer(modifier = Modifier.height(4.dp))
+                            Column(modifier = Modifier.padding(vertical = 4.dp)) {
+                                Text(
+                                    text = "${comment.authorId}:",
+                                    fontWeight = FontWeight.Bold,
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                                Text(
+                                    text = comment.content,
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            }
                         }
                     }
                 }
             }
+
+            is TopicUiState.Idle -> {
+                // Estado inicial, pode mostrar um indicador de carregamento ou nada
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
+            }
         }
     }
-
 }

@@ -24,6 +24,7 @@ fun ForumScreen(
     navController: NavController
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val searchQuery by viewModel.searchQuery.collectAsState()
 
     Scaffold { paddingValues ->
         Column(
@@ -34,7 +35,7 @@ fun ForumScreen(
         ) {
             // Campo de busca
             OutlinedTextField(
-                value = viewModel.searchQuery.value,
+                value = searchQuery,
                 onValueChange = { viewModel.onSearchQueryChange(it) },
                 label = { Text("Buscar no Fórum") },
                 modifier = Modifier.fillMaxWidth()
@@ -74,4 +75,3 @@ fun ForumScreen(
         }
     }
 }
-

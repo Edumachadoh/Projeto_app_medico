@@ -164,18 +164,20 @@ fun LoggedInNavGraph(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    ForumScreen(navController = parentNavController)
+                    ForumScreen(navController = bottomNavController)
                 }
             }
             composable(
                 route = Screen.TopicItem.route,
                 arguments = listOf(navArgument("topicItemId") {type = NavType.StringType})
-            ) {
+            ) { backStackEntry ->
+                val topicId = backStackEntry.arguments?.getString("topicItemId")
                 TopicItemScreen(
-                    viewModel = TODO(),
-                    navController = parentNavController
+                    navController = bottomNavController,
+                    topicId = topicId
                 )
             }
+
         }
     }
 }
