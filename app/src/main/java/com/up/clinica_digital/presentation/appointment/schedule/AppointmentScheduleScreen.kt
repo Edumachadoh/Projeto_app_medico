@@ -1,6 +1,8 @@
 package com.up.clinica_digital.presentation.appointment.schedule
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -14,6 +16,7 @@ import com.up.clinica_digital.presentation.appointment.components.CalendarTimeDa
 import com.up.clinica_digital.presentation.appointment.components.DoctorInformation
 import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
 import com.up.clinica_digital.presentation.navigation.Screen
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun AppointmentScheduleScreen(
@@ -22,6 +25,7 @@ fun AppointmentScheduleScreen(
     doctorId: String,
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val formatter = DateTimeFormatter.ofPattern("HH:mm")
 
     LaunchedEffect(key1 = doctorId) {
         viewModel.loadDoctor(doctorId)
@@ -36,7 +40,8 @@ fun AppointmentScheduleScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(20.dp),
+                .padding(20.dp)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -74,10 +79,11 @@ fun AppointmentScheduleScreen(
                             viewModel.onDateTimeSelected(dateTime)
                         }
                     )
+                    Text(text = "Horário Selecionado: ${uiState.selectedDateTime?.format(formatter)}")
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(
                         onClick = {
-
+                            navController.navigate(Screen.ConfirmAppointment.createRoute(doctorId = uiState.doctor!!.id, dateTime = uiState.selectedDateTime))
                         },
                         enabled = uiState.selectedDateTime != null
                     ) {

@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.up.clinica_digital.presentation.appointment.components.DoctorInformation
+import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavItem
 import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -99,7 +100,7 @@ fun ConfirmAppointmentScreen(
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         OutlinedButton(
-                            onClick = { navController.popBackStack() },
+                            onClick = { navController.navigate(BottomNavItem.Medicos.route) },
                             modifier = Modifier.weight(1f)
                         ) {
                             Text("Voltar")
