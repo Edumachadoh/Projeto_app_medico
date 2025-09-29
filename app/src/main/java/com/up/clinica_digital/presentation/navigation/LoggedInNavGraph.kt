@@ -112,7 +112,7 @@ fun LoggedInNavGraph(
                 val dateTime = backStackEntry.arguments?.getString("dateTime")!!
 
                 ConfirmAppointmentScreen(
-                    navController = parentNavController,
+                    navController = bottomNavController,
                     doctorId = doctorId,
                     dateTime = dateTime
                 )

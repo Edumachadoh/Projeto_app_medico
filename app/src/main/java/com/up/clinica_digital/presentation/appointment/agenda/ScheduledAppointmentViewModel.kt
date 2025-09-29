@@ -8,18 +8,19 @@ import com.up.clinica_digital.domain.model.Appointment
 import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.usecase.GetEntityByIdUseCase
 import com.up.clinica_digital.domain.usecase.appointment.ListByPatientUseCase
+import com.up.clinica_digital.domain.usecase.user.GetCurrentUserIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ScheduledAppointmentViewModel @Inject constructor(
     private val getPatientScheduledAppointmentsUseCase: ListByPatientUseCase,
-    private val getDoctorByIdUseCase: GetEntityByIdUseCase<Doctor>
+    private val getDoctorByIdUseCase: GetEntityByIdUseCase<Doctor>,
+    private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<ScheduledAppointmentUiState>(ScheduledAppointmentUiState.Loading)
@@ -39,8 +40,13 @@ class ScheduledAppointmentViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = ScheduledAppointmentUiState.Loading
             try {
-                // Simula um ID de paciente. Substitua pelo ID do paciente logado.
-                val patientId = "p1"
+                val patientId = getCurrentUserIdUseCase.invoke()
+
+                if (patientId == null) {
+                    _uiState.value = ScheduledAppointmentUiState.Error("Usuário não autenticado")
+                    return@launch
+                }
+
                 allAppointments = getPatientScheduledAppointmentsUseCase.invoke(patientId)
 
                 // Busca os detalhes dos médicos de forma eficiente

@@ -44,7 +44,8 @@ fun AppointmentDetailsScreen(
                     ) {
                         AppointmentItem(
                             appointment = state.appointment,
-                            doctor = state.doctor
+                            doctor = state.doctor,
+                            onAppointmentClick = {}
                         )
                         Spacer(modifier = Modifier.height(32.dp))
 

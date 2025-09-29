@@ -55,27 +55,28 @@ fun ScheduledAppointmentsScreen(
                 is ScheduledAppointmentUiState.Error -> {
                     Text(state.message, color = Color.Red)
                 }
+
                 is ScheduledAppointmentUiState.Success -> {
-                    if(state.scheduledAppointments.isNotEmpty()) {
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
+                    if (state.scheduledAppointments.isNotEmpty()) {
+                        LazyColumn(
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
 
                             items(state.scheduledAppointments) { appointment ->
                                 val doctor = state.doctors[appointment.doctorId]
                                 if (doctor != null) {
-                                    Button(onClick = {
-                                        navController.navigate(
-                                            Screen.AppointmentDetails.createRoute(appointment.id)
-                                        )
-                                    }) {
-                                        AppointmentItem(appointment = appointment, doctor = doctor)
-                                    }
+                                    AppointmentItem(
+                                        appointment = appointment, doctor = doctor,
+                                        onAppointmentClick = {
+                                            navController.navigate(
+                                                Screen.AppointmentDetails.createRoute(appointment.id)
+                                            )
+                                        }
+                                    )
                                 }
+
                             }
                         }
-                    }else{
-                        Text(text = "Nenhum agendamento encontrado")
                     }
                 }
             }

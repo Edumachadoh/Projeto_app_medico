@@ -16,21 +16,21 @@ import com.up.clinica_digital.ui.theme.ClinicaDigitalTheme
 
 @Composable
 fun DoctorInformation(
-    doctorInfo: Doctor
+    doctor: Doctor
 ) {
         Column {
             Text(
-                text = doctorInfo.name,
+                text = doctor.name,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary
             )
             Text(
-                text = "CRM: ${doctorInfo.crm} | RQE: ${doctorInfo.rqe}",
+                text = "CRM: ${doctor.crm} | RQE: ${doctor.rqe}",
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary
             )
             Text(
-                text = doctorInfo.specialization,
+                text = doctor.specialization,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary
             )
