@@ -2,63 +2,61 @@ package com.up.clinica_digital.presentation.appointment.schedule
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.up.clinica_digital.presentation.appointment.components.DoctorInformation
+import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavItem
 import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 @Composable
 fun ConfirmAppointmentScreen(
+    scheduleViewModel: AppointmentScheduleViewModel = hiltViewModel(),
+    confirmViewModel: ConfirmAppointmentViewModel = hiltViewModel(),
     navController: NavHostController,
-    viewModel: AppointmentScheduleViewModel = hiltViewModel(),
     doctorId: String,
     dateTime: String
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val scheduleUiState by scheduleViewModel.uiState.collectAsState()
+    val confirmUiState by confirmViewModel.uiState.collectAsState()
     val parsedDateTime = LocalDateTime.parse(dateTime)
 
-    LaunchedEffect(key1 = doctorId, key2 = parsedDateTime) {
-        viewModel.loadDoctor(doctorId)
-        viewModel.onDateTimeSelected(parsedDateTime)
+    LaunchedEffect(key1 = doctorId) {
+        scheduleViewModel.loadDoctor(doctorId)
     }
 
     Scaffold(
-        topBar = { TopNavigationBar(navController = navController) }
+        topBar = {
+            TopNavigationBar(navController)
+        }
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = 24.dp, vertical = 16.dp)
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            Text(
-                text = "Confirmar Agendamento",
-                style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-
             when {
-                uiState.isLoading -> {
+                confirmUiState.isLoading || scheduleUiState.isLoading -> {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator()
                     }
                 }
-                uiState.error != null -> {
-                    Text(text = "Erro: ${uiState.error}", color = Color.Red)
-                }
-                uiState.appointmentScheduled -> {
+                confirmUiState.error != null -> Text("Erro: ${confirmUiState.error}", color = Color.Red)
+                scheduleUiState.error != null -> Text("Erro: ${scheduleUiState.error}", color = Color.Red)
+                confirmUiState.appointmentScheduled -> {
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -66,51 +64,53 @@ fun ConfirmAppointmentScreen(
                     ) {
                         Text("Consulta agendada com sucesso!", style = MaterialTheme.typography.titleLarge)
                         Spacer(modifier = Modifier.height(16.dp))
-                        Button(onClick = { navController.popBackStack() }) { // Ou navegar para a tela de "Minhas Consultas"
-                            Text("Voltar")
+                        Button(onClick = {
+                            navController.navigate(BottomNavItem.Consultas.route) {
+                                popUpTo(BottomNavItem.Medicos.route)
+                            }
+                        }) {
+                            Text("Ver Minhas Consultas")
                         }
                     }
                 }
-                uiState.doctor != null -> {
-                    Column(modifier = Modifier.weight(1f)) {
-                        DoctorInformation(doctorInfo = uiState.doctor!!)
+                else -> {
+                    Text(
+                        text = "Confirmar Agendamento",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(bottom = 32.dp)
+                    )
+                    scheduleUiState.doctor?.let { doctor ->
+                        DoctorInformation(doctor = doctor)
+                        Spacer(modifier = Modifier.height(24.dp))
+                        Text(
+                            text = "Data e Hora:",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = parsedDateTime.format(
+                                DateTimeFormatter.ofLocalizedDateTime(
+                                    FormatStyle.FULL,
+                                    FormatStyle.SHORT
+                                )
+                            ),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
                         Spacer(modifier = Modifier.height(32.dp))
-
-                        // Exibe a data e hora formatadas
-                        val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-                        val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
-
-                        Text(
-                            text = "Data: ${parsedDateTime.format(dateFormatter)}",
-                            style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = "Hora: ${parsedDateTime.format(timeFormatter)}",
-                            style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
-                        )
-                    }
-
-                    // Botões na parte inferior
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
-                        OutlinedButton(
-                            onClick = { navController.popBackStack() },
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text("Voltar")
-                        }
                         Button(
-                            onClick = { viewModel.scheduleAppointment(doctorId) },
-                            modifier = Modifier.weight(1f)
+                            onClick = {
+                                confirmViewModel.scheduleAppointment(
+                                    doctorId = doctorId,
+                                    dateTime = parsedDateTime
+                                )
+                            },
+                            modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text("Agendar")
+                            Text("Confirmar")
                         }
-                    }
+                    } ?: Text("Médico não encontrado.")
                 }
             }
         }

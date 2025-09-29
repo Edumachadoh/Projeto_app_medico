@@ -30,8 +30,17 @@ sealed class Screen(val route: String) {
         fun createRoute(appointmentId: String) = "appointment_details/$appointmentId"
     }
 
+    object AgendaDetails : Screen("agenda_details/{appointmentId}") {
+        fun createRoute(appointmentId: String) = "agenda_details/$appointmentId"
+    }
+
     object TopicItem : Screen("forum_item/{topicItemId}"){
         fun createRoute(topicItemId: String) = "forum_item/$topicItemId"
     }
+
+    // termos de uso
+    // object TermsOfUse : Screen("terms_of_use")
+
+
 
 }

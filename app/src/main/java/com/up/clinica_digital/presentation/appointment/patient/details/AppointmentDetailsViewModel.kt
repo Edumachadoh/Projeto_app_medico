@@ -1,4 +1,4 @@
-package com.up.clinica_digital.presentation.appointment.details
+package com.up.clinica_digital.presentation.appointment.patient.details
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

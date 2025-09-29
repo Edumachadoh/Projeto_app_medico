@@ -1,8 +1,14 @@
 package com.up.clinica_digital.presentation.appointment.schedule
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -14,6 +20,7 @@ import com.up.clinica_digital.presentation.appointment.components.CalendarTimeDa
 import com.up.clinica_digital.presentation.appointment.components.DoctorInformation
 import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
 import com.up.clinica_digital.presentation.navigation.Screen
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun AppointmentScheduleScreen(
@@ -22,6 +29,7 @@ fun AppointmentScheduleScreen(
     doctorId: String,
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val formatter = remember { DateTimeFormatter.ofPattern("HH:mm") }
 
     LaunchedEffect(key1 = doctorId) {
         viewModel.loadDoctor(doctorId)
@@ -32,59 +40,66 @@ fun AppointmentScheduleScreen(
             TopNavigationBar(navController)
         }
     ) { innerPadding ->
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
-                .padding(20.dp),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(innerPadding),
+            contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = "Agendamento",
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.align(Alignment.Start)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-
-            if (uiState.isLoading) {
-                CircularProgressIndicator()
-            } else if (uiState.error != null) {
-                Text(text = "Erro: ${uiState.error}", color = Color.Red)
-            } else if (uiState.appointmentScheduled) {
-                Text("Consulta agendada com sucesso!")
-                Button(onClick = {
-                    // Navega para a tela de consultas e limpa a pilha de volta
-                    navController.navigate(Screen.Home.createRoute(com.up.clinica_digital.domain.model.UserRole.PATIENT)) {
-                        popUpTo(Screen.Home.createRoute(com.up.clinica_digital.domain.model.UserRole.PATIENT)) {
-                            inclusive = true
-                        }
-                    }
-                }) {
-                    Text("Ver minhas consultas")
-                }
-            } else {
-                uiState.doctor?.let { doctor ->
-                    DoctorInformation(doctor)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    CalendarTimeDatePicker(
-                        onDateTimeSelected = { dateTime ->
-                            viewModel.onDateTimeSelected(dateTime)
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(
-                        onClick = {
-
-                        },
-                        enabled = uiState.selectedDateTime != null
+            when {
+                uiState.isLoading -> CircularProgressIndicator()
+                uiState.error != null -> Text(text = "Erro: ${uiState.error}", color = Color.Red)
+                else -> {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(20.dp)
+                            .verticalScroll(rememberScrollState()),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text("Agendar")
+                        Text(
+                            text = "Agendamento",
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.align(Alignment.Start)
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        uiState.doctor?.let { doctor ->
+                            DoctorInformation(doctor)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            CalendarTimeDatePicker(
+                                onDateTimeSelected = { dateTime ->
+                                    viewModel.onDateTimeSelected(dateTime)
+                                }
+                            )
+                            uiState.selectedDateTime?.let {
+                                Text(text = "Horário Selecionado: ${it.format(formatter)}")
+                            }
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Button(
+                                onClick = {
+                                    navController.navigate(
+                                        Screen.ConfirmAppointment.createRoute(
+                                            doctorId = uiState.doctor!!.id,
+                                            dateTime = uiState.selectedDateTime
+                                        )
+                                    )
+                                },
+                                enabled = uiState.selectedDateTime != null
+                            ) {
+                                Text("Agendar")
+                            }
+                        } ?: run {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ){
+                                Text("Médico não encontrado.")
+                            }
+                        }
                     }
-                } ?: run {
-                    Text("Médico não encontrado.")
                 }
             }
         }

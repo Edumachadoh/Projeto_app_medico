@@ -1,4 +1,4 @@
-package com.up.clinica_digital.presentation.appointment.agenda
+package com.up.clinica_digital.presentation.appointment.doctor
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -26,9 +25,9 @@ import androidx.navigation.NavController
 import com.up.clinica_digital.presentation.navigation.Screen
 
 @Composable
-fun ScheduledAppointmentsScreen(
+fun AppointmentsAgendaScreen(
     navController: NavController,
-    viewModel: ScheduledAppointmentViewModel = hiltViewModel(),
+    viewModel: AppointmentAgendaViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -51,24 +50,30 @@ fun ScheduledAppointmentsScreen(
             Spacer(Modifier.height(16.dp))
 
             when (val state = uiState) {
-                is ScheduledAppointmentUiState.Loading -> CircularProgressIndicator()
-                is ScheduledAppointmentUiState.Error -> {
+                is AppointmentAgendaUiState.Loading -> CircularProgressIndicator()
+                is AppointmentAgendaUiState.Error -> {
                     Text(state.message, color = Color.Red)
                 }
-                is ScheduledAppointmentUiState.Success -> {
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
-                        items(state.scheduledAppointments) { appointment ->
-                            val doctor = state.doctors[appointment.doctorId]
-                            if (doctor != null) {
-                                Button(onClick = {
-                                    navController.navigate(
-                                        Screen.AppointmentDetails.createRoute(appointment.id)
+
+                is AppointmentAgendaUiState.Success -> {
+                    if (state.scheduledAppointments.isNotEmpty()) {
+                        LazyColumn(
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+
+                            items(state.scheduledAppointments) { appointment ->
+                                val patient = state.patients[appointment.patientId]
+                                if (patient != null) {
+                                    AgendaItem(
+                                        appointment = appointment, patient = patient,
+                                        onAppointmentClick = {
+                                            navController.navigate(
+                                                Screen.AppointmentDetails.createRoute(appointment.id)
+                                            )
+                                        }
                                     )
-                                }) {
-                                    AppointmentItem(appointment = appointment, doctor = doctor)
                                 }
+
                             }
                         }
                     }

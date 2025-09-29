@@ -1,4 +1,4 @@
-package com.up.clinica_digital.presentation.appointment.details
+package com.up.clinica_digital.presentation.appointment.patient.details
 
 import com.up.clinica_digital.domain.model.Appointment
 import com.up.clinica_digital.domain.model.Doctor

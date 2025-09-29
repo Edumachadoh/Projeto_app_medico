@@ -10,6 +10,7 @@ import com.up.clinica_digital.presentation.home.InitialScreen
 import com.up.clinica_digital.domain.model.UserRole
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.up.clinica_digital.presentation.termsOfUse.TermsOfUseScreen
 
 @Composable
 fun AppNavGraph(navController: NavHostController) {
@@ -59,6 +60,11 @@ fun AppNavGraph(navController: NavHostController) {
 
             LoggedInNavGraph(navController, role)
         }
+
+        // termos de uso
+        // composable(route = "terms_of_use_route") {
+        //     TermsOfUseScreen(navController = navController)
+        // }
 
     }
 }

@@ -17,8 +17,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.up.clinica_digital.domain.model.UserRole
-import com.up.clinica_digital.presentation.appointment.agenda.ScheduledAppointmentsScreen
-import com.up.clinica_digital.presentation.appointment.details.AppointmentDetailsScreen
+import com.up.clinica_digital.presentation.appointment.doctor.AppointmentsAgendaScreen
+import com.up.clinica_digital.presentation.appointment.doctor.details.AgendaDetailsScreen
+import com.up.clinica_digital.presentation.appointment.patient.ScheduledAppointmentsScreen
+import com.up.clinica_digital.presentation.appointment.patient.details.AppointmentDetailsScreen
 import com.up.clinica_digital.presentation.appointment.schedule.AppointmentScheduleScreen
 import com.up.clinica_digital.presentation.appointment.schedule.ConfirmAppointmentScreen
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavConfig
@@ -112,7 +114,7 @@ fun LoggedInNavGraph(
                 val dateTime = backStackEntry.arguments?.getString("dateTime")!!
 
                 ConfirmAppointmentScreen(
-                    navController = parentNavController,
+                    navController = bottomNavController,
                     doctorId = doctorId,
                     dateTime = dateTime
                 )
@@ -124,7 +126,7 @@ fun LoggedInNavGraph(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    ScheduledAppointmentsScreen(parentNavController)
+                    ScheduledAppointmentsScreen(bottomNavController)
                 }
             }
 
@@ -133,14 +135,13 @@ fun LoggedInNavGraph(
                 route = Screen.AppointmentDetails.route,
                 arguments = listOf(navArgument("appointmentId") { type = NavType.StringType })
             ) {
-                AppointmentDetailsScreen(navController = parentNavController)
+                AppointmentDetailsScreen(navController = bottomNavController)
             }
 
             //Perfil
             composable(BottomNavItem.Perfil.route) {
                 ProfileScreen(
-                    userRole = userRole,
-                    onEditProfile = {}
+                    userRole = userRole
                 )
             }
 
@@ -151,17 +152,31 @@ fun LoggedInNavGraph(
 
 
             // -------------------------------------Médico-------------------------------------
+
+            //tela agenda
             composable(BottomNavItem.Agenda.route) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("Agenda Screen")
+                    AppointmentsAgendaScreen(bottomNavController)
                 }
             }
+
+            //Detalhes consulta
+            composable(
+                route = Screen.AgendaDetails.route,
+                arguments = listOf(navArgument("appointmentId") { type = NavType.StringType })
+            ) {
+                AgendaDetailsScreen(navController = bottomNavController)
+            }
+
+            //tela forum
             composable(BottomNavItem.Forum.route) {
                 ForumScreen(navController = bottomNavController)
             }
+
+            //topico forum
             composable(
                 route = Screen.TopicItem.route,
                 arguments = listOf(navArgument("topicItemId") {type = NavType.StringType})
@@ -172,6 +187,9 @@ fun LoggedInNavGraph(
                     topicId = topicId
                 )
             }
+
+
+
 
         }
     }

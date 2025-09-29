@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -42,8 +43,9 @@ fun ForumScreen(
             )
 
             Spacer(Modifier.height(16.dp))
+            Text("Forum", style = MaterialTheme.typography.titleLarge)
+            Spacer(Modifier.height(16.dp))
 
-            // Gerenciamento de estado da UI
             when (val state = uiState) {
                 is ForumUiState.Loading -> {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
