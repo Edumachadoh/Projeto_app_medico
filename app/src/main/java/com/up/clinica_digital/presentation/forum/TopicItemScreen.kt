@@ -25,12 +25,14 @@ import androidx.navigation.NavController
 import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
 import java.time.format.DateTimeFormatter
 
+
 @Composable
 fun TopicItemScreen(
     viewModel: ForumViewModel = hiltViewModel(),
     navController: NavController,
     topicId: String?
 ) {
+
     LaunchedEffect(topicId) {
         if (topicId != null) {
             viewModel.loadTopic(topicId)
@@ -49,13 +51,11 @@ fun TopicItemScreen(
                     CircularProgressIndicator()
                 }
             }
-
             is TopicUiState.Error -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(state.message, color = Color.Red)
                 }
             }
-
             is TopicUiState.Success -> {
                 val topic = state.topic
                 val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
@@ -99,12 +99,8 @@ fun TopicItemScreen(
                     }
                 }
             }
-
             is TopicUiState.Idle -> {
-                // Estado inicial, pode mostrar um indicador de carregamento ou nada
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
-                }
+
             }
         }
     }

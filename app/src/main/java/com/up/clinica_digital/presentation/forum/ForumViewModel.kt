@@ -19,7 +19,8 @@ class ForumViewModel @Inject constructor() : ViewModel() {
     private val _uiState = MutableStateFlow<ForumUiState>(ForumUiState.Loading)
     val uiState: StateFlow<ForumUiState> = _uiState.asStateFlow()
 
-    private val _topicUiState = MutableStateFlow<TopicUiState>(TopicUiState.Loading)
+    // Estado para a tela de detalhes do tópico
+    private val _topicUiState = MutableStateFlow<TopicUiState>(TopicUiState.Idle)
     val topicUiState: StateFlow<TopicUiState> = _topicUiState.asStateFlow()
 
     private val _searchQuery = MutableStateFlow("")
@@ -35,8 +36,6 @@ class ForumViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch {
             _uiState.value = ForumUiState.Loading
             delay(500) // Simula busca na rede
-
-            // --- INÍCIO DA SEÇÃO DE DADOS MÉDICOS FOCADOS ---
 
             val commentsCaso1 = listOf(
                 ForumComment("c1", "t1", "Dr.Carlos.Cardio", "Interessante. ECG sem supra de ST, mas a clínica é soberana. Já considerou marcadores cardíacos seriados?", LocalDateTime.now().minusHours(10)),
@@ -85,9 +84,6 @@ class ForumViewModel @Inject constructor() : ViewModel() {
                     comments = emptyList()
                 )
             )
-
-            // --- FIM DA SEÇÃO DE DADOS ---
-
             _uiState.value = ForumUiState.Success(allTopics)
         }
     }

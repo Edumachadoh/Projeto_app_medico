@@ -160,18 +160,15 @@ fun LoggedInNavGraph(
                 }
             }
             composable(BottomNavItem.Forum.route) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    ForumScreen(navController = bottomNavController)
-                }
+                // A tela agora cria seu próprio ViewModel
+                ForumScreen(navController = bottomNavController)
             }
             composable(
                 route = Screen.TopicItem.route,
                 arguments = listOf(navArgument("topicItemId") {type = NavType.StringType})
             ) { backStackEntry ->
                 val topicId = backStackEntry.arguments?.getString("topicItemId")
+                // A tela de detalhes também cria seu próprio ViewModel
                 TopicItemScreen(
                     navController = bottomNavController,
                     topicId = topicId

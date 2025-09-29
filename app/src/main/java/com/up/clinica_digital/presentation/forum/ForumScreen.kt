@@ -56,7 +56,6 @@ fun ForumScreen(
                 }
 
                 is ForumUiState.Success -> {
-                    // Lista de Tópicos
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
