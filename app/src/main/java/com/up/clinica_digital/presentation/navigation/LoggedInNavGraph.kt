@@ -124,7 +124,7 @@ fun LoggedInNavGraph(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    ScheduledAppointmentsScreen(parentNavController)
+                    ScheduledAppointmentsScreen(bottomNavController)
                 }
             }
 
@@ -133,14 +133,13 @@ fun LoggedInNavGraph(
                 route = Screen.AppointmentDetails.route,
                 arguments = listOf(navArgument("appointmentId") { type = NavType.StringType })
             ) {
-                AppointmentDetailsScreen(navController = parentNavController)
+                AppointmentDetailsScreen(navController = bottomNavController)
             }
 
             //Perfil
             composable(BottomNavItem.Perfil.route) {
                 ProfileScreen(
-                    userRole = userRole,
-                    onEditProfile = {}
+                    userRole = userRole
                 )
             }
 

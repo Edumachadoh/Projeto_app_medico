@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,13 +21,12 @@ import com.up.clinica_digital.domain.model.UserRole
 fun ProfileScreen(
     userRole: UserRole,
     viewModel: ProfileViewModel = hiltViewModel(),
-    onEditProfile: () -> Unit
 ) {
     LaunchedEffect(userRole) {
-        viewModel.loadProfile(userRole)
+        viewModel.loadProfile(userRole == UserRole.DOCTOR)
     }
 
-    val uiState by viewModel.profileUiState
+    val uiState by viewModel.uiState.collectAsState()
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -74,8 +74,8 @@ fun ProfileScreen(
                         }
                     }
                     Spacer(modifier = Modifier.height(24.dp))
-                    Button(onClick = onEditProfile) {
-                        Text("Editar Perfil")
+                    Button(onClick = { viewModel.logout() }) {
+                        Text("Sair")
                     }
                 }
             }
