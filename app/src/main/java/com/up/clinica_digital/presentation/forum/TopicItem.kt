@@ -34,8 +34,6 @@ fun TopicItem(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                //tem que criar uma função na viewmodel para achar o doutor que fez o post
-                //e colocar o nome dele aqui
                 text = "por ${topic.authorId} em ${topic.createdAt.format(formatter)}",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant

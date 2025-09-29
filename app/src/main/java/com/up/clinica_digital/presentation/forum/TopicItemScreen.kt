@@ -1,16 +1,7 @@
 package com.up.clinica_digital.presentation.forum
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,14 +16,12 @@ import androidx.navigation.NavController
 import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
 import java.time.format.DateTimeFormatter
 
-
 @Composable
 fun TopicItemScreen(
-    viewModel: ForumViewModel = hiltViewModel(),
     navController: NavController,
-    topicId: String?
+    topicId: String?,
+    viewModel: ForumViewModel = hiltViewModel()
 ) {
-
     LaunchedEffect(topicId) {
         if (topicId != null) {
             viewModel.loadTopic(topicId)
@@ -100,7 +89,7 @@ fun TopicItemScreen(
                 }
             }
             is TopicUiState.Idle -> {
-
+                // Estado inicial, pode mostrar um indicador ou nada
             }
         }
     }
