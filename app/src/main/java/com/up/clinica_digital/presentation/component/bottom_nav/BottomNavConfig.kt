@@ -9,7 +9,8 @@ object BottomNavConfig {
                 BottomNavItem.Medicos,
                 BottomNavItem.Consultas,
                 BottomNavItem.Perfil,
-                BottomNavItem.Chat
+                BottomNavItem.Chat,
+                BottomNavItem.TermsOfUse
             )
             UserRole.DOCTOR -> listOf(
                 BottomNavItem.Agenda,

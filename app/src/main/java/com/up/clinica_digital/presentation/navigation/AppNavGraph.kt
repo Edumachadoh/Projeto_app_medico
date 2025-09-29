@@ -61,10 +61,10 @@ fun AppNavGraph(navController: NavHostController) {
             LoggedInNavGraph(navController, role)
         }
 
-        // termos de uso
-        // composable(route = "terms_of_use_route") {
-        //     TermsOfUseScreen(navController = navController)
-        // }
+
+        composable(route = "terms_of_use") {
+             TermsOfUseScreen(navController = navController)
+        }
 
     }
 }
