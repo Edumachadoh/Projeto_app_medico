@@ -1,10 +1,9 @@
-package com.up.clinica_digital.presentation.doctor
+package com.up.clinica_digital.presentation.doctors
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.usecase.GetEntityByIdUseCase
-import com.up.clinica_digital.presentation.doctors.DoctorUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

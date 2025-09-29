@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.up.clinica_digital.domain.model.ForumComment
 import com.up.clinica_digital.domain.model.ForumTopic
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +20,9 @@ class ForumViewModel @Inject constructor() : ViewModel() {
 
     private val _uiState = MutableStateFlow<ForumUiState>(ForumUiState.Loading)
     val uiState: StateFlow<ForumUiState> = _uiState.asStateFlow()
-
+    
+    private val _topicUiState = mutableStateOf<TopicUiState>(TopicUiState.Idle)
+    val topicUiState: State<TopicUiState> = _topicUiState
     private val _searchQuery = mutableStateOf("")
     val searchQuery: State<String> = _searchQuery
 
@@ -32,7 +35,7 @@ class ForumViewModel @Inject constructor() : ViewModel() {
     private fun loadMockForumTopics() {
         viewModelScope.launch {
             _uiState.value = ForumUiState.Loading
-            kotlinx.coroutines.delay(500) // Simula busca na rede
+            delay(500) // Simula busca na rede
 
             // --- INÍCIO DA SEÇÃO DE DADOS MÉDICOS FOCADOS ---
 
@@ -105,5 +108,10 @@ class ForumViewModel @Inject constructor() : ViewModel() {
             }
         }
         _uiState.value = ForumUiState.Success(filteredList)
+    }
+
+    fun loadTopic(topicId: String){
+        viewModelScope.launch {
+        }
     }
 }

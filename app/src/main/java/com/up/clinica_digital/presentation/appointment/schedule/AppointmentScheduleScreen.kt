@@ -77,7 +77,7 @@ fun AppointmentScheduleScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(
                         onClick = {
-                            viewModel.scheduleAppointment(doctorId)
+                            navController.navigate(Screen.ConfirmAppointment.createRoute(doctorId, uiState.selectedDateTime))
                         },
                         enabled = uiState.selectedDateTime != null
                     ) {

@@ -1,10 +1,13 @@
 package com.up.clinica_digital.presentation.navigation
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -21,10 +24,12 @@ import com.up.clinica_digital.presentation.appointment.schedule.ConfirmAppointme
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavConfig
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavItem
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavigationBar
-import com.up.clinica_digital.presentation.doctor.DoctorsListScreen
+import com.up.clinica_digital.presentation.doctors.DoctorsListScreen
 import com.up.clinica_digital.presentation.profile.ProfileScreen
 import com.up.clinica_digital.presentation.chat.ChatPatient
 import com.up.clinica_digital.presentation.doctors.DoctorDetailsScreen
+import com.up.clinica_digital.presentation.forum.ForumScreen
+import com.up.clinica_digital.presentation.forum.TopicItemScreen
 
 
 @Composable
@@ -95,14 +100,6 @@ fun LoggedInNavGraph(
                 }
             }
 
-            // Forum
-//            composable(
-//                route = Screen.Forum.route,
-//
-//                ) {
-//                ForumScreen()
-//            }
-
             //Confirmar Agendamento Consulta
             composable(
                 route = Screen.ConfirmAppointment.route,
@@ -123,9 +120,9 @@ fun LoggedInNavGraph(
 
             //Lista de Consultas
             composable(BottomNavItem.Consultas.route) {
-                androidx.compose.foundation.layout.Box(
+                Box(
                     modifier = Modifier.fillMaxSize(),
-                    contentAlignment = androidx.compose.ui.Alignment.Center
+                    contentAlignment = Alignment.Center
                 ) {
                     ScheduledAppointmentsScreen(parentNavController)
                 }
@@ -155,20 +152,29 @@ fun LoggedInNavGraph(
 
             // -------------------------------------Médico-------------------------------------
             composable(BottomNavItem.Agenda.route) {
-                androidx.compose.foundation.layout.Box(
+                Box(
                     modifier = Modifier.fillMaxSize(),
-                    contentAlignment = androidx.compose.ui.Alignment.Center
+                    contentAlignment = Alignment.Center
                 ) {
-                    androidx.compose.material3.Text("Agenda Screen")
+                    Text("Agenda Screen")
                 }
             }
             composable(BottomNavItem.Forum.route) {
-                androidx.compose.foundation.layout.Box(
+                Box(
                     modifier = Modifier.fillMaxSize(),
-                    contentAlignment = androidx.compose.ui.Alignment.Center
+                    contentAlignment = Alignment.Center
                 ) {
-                    androidx.compose.material3.Text("Fórum Screen")
+                    ForumScreen(navController = parentNavController)
                 }
+            }
+            composable(
+                route = Screen.TopicItem.route,
+                arguments = listOf(navArgument("topicItemId") {type = NavType.StringType})
+            ) {
+                TopicItemScreen(
+                    viewModel = TODO(),
+                    navController = parentNavController
+                )
             }
         }
     }
