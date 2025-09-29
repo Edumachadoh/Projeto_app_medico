@@ -16,7 +16,7 @@ sealed class BottomNavItem(
 ) {
     // Paciente (ANA: sugestão, podem trocar, só conversem antes) ME AJUDE A ESCOLHER OS ICONS.
     object Medicos : BottomNavItem("medicos", Icons.AutoMirrored.Filled.List, "Médicos")
-    object Agendar : BottomNavItem("agendar", Icons.Default.Add, "Agendar")
+    object Agendar : BottomNavItem("medicos", Icons.Default.Add, "Agendar")
     object Consultas : BottomNavItem("consultas", Icons.Default.DateRange, "Consultas")
     object Perfil : BottomNavItem("perfil", Icons.Default.Person, "Perfil")
     object Chat : BottomNavItem("chat", Icons.Default.Call, "Chat")

@@ -21,7 +21,7 @@ sealed class Screen(val route: String) {
         }
     }
     object ConfirmAppointment : Screen("confirm_appointment/{doctorId}/{dateTime}") {
-        fun createRoute( doctorId: String, dateTime: LocalDateTime): String {
+        fun createRoute(doctorId: String, dateTime: LocalDateTime?): String {
             return "confirm_appointment/$doctorId/$dateTime"
         }
     }
@@ -30,6 +30,8 @@ sealed class Screen(val route: String) {
         fun createRoute(appointmentId: String) = "appointment_details/$appointmentId"
     }
 
-    object Forum : Screen("forum")
+    object TopicItem : Screen("forum_item/{topicItemId}"){
+        fun createRoute(topicItemId: String) = "forum_item/$topicItemId"
+    }
 
 }

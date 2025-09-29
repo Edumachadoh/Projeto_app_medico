@@ -105,7 +105,7 @@ fun ConfirmAppointmentScreen(
                             Text("Voltar")
                         }
                         Button(
-                            onClick = { viewModel.scheduleAppointment() },
+                            onClick = { viewModel.scheduleAppointment(doctorId) },
                             modifier = Modifier.weight(1f)
                         ) {
                             Text("Agendar")
