@@ -1,4 +1,4 @@
-package com.up.clinica_digital.presentation.appointment.agenda
+package com.up.clinica_digital.presentation.appointment.patient
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -49,7 +49,6 @@ class ScheduledAppointmentViewModel @Inject constructor(
 
                 allAppointments = getPatientScheduledAppointmentsUseCase.invoke(patientId)
 
-                // Busca os detalhes dos médicos de forma eficiente
                 allAppointments.map { it.doctorId }.distinct().forEach { doctorId ->
                     if (!doctorsMap.containsKey(doctorId)) {
                         getDoctorByIdUseCase.invoke(doctorId)?.let { doctor ->

@@ -1,4 +1,4 @@
-package com.up.clinica_digital.presentation.appointment.details
+package com.up.clinica_digital.presentation.appointment.doctor.details
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,9 +34,9 @@ import java.util.Date
 import java.util.Locale
 
 @Composable
-fun AppointmentDetailsScreen(
+fun AgendaDetailsScreen(
     navController: NavHostController,
-    viewModel: AppointmentDetailsViewModel = hiltViewModel()
+    viewModel: AgendaDetailsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -51,24 +51,24 @@ fun AppointmentDetailsScreen(
             contentAlignment = Alignment.Center
         ) {
             when (val state = uiState) {
-                is AppointmentDetailsUiState.Loading -> {
+                is AgendaDetailsUiState.Loading -> {
                     CircularProgressIndicator()
                 }
-                is AppointmentDetailsUiState.Error -> {
+                is AgendaDetailsUiState.Error -> {
                     Text(text = "Erro: ${state.message}", color = Color.Red)
                 }
-                is AppointmentDetailsUiState.Success -> {
+                is AgendaDetailsUiState.Success -> {
                     Column(
                         modifier = Modifier.padding(16.dp)
                     ) {
                         Text(
-                            text = state.doctor.name,
+                            text = state.patient.name,
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Especialidade: ${state.doctor.specialization}",
+                            text = "CPF: ${state.patient.cpf}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Spacer(modifier = Modifier.height(8.dp))
