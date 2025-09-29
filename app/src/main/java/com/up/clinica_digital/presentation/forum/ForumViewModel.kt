@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,7 +26,7 @@ class ForumViewModel @Inject constructor() : ViewModel() {
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
-    private var allTopics = listOf<ForumTopic>()
+    private var allTopics = mutableListOf<ForumTopic>()
 
     init {
         loadMockForumTopics()
@@ -45,7 +46,8 @@ class ForumViewModel @Inject constructor() : ViewModel() {
                 ForumComment("c4", "t2", "Mariana.Endocrino", "Tenho visto bons resultados com a semaglutida, mas o custo ainda é um fator limitante para muitos pacientes no SUS.", LocalDateTime.now().minusDays(1)),
                 ForumComment("c5", "t2", "Lucas.Nefro", "Importante ressaltar os benefícios renais dos iSGLT2 nesse perfil de paciente. A dapagliflozina tem se mostrado excelente na redução da progressão da DRC.", LocalDateTime.now().minusHours(18))
             )
-            allTopics = listOf(
+            // Inicializa a lista mutável
+            allTopics = mutableListOf(
                 ForumTopic("t1", "Discussão de Caso: Paciente 47 anos com dor torácica atípica", "Homem, 47 anos...", "Dr.Silva.GP", LocalDateTime.now().minusDays(1), commentsCaso1),
                 ForumTopic("t2", "Novas diretrizes no tratamento de DM2 com alto risco cardiovascular", "A nova diretriz da SBC...", "Juliana.Cardio", LocalDateTime.now().minusDays(2), commentsCaso2),
                 ForumTopic("t3", "Manejo de Burnout na Residência Médica", "Gostaria de abrir um espaço...", "Rafael.Residente", LocalDateTime.now().minusHours(8), listOf(ForumComment("c6", "t3", "Psic.Helena", "Ótima iniciativa...", LocalDateTime.now().minusHours(2)))),
@@ -83,4 +85,6 @@ class ForumViewModel @Inject constructor() : ViewModel() {
             }
         }
     }
+
+
 }
