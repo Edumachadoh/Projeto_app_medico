@@ -63,9 +63,6 @@ class DoctorsViewModel @Inject constructor(
             } catch (e: Exception) {
                 _uiState.update { it.copy(error = e.message ?: "Erro desconhecido", isLoading = false) }
             }
-            val doctor = allDoctors.find { it.id == doctorId }
-
-            _uiState.update { it.copy(isLoading = false, doctor = doctor) }
         }
     }
 
