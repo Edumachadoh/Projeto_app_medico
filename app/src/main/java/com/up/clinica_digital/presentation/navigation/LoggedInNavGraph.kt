@@ -32,6 +32,7 @@ import com.up.clinica_digital.presentation.chat.ChatPatient
 import com.up.clinica_digital.presentation.doctors.DoctorDetailsScreen
 import com.up.clinica_digital.presentation.forum.ForumScreen
 import com.up.clinica_digital.presentation.forum.TopicItemScreen
+import com.up.clinica_digital.presentation.termsOfUse.TermsOfUseScreen
 
 
 @Composable
@@ -187,7 +188,6 @@ fun LoggedInNavGraph(
                     topicId = topicId
                 )
             }
-
 
 
 

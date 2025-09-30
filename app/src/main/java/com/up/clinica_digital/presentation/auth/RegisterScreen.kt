@@ -21,7 +21,8 @@ import androidx.compose.foundation.verticalScroll
 fun RegisterScreen(
     viewModel: AuthViewModel = hiltViewModel(),
     onRegisterSuccess: (String, UserRole) -> Unit,
-    onNavigateToLogin: () -> Unit
+    onNavigateToLogin: () -> Unit,
+    onNavigateToTermsOfUse: () -> Unit
 ) {
     val uiState by viewModel.authState.collectAsState()
 
@@ -39,6 +40,8 @@ fun RegisterScreen(
     var rqe by remember { mutableStateOf("") }
     var specialization by remember { mutableStateOf("") }
     var uf by remember { mutableStateOf("") }
+
+    var acceptedTerms by remember { mutableStateOf(false) }
 
     Scaffold(topBar = {
         TopAppBar(title = {
@@ -140,7 +143,19 @@ fun RegisterScreen(
 
                 Spacer(Modifier.height(16.dp))
 
+                Row {
+                    Checkbox(
+                        onCheckedChange = { acceptedTerms = it },
+                        checked = acceptedTerms,
+                    )
+                    TextButton(onClick = onNavigateToTermsOfUse) {
+                    Text("Lí e aceito os Termos de Uso")
+                }}
+
+                Spacer(Modifier.height(16.dp))
+
                 Button(
+                    enabled = acceptedTerms ,
                     onClick = {
                         if (role == UserRole.PATIENT) {
                             if (birthDate.isEmpty()) {

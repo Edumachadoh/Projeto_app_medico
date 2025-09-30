@@ -68,7 +68,7 @@ fun AppointmentsAgendaScreen(
                                         appointment = appointment, patient = patient,
                                         onAppointmentClick = {
                                             navController.navigate(
-                                                Screen.AppointmentDetails.createRoute(appointment.id)
+                                                Screen.AgendaDetails.createRoute(appointment.id)
                                             )
                                         }
                                     )

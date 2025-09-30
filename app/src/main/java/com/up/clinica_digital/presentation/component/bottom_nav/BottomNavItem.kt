@@ -24,4 +24,5 @@ sealed class BottomNavItem(
     // Médico (ANA: sugestão, podem trocar, só conversem antes) MIM AJUDE A ESCOLHER OS ICONS.
     object Agenda : BottomNavItem("agenda", Icons.Default.DateRange, "Agenda")
     object Forum : BottomNavItem("forum", Icons.Outlined.MailOutline, "Fórum")
+
 }
