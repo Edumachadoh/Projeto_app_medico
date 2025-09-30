@@ -142,7 +142,9 @@ fun LoggedInNavGraph(
             //Perfil
             composable(BottomNavItem.Perfil.route) {
                 ProfileScreen(
-                    userRole = userRole
+                    userRole = userRole,
+                    onLogout = {parentNavController.navigate(Screen.Initial.route)}
+
                 )
             }
 

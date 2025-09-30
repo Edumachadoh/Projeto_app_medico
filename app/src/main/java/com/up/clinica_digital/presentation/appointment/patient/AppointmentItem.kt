@@ -21,7 +21,7 @@ fun AppointmentItem(
     doctor: Doctor?,
     onAppointmentClick: (String) -> Unit
 ) {
-    Card(
+    OutlinedCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
