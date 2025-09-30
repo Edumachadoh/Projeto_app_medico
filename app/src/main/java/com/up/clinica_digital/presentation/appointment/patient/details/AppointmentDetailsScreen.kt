@@ -1,6 +1,5 @@
 package com.up.clinica_digital.presentation.appointment.patient.details
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +10,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -98,20 +100,19 @@ private fun AppointmentDetailsContent(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
-//                InfoRow(
-//                    icon = Icons.Default.MedicalServices,
-//                    text = "Especialidade: ${doctor.specialization}"
-//                )
+                InfoRow(
+                    icon = Icons.Default.AccountCircle,
+                    text = "Especialidade: ${doctor.specialization}"
+                )
                 Spacer(modifier = Modifier.height(8.dp))
-//                InfoRow(
-//                    icon = Icons.Default.CalendarToday,
-//                    text = "Data: ${formatDate(appointment.scheduledAt)}"
-//                )
-                Spacer(modifier = Modifier.height(8.dp))
-//                InfoRow(
-//                    icon = Icons.Default.Schedule,
-//                    text = "Hora: ${formatTime(appointment.scheduledAt)}"
-//                )
+                InfoRow(
+                    icon = Icons.Default.DateRange,
+                    text = "Data: ${formatDate(appointment.scheduledAt)}\nHora: ${
+                        formatTime(
+                            appointment.scheduledAt
+                        )
+                    }"
+                )
                 Spacer(modifier = Modifier.height(16.dp))
                 StatusBadge(status = appointment.status)
             }
