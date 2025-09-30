@@ -189,11 +189,6 @@ fun LoggedInNavGraph(
                 )
             }
 
-            //termos de uso
-            composable(Screen.TermsOfUse.route) {
-                TermsOfUseScreen(navController = bottomNavController)
-            }
-
 
 
         }

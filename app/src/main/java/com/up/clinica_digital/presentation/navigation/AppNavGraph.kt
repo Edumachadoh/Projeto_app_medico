@@ -45,7 +45,8 @@ fun AppNavGraph(navController: NavHostController) {
                         popUpTo(Screen.Initial.route) { inclusive = true }
                     }
                 },
-                onNavigateToLogin = { navController.navigate(Screen.Login.route) }
+                onNavigateToLogin = { navController.navigate(Screen.Login.route) },
+                onNavigateToTermsOfUse = {navController.navigate(Screen.TermsOfUse.route)}
             )
         }
 
@@ -62,8 +63,9 @@ fun AppNavGraph(navController: NavHostController) {
         }
 
 
-        composable(route = "terms_of_use") {
-             TermsOfUseScreen(navController = navController)
+        //termos de uso
+        composable(Screen.TermsOfUse.route) {
+            TermsOfUseScreen(navController = navController)
         }
 
     }
