@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.model.Patient
 import com.up.clinica_digital.domain.model.UserRole
@@ -21,6 +22,7 @@ import com.up.clinica_digital.domain.model.UserRole
 fun ProfileScreen(
     userRole: UserRole,
     viewModel: ProfileViewModel = hiltViewModel(),
+    onLogout: () -> Unit
 ) {
     LaunchedEffect(userRole) {
         viewModel.loadProfile(userRole == UserRole.DOCTOR)
@@ -74,7 +76,10 @@ fun ProfileScreen(
                         }
                     }
                     Spacer(modifier = Modifier.height(24.dp))
-                    Button(onClick = { viewModel.logout() }) {
+                    Button(onClick = {
+                        viewModel.logout()
+                        onLogout()
+                    }) {
                         Text("Sair")
                     }
                 }
