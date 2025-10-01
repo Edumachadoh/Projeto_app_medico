@@ -63,7 +63,7 @@ fun AppointmentsAgendaScreen(
                             verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
                             items(state.scheduledAppointments) { appointment ->
-                                val patient = state.patient
+                                val patient = state.patients[appointment.patientId]
                                 AgendaItem(
                                     appointment = appointment,
                                     patient = patient,
