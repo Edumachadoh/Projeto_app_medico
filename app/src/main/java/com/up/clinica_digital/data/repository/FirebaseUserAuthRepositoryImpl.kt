@@ -4,7 +4,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.up.clinica_digital.domain.repository.UserAuthRepository
 import kotlinx.coroutines.tasks.await
 import com.google.firebase.firestore.FirebaseFirestore
+import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.model.LoginResult
+import com.up.clinica_digital.domain.model.Patient
 import com.up.clinica_digital.domain.model.UserRole
 
 class FirebaseUserAuthRepositoryImpl(
@@ -46,13 +48,20 @@ class FirebaseUserAuthRepositoryImpl(
                 val storedPassword = patientDoc.getString("passwordHash")
 
                 if (storedPassword == password) {
-                    val firebaseUid = signInOrCreateFirebaseUser(email.trim(), password)
+                    val result = auth.signInWithEmailAndPassword(email, password).await()
+                    val uid = result.user?.uid ?: return null
 
-                    return if (firebaseUid != null) {
-                        LoginResult(userId = firebaseUid, role = UserRole.PATIENT)
-                    } else {
-                        LoginResult(userId = patientDoc.id, role = UserRole.PATIENT)
+                    val doctorDoc = firestore.collection("doctors").document(uid).get().await()
+                    if (doctorDoc.exists()) {
+                        return LoginResult(userId = uid, role = UserRole.DOCTOR)
                     }
+
+                    val patientDoc = firestore.collection("patients").document(uid).get().await()
+                    if (patientDoc.exists()) {
+                        return LoginResult(userId = uid, role = UserRole.PATIENT)
+                    }
+
+                    null
                 }
             }
 
@@ -81,9 +90,26 @@ class FirebaseUserAuthRepositoryImpl(
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    override suspend fun register(email: String, password: String): String? = try {
-        val result = auth.createUserWithEmailAndPassword(email, password).await()
-        result.user?.uid
+    override suspend fun registerDoctor(doctor: Doctor): String? = try {
+        val result = auth.createUserWithEmailAndPassword(doctor.email, doctor.passwordHash).await()
+        val uid = result.user?.uid ?: return null
+
+        val doctorWithId = doctor.copy(id = uid)
+        firestore.collection("doctors").document(uid).set(doctorWithId).await()
+
+        uid
+    } catch (e: Exception) {
+        null
+    }
+
+    override suspend fun registerPatient(patient: Patient): String? = try {
+        val result = auth.createUserWithEmailAndPassword(patient.email, patient.passwordHash).await()
+        val uid = result.user?.uid ?: return null
+
+        val patientWithId = patient.copy(id = uid)
+        firestore.collection("patients").document(uid).set(patientWithId).await()
+
+        uid
     } catch (e: Exception) {
         null
     }

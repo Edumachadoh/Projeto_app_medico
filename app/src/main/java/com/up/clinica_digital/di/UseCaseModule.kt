@@ -22,8 +22,8 @@ import javax.inject.Singleton
 object UseCaseModule {
     //region DOCTOR
     @Provides @Singleton
-    fun provideCreateDoctorUseCase(repo: DoctorRepository) =
-        CreateEntityUseCase<Doctor>(repo)
+    fun provideRegisterDoctorUseCase(repo: UserAuthRepository) =
+        RegisterDoctorUseCase(repo)
 
     @Provides @Singleton
     fun provideGetDoctorByIdUseCase(repo: DoctorRepository) =
@@ -50,8 +50,8 @@ object UseCaseModule {
 
     //region PATIENT
     @Provides @Singleton
-    fun provideCreatePatientUseCase(repo: PatientRepository) =
-        CreateEntityUseCase<Patient>(repo)
+    fun provideRegisterPatientUseCase(repo: UserAuthRepository) =
+        RegisterPatientUseCase(repo)
 
     @Provides @Singleton
     fun provideListPatientsUseCase(repo: PatientRepository) =
