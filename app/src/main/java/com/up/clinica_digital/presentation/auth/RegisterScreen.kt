@@ -12,7 +12,6 @@ import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.model.Patient
 import com.up.clinica_digital.domain.model.UserRole
 import java.time.LocalDate
-import java.util.UUID
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 
@@ -164,7 +163,7 @@ fun RegisterScreen(
 
                             try {
                                 val patient = Patient(
-                                    id = UUID.randomUUID().toString(),
+                                    id = "",
                                     name = name,
                                     email = email,
                                     cpf = cpf,
@@ -178,7 +177,7 @@ fun RegisterScreen(
                             }
                         } else {
                             val doctor = Doctor(
-                                id = UUID.randomUUID().toString(),
+                                id = "",
                                 name = name,
                                 email = email,
                                 cpf = cpf,

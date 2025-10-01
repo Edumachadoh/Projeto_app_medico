@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.model.Patient
-import com.up.clinica_digital.domain.usecase.CreateEntityUseCase
 import com.up.clinica_digital.domain.usecase.user.LoginUserUseCase
+import com.up.clinica_digital.domain.usecase.user.RegisterDoctorUseCase
+import com.up.clinica_digital.domain.usecase.user.RegisterPatientUseCase
 import com.up.clinica_digital.domain.usecase.user.ValidateDoctorCrmUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,8 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val registerPatientUseCase: CreateEntityUseCase<Patient>,
-    private val registerDoctorUseCase: CreateEntityUseCase<Doctor>,
+    private val registerPatientUseCase: RegisterPatientUseCase,
+    private val registerDoctorUseCase: RegisterDoctorUseCase,
     private val validateDoctorCrmUseCase: ValidateDoctorCrmUseCase,
     private val loginUseCase: LoginUserUseCase
 ) : ViewModel() {
@@ -47,9 +48,9 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             _authState.value = AuthUiState.Loading
             try {
-                val success = registerPatientUseCase.invoke(patient)
-                if (success) {
-                    _authState.value = AuthUiState.Success(patient.id, patient.role)
+                val uid = registerPatientUseCase.invoke(patient)
+                if (uid != null) {
+                    _authState.value = AuthUiState.Success(uid, patient.role)
                 } else {
                     _authState.value = AuthUiState.Error("Falha ao cadastrar paciente")
                 }
@@ -69,9 +70,9 @@ class AuthViewModel @Inject constructor(
                     return@launch
                 }
 
-                val success = registerDoctorUseCase.invoke(doctor)
-                if (success) {
-                    _authState.value = AuthUiState.Success(doctor.id, doctor.role)
+                val uid = registerDoctorUseCase.invoke(doctor)
+                if (uid != null) {
+                    _authState.value = AuthUiState.Success(uid, doctor.role)
                 } else {
                     _authState.value = AuthUiState.Error("Falha ao cadastrar médico")
                 }
