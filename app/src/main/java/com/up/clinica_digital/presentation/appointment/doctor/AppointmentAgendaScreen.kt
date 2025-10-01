@@ -30,6 +30,7 @@ fun AppointmentsAgendaScreen(
     viewModel: AppointmentAgendaViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val searchQuery by viewModel.searchQuery.collectAsState()
 
     Scaffold { paddingValues ->
         Column(
@@ -39,14 +40,14 @@ fun AppointmentsAgendaScreen(
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             OutlinedTextField(
-                value = viewModel.searchQuery.value,
+                value = searchQuery,
                 onValueChange = { viewModel.onSearchQueryChange(it) },
-                label = { Text("Nome do Médico") },
+                label = { Text("Nome do Paciente") },
                 modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(Modifier.height(16.dp))
-            Text("Consultas", style = MaterialTheme.typography.titleLarge)
+            Text("Minha Agenda", style = MaterialTheme.typography.titleLarge)
             Spacer(Modifier.height(16.dp))
 
             when (val state = uiState) {
@@ -54,26 +55,24 @@ fun AppointmentsAgendaScreen(
                 is AppointmentAgendaUiState.Error -> {
                     Text(state.message, color = Color.Red)
                 }
-
                 is AppointmentAgendaUiState.Success -> {
-                    if (state.scheduledAppointments.isNotEmpty()) {
+                    if (state.scheduledAppointments.isEmpty()) {
+                        Text("Nenhuma consulta agendada.")
+                    } else {
                         LazyColumn(
                             verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
-
                             items(state.scheduledAppointments) { appointment ->
-                                val patient = state.patients[appointment.patientId]
-                                if (patient != null) {
-                                    AgendaItem(
-                                        appointment = appointment, patient = patient,
-                                        onAppointmentClick = {
-                                            navController.navigate(
-                                                Screen.AgendaDetails.createRoute(appointment.id)
-                                            )
-                                        }
-                                    )
-                                }
-
+                                val patient = state.patient
+                                AgendaItem(
+                                    appointment = appointment,
+                                    patient = patient,
+                                    onAppointmentClick = {
+                                        navController.navigate(
+                                            Screen.AgendaDetails.createRoute(appointment.id)
+                                        )
+                                    }
+                                )
                             }
                         }
                     }
