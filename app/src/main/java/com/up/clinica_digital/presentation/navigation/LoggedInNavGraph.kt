@@ -32,6 +32,7 @@ import com.up.clinica_digital.presentation.chat.ChatPatient
 import com.up.clinica_digital.presentation.doctors.DoctorDetailsScreen
 import com.up.clinica_digital.presentation.forum.ForumScreen
 import com.up.clinica_digital.presentation.forum.TopicItemScreen
+import com.up.clinica_digital.presentation.home.HomeScreen
 import com.up.clinica_digital.presentation.termsOfUse.TermsOfUseScreen
 
 
@@ -64,8 +65,19 @@ fun LoggedInNavGraph(
             startDestination = items.first().route,
             modifier = Modifier.padding(paddingValues)
         ) {
-            // TODO: adicionar rotas para cada tela do app!
             // -------------------------------------Paciente-------------------------------------
+
+            // Home
+            composable(BottomNavItem.Inicio.route) {
+                HomeScreen(
+                    onNavigateToMedicos = {
+                        bottomNavController.navigate(BottomNavItem.Medicos.route)
+                    },
+                    onNavigateToPerfil = {
+                        bottomNavController.navigate(BottomNavItem.Perfil.route)
+                    }
+                )
+            }
 
             //Lista de Médicos
             composable(BottomNavItem.Medicos.route) {

@@ -5,6 +5,7 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.MailOutline
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -14,7 +15,8 @@ sealed class BottomNavItem(
     val icon: ImageVector,
     val label: String
 ) {
-    // Paciente (ANA: sugestão, podem trocar, só conversem antes) ME AJUDE A ESCOLHER OS ICONS.
+    // Paciente
+    object Inicio : BottomNavItem("inicio", Icons.Default.Home, "Início")
     object Medicos : BottomNavItem("medicos", Icons.AutoMirrored.Filled.List, "Médicos")
 //    object Agendar : BottomNavItem("medicos", Icons.Default.Add, "Agendar")
     object Consultas : BottomNavItem("consultas", Icons.Default.DateRange, "Consultas")

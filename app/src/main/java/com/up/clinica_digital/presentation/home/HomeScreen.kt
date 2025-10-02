@@ -1,79 +1,154 @@
 package com.up.clinica_digital.presentation.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun HomeScreen(
-    onNavigateToMedicos: () -> Unit,
-    onNavigateToPerfil: () -> Unit
+    userName: String = "Ana",
+    onNavigateToMedicos: () -> Unit = {},
+    onNavigateToPerfil: () -> Unit = {}
 ) {
-    var selectedIndex by remember { mutableStateOf(0) }
-
     Scaffold(
-        bottomBar = {
-            NavigationBar {
-                NavigationBarItem(
-                    selected = selectedIndex == 0,
-                    onClick = { selectedIndex = 0 },
-                    icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
-                    label = { Text("Início") }
-                )
-                NavigationBarItem(
-                    selected = selectedIndex == 1,
-                    onClick = {
-                        selectedIndex = 1
-                        onNavigateToMedicos()
-                    },
-                    icon = { Icon(Icons.AutoMirrored.Filled.List, contentDescription = "Lista de Médicos") },
-                    label = { Text("Médicos") }
-                )
-                NavigationBarItem(
-                    selected = selectedIndex == 2,
-                    onClick = {
-                        selectedIndex = 2
-                        onNavigateToPerfil()
-                    },
-                    icon = { Icon(Icons.Default.Person, contentDescription = "Perfil") },
-                    label = { Text("Perfil") }
-                )
-            }
-        }
-    ) { paddingValues ->
-        Box(
+    ) { padding ->
+        Column(
             modifier = Modifier
+                .padding(padding)
                 .fillMaxSize()
-                .padding(paddingValues),
-            contentAlignment = Alignment.Center
+                .background(Color(0xFFFDFBFB))
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.padding(16.dp)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFF9C2440))
+                    .padding(16.dp)
             ) {
                 Text(
-                    text = "Seja Bem-Vindo\na Clinica Digital",
-                    style = MaterialTheme.typography.headlineMedium,
-                    textAlign = TextAlign.Center
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "Agendamento de consultas na palma da sua mão!",
-                    style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Center
+                    text = "Olá, $userName",
+                    color = Color.White,
+                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
                 )
             }
+
+            OutlinedTextField(
+                value = "",
+                onValueChange = {},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                placeholder = { Text("Pesquisar") },
+                singleLine = true
+            )
+
+            Text(
+                text = "Agende sua consulta",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 8.dp)
+            )
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(6) { index ->
+                    EspecialidadeCard(
+                        nome = listOf("Cardiologista", "Psicólogo", "Dermatologista", "Neurologista", "Geral", "Pediatra")[index]
+                    )
+                }
+            }
+
+            Card(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Column {
+                    Box(
+                        modifier = Modifier
+                            .height(180.dp)
+                            .fillMaxWidth()
+                            .background(Color.LightGray),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("Vídeo Sintomas da Dengue", color = Color.White)
+                    }
+                    Text(
+                        text = "Sintomas da Dengue",
+                        modifier = Modifier.padding(12.dp),
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+
+            Text(
+                text = "Especialistas mais bem avaliados",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 16.dp, top = 8.dp)
+            )
+            LazyRow(
+                contentPadding = PaddingValues(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(3) {
+                    EspecialistaCard(nome = "Dr. Luke Whitesell", rating = "4.95")
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun EspecialidadeCard(nome: String) {
+    Card(
+        shape = RoundedCornerShape(12.dp),
+        modifier = Modifier
+            .size(100.dp, 100.dp)
+    ) {
+        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+            Text(nome, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+        }
+    }
+}
+
+@Composable
+fun EspecialistaCard(nome: String, rating: String) {
+    Card(
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier.size(width = 160.dp, height = 120.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .background(Color.Gray),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(Icons.Default.Person, contentDescription = null, tint = Color.White)
+            }
+            Spacer(Modifier.height(8.dp))
+            Text(nome, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            Text("⭐ $rating", fontSize = 12.sp, color = Color.Gray)
         }
     }
 }

@@ -6,6 +6,7 @@ object BottomNavConfig {
     fun itemsForRole(role: UserRole): List<BottomNavItem> {
         return when (role) {
             UserRole.PATIENT -> listOf(
+                BottomNavItem.Inicio,
                 BottomNavItem.Medicos,
                 BottomNavItem.Consultas,
                 BottomNavItem.Perfil,
