@@ -18,51 +18,17 @@ class FirebaseUserAuthRepositoryImpl(
         return try {
             if (!isValidEmail(email.trim())) return null
 
-            val doctorQuery = firestore.collection("doctors")
-                .whereEqualTo("email", email.trim())
-                .get()
-                .await()
+            val result = auth.signInWithEmailAndPassword(email.trim(), password).await()
+            val uid = result.user?.uid ?: return null
 
-            if (!doctorQuery.isEmpty) {
-                val doctorDoc = doctorQuery.documents[0]
-                val storedPassword = doctorDoc.getString("passwordHash")
-
-                if (storedPassword == password) {
-                    val firebaseUid = signInOrCreateFirebaseUser(email.trim(), password)
-
-                    return if (firebaseUid != null) {
-                        LoginResult(userId = firebaseUid, role = UserRole.DOCTOR)
-                    } else {
-                        LoginResult(userId = doctorDoc.id, role = UserRole.DOCTOR)
-                    }
-                }
+            val doctorDoc = firestore.collection("doctors").document(uid).get().await()
+            if (doctorDoc.exists()) {
+                return LoginResult(userId = uid, role = UserRole.DOCTOR)
             }
 
-            val patientQuery = firestore.collection("patients")
-                .whereEqualTo("email", email.trim())
-                .get()
-                .await()
-
-            if (!patientQuery.isEmpty) {
-                val patientDoc = patientQuery.documents[0]
-                val storedPassword = patientDoc.getString("passwordHash")
-
-                if (storedPassword == password) {
-                    val result = auth.signInWithEmailAndPassword(email, password).await()
-                    val uid = result.user?.uid ?: return null
-
-                    val doctorDoc = firestore.collection("doctors").document(uid).get().await()
-                    if (doctorDoc.exists()) {
-                        return LoginResult(userId = uid, role = UserRole.DOCTOR)
-                    }
-
-                    val patientDoc = firestore.collection("patients").document(uid).get().await()
-                    if (patientDoc.exists()) {
-                        return LoginResult(userId = uid, role = UserRole.PATIENT)
-                    }
-
-                    null
-                }
+            val patientDoc = firestore.collection("patients").document(uid).get().await()
+            if (patientDoc.exists()) {
+                return LoginResult(userId = uid, role = UserRole.PATIENT)
             }
 
             null
