@@ -8,10 +8,12 @@ import com.up.clinica_digital.domain.repository.AppointmentRepository
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDateTime
 
+// ANA: Firebase implementation for appointment data management with status tracking
 class FirebaseAppointmentRepositoryImpl(
     firestore: FirebaseFirestore
 ) : FirebaseCrudRepositoryImpl<Appointment>("appointments", firestore), AppointmentRepository {
 
+    // ANA: Converts appointment object to Firestore data format for storage
     override fun Appointment.toMap(): Map<String, Any> = mapOf(
         "id" to id,
         "doctorId" to doctorId,
@@ -20,6 +22,7 @@ class FirebaseAppointmentRepositoryImpl(
         "status" to status.name
     )
 
+    // ANA: Converts Firestore document back to appointment object with status parsing
     override fun DocumentSnapshot.toDomain(): Appointment? {
         val data = data ?: return null
 
@@ -39,6 +42,7 @@ class FirebaseAppointmentRepositoryImpl(
         )
     }
 
+    // ANA: Fetches all appointments for a specific doctor from Firestore
     override suspend fun listByDoctor(doctorId: String): List<Appointment> {
         val snapshot = collection
             .whereEqualTo("doctorId", doctorId)
@@ -47,6 +51,7 @@ class FirebaseAppointmentRepositoryImpl(
         return snapshot.documents.mapNotNull { it.toDomain() }
     }
 
+    // ANA: Fetches all appointments for a specific patient from Firestore
     override suspend fun listByPatient(patientId: String): List<Appointment> {
         val snapshot = collection
             .whereEqualTo("patientId", patientId)

@@ -6,10 +6,12 @@ import com.up.clinica_digital.domain.model.ForumTopic
 import com.up.clinica_digital.domain.repository.ForumTopicRepository
 import java.time.LocalDateTime
 
+// ANA: Firebase implementation for medical forum topic management
 class FirebaseForumTopicRepositoryImpl(
     firestore: FirebaseFirestore
 ) : FirebaseCrudRepositoryImpl<ForumTopic>("forumTopics", firestore), ForumTopicRepository {
 
+    // ANA: Converts forum topic to Firestore data format with author info
     override fun ForumTopic.toMap(): Map<String, Any> = mapOf(
         "id" to id,
         "title" to title,
@@ -18,6 +20,7 @@ class FirebaseForumTopicRepositoryImpl(
         "createdAt" to createdAt.toString()
     )
 
+    // ANA: Converts Firestore document back to forum topic object
     override fun DocumentSnapshot.toDomain(): ForumTopic? {
         val data = data ?: return null
         return ForumTopic(

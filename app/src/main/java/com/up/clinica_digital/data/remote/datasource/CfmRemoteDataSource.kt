@@ -4,6 +4,7 @@ import com.up.clinica_digital.data.remote.api.CfmApiService
 import com.up.clinica_digital.data.remote.dto.CfmApiDoctor
 import javax.inject.Inject
 
+// ANA: Handles CRM validation by calling CFM API and returning doctor list
 class CfmRemoteDataSource @Inject constructor(
     private val api: CfmApiService
 ) {
