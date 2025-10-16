@@ -8,12 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.up.clinica_digital.domain.model.Appointment
-import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.model.Patient
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
-import java.time.ZoneId
-import java.util.Date
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 @Composable
@@ -38,7 +35,7 @@ fun AgendaItem(
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "CPF: ${patient?.cpf ?: "Não informada"}",
+                text = "CPF: ${patient?.cpf ?: "Não informado"}",
                 style = MaterialTheme.typography.bodyMedium
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -67,11 +64,11 @@ fun AgendaItem(
 }
 
 private fun formatDate(date: LocalDateTime): String {
-    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-    return formatter.format(Date.from(date.atZone(ZoneId.systemDefault()).toInstant()))
+    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.getDefault())
+    return date.format(formatter)
 }
 
 private fun formatTime(date: LocalDateTime): String {
-    val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
-    return formatter.format(Date.from(date.atZone(ZoneId.systemDefault()).toInstant()))
+    val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.getDefault())
+    return date.format(formatter)
 }

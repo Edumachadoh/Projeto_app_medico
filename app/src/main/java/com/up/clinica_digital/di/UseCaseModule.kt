@@ -17,6 +17,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+// ANA: DI provides use cases to view models, connecting business logic to the UI. This module
+// delivers the app's features (like login or appointments) to the presentation layer. I divided this
+// regions to help with code readability. We use Generic Use Cases to write less code, so here's when
+// we say: Hey, this is a use case for doctors! Hey, this use case can be used with appointments! If
+// we don't say this here, IT'LL BREAK. IT WON'T WORK.
 @Module
 @InstallIn(SingletonComponent::class)
 object UseCaseModule {
