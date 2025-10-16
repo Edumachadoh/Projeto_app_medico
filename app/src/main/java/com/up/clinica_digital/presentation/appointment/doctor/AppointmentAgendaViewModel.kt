@@ -1,20 +1,17 @@
 package com.up.clinica_digital.presentation.appointment.doctor
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.up.clinica_digital.domain.model.Appointment
-import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.model.Patient
 import com.up.clinica_digital.domain.usecase.GetEntityByIdUseCase
 import com.up.clinica_digital.domain.usecase.appointment.ListByDoctorUseCase
-import com.up.clinica_digital.domain.usecase.appointment.ListByPatientUseCase
 import com.up.clinica_digital.domain.usecase.user.GetCurrentUserIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,11 +25,11 @@ class AppointmentAgendaViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<AppointmentAgendaUiState>(AppointmentAgendaUiState.Loading)
     val uiState: StateFlow<AppointmentAgendaUiState> = _uiState.asStateFlow()
 
-    private val _searchQuery = mutableStateOf("")
-    val searchQuery: State<String> = _searchQuery
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
     private var allAppointments = listOf<Appointment>()
-    private val patientMap = mutableMapOf<String, Patient>()
+    private val patientsMap = mutableMapOf<String, Patient>()
 
     init {
         loadInitialAppointments()
@@ -45,26 +42,27 @@ class AppointmentAgendaViewModel @Inject constructor(
                 val doctorId = getCurrentUserIdUseCase.invoke()
 
                 if (doctorId == null) {
-                    _uiState.value = AppointmentAgendaUiState.Error("Usuário não autenticado")
+                    _uiState.value = AppointmentAgendaUiState.Error("Médico não autenticado")
                     return@launch
                 }
 
                 allAppointments = getDoctorAgendaAppointmentsUseCase.invoke(doctorId)
 
-                allAppointments.map { it.patientId }.distinct().forEach { patientId ->
-                    if (!patientMap.containsKey(patientId)) {
+                allAppointments.forEach { appointment ->
+                    val patientId = appointment.patientId
+                    if (!patientsMap.containsKey(patientId)) {
                         getPatientByIdUseCase.invoke(patientId)?.let { patient ->
-                            patientMap[patientId] = patient
+                            patientsMap[patientId] = patient
                         }
                     }
                 }
 
                 _uiState.value = AppointmentAgendaUiState.Success(
                     scheduledAppointments = allAppointments,
-                    patients = patientMap
+                    patients = patientsMap
                 )
             } catch (e: Exception) {
-                _uiState.value = AppointmentAgendaUiState.Error(e.message ?: "Erro desconhecido")
+                _uiState.value = AppointmentAgendaUiState.Error(e.message ?: "Erro desconhecido ao carregar a agenda")
             }
         }
     }
@@ -79,13 +77,14 @@ class AppointmentAgendaViewModel @Inject constructor(
             allAppointments
         } else {
             allAppointments.filter { appointment ->
-                val patient = patientMap[appointment.patientId]
+                val patient = patientsMap[appointment.patientId]
                 patient?.name?.contains(query, ignoreCase = true) == true
             }
         }
-        _uiState.value = AppointmentAgendaUiState.Success(
-            scheduledAppointments = filteredList,
-            patients = patientMap
-        )
+        if (_uiState.value is AppointmentAgendaUiState.Success){
+            _uiState.update {
+                (it as AppointmentAgendaUiState.Success).copy(scheduledAppointments = filteredList)
+            }
+        }
     }
 }
