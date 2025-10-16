@@ -2,10 +2,8 @@ package com.up.clinica_digital.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.up.clinica_digital.data.remote.datasource.CfmRemoteDataSource
 import com.up.clinica_digital.data.repository.*
 import com.up.clinica_digital.domain.repository.AppointmentRepository
-import com.up.clinica_digital.domain.repository.CfmRepository
 import com.up.clinica_digital.domain.repository.DoctorRepository
 import com.up.clinica_digital.domain.repository.ForumCommentRepository
 import com.up.clinica_digital.domain.repository.ForumTopicRepository
@@ -60,10 +58,4 @@ object RepositoryModule {
     fun provideForumCommentRepository(
         firestore: FirebaseFirestore
     ): ForumCommentRepository = FirebaseForumCommentRepositoryImpl(firestore)
-
-    @Provides
-    @Singleton
-    fun provideCfmRepository(
-        remoteDataSource: CfmRemoteDataSource
-    ): CfmRepository = CfmRepositoryImpl(remoteDataSource)
 }

@@ -7,7 +7,6 @@ import com.up.clinica_digital.domain.model.Patient
 import com.up.clinica_digital.domain.usecase.user.LoginUserUseCase
 import com.up.clinica_digital.domain.usecase.user.RegisterDoctorUseCase
 import com.up.clinica_digital.domain.usecase.user.RegisterPatientUseCase
-import com.up.clinica_digital.domain.usecase.user.ValidateDoctorCrmUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +19,6 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(
     private val registerPatientUseCase: RegisterPatientUseCase,
     private val registerDoctorUseCase: RegisterDoctorUseCase,
-    private val validateDoctorCrmUseCase: ValidateDoctorCrmUseCase,
     private val loginUseCase: LoginUserUseCase
 ) : ViewModel() {
 
@@ -70,15 +68,6 @@ class AuthViewModel @Inject constructor(
                 // ANA: UI State is updated on the main thread.
                 withContext(Dispatchers.Main) {
                     _authState.value = AuthUiState.Loading
-                }
-
-                // ANA: CRM validation.
-                val crmValidation = validateDoctorCrmUseCase(doctor.crm, doctor.uf)
-                if (crmValidation.isEmpty()) {
-                    withContext(Dispatchers.Main) {
-                        _authState.value = AuthUiState.Error("CRM inválido")
-                    }
-                    return@launch
                 }
 
                 // ANA: Back-end register.

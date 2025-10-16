@@ -2,7 +2,6 @@ package com.up.clinica_digital.di
 
 import com.up.clinica_digital.domain.model.*
 import com.up.clinica_digital.domain.repository.AppointmentRepository
-import com.up.clinica_digital.domain.repository.CfmRepository
 import com.up.clinica_digital.domain.repository.DoctorRepository
 import com.up.clinica_digital.domain.repository.ForumCommentRepository
 import com.up.clinica_digital.domain.repository.ForumTopicRepository
@@ -43,10 +42,6 @@ object UseCaseModule {
     @Provides @Singleton
     fun provideDeleteDoctorUseCase(repo: DoctorRepository) =
         DeleteEntityUseCase<Doctor>(repo)
-
-    @Provides @Singleton
-    fun provideValidateDoctorCrmUseCase(repo: CfmRepository) =
-        ValidateDoctorCrmUseCase(repo)
 
     @Provides @Singleton
     fun provideListDoctorByUFAndSpecialityUseCase(repo: DoctorRepository) =
