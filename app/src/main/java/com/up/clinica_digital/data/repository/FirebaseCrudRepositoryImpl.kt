@@ -7,6 +7,8 @@ import com.up.clinica_digital.domain.repository.CrudRepository
 import kotlinx.coroutines.tasks.await
 
 // ANA: Base class for all Firebase repositories providing common CRUD operations
+// This is called a Generic Class and it can be implemented with any class as
+// long as said class has the HasId interface (this is why we got the <T : HasId>).
 abstract class FirebaseCrudRepositoryImpl<T : HasId>(
     private val collectionPath: String,
     private val firestore: FirebaseFirestore

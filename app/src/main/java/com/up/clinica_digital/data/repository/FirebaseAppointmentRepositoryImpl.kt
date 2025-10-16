@@ -27,6 +27,7 @@ class FirebaseAppointmentRepositoryImpl(
         val data = data ?: return null
 
         val statusStr = data["status"] as? String ?: AppointmentStatus.SCHEDULED.name
+        // ANA: Parses status string to AppointmentStatus enum value
         val status = try {
             AppointmentStatus.valueOf(statusStr)
         } catch (e: Exception) {

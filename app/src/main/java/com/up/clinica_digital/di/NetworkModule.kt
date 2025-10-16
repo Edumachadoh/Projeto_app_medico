@@ -12,6 +12,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
+// ANA: Finally, here it is our consultacrm link. This has a logger for tests (which I used to fix
+// some issues with the API), but basically here is where we provide our RetroFit (what makes it possible
+// for us to use external API) and we say: Hey, this is the external API we're using for this application!
+// So, whenever we call CfmApiService, this is what we're talking about (consultacrm)!
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {

@@ -17,6 +17,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+// ANA: DI delivers data repositories to use cases and view models. This module acts as a bridge,
+// providing the data layer to the business logic layer so they can work together. Most of these are
+// just specifications of our generic repository (SEE USE CASE MODULE TO UNDERSTAND GENERICS BETTER.)
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
