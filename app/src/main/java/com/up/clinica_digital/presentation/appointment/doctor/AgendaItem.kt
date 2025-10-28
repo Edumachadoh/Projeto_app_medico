@@ -13,12 +13,19 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
+/*
+* Item para mostrar na lazycolunm
+* do appointmenteAgendaScreen
+* */
+
 @Composable
 fun AgendaItem(
     appointment: Appointment,
     patient: Patient?,
     onAppointmentClick: (String) -> Unit
 ) {
+    //é um cartão que mostra nome do paciente
+    //além de data e horário da consulta seguindo uma formatação
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -63,11 +70,13 @@ fun AgendaItem(
     }
 }
 
+//formatação de data
 private fun formatDate(date: LocalDateTime): String {
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.getDefault())
     return date.format(formatter)
 }
 
+//formatação de hora
 private fun formatTime(date: LocalDateTime): String {
     val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.getDefault())
     return date.format(formatter)

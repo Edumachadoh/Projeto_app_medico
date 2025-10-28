@@ -24,6 +24,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.up.clinica_digital.presentation.navigation.Screen
 
+/*
+* Essa tela mostra todas as consultas do médico logado
+* utilizando a AppointmentAgendaViewModel para pegar
+* os dados e mostrar na tela
+*/
 @Composable
 fun AppointmentsAgendaScreen(
     navController: NavController,
@@ -32,6 +37,7 @@ fun AppointmentsAgendaScreen(
     val uiState by viewModel.uiState.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
 
+    //estrutura da tela de agenda do médico
     Scaffold { paddingValues ->
         Column(
             modifier = Modifier
@@ -39,6 +45,7 @@ fun AppointmentsAgendaScreen(
                 .padding(paddingValues)
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
+            //Barra de pesquisa pelo nome de paciente
             OutlinedTextField(
                 value = searchQuery,
                 onValueChange = { viewModel.onSearchQueryChange(it) },
@@ -46,10 +53,13 @@ fun AppointmentsAgendaScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
+            //Lugar onde mostra todas as consultas do médico logado
             Spacer(Modifier.height(16.dp))
             Text("Minha Agenda", style = MaterialTheme.typography.titleLarge)
             Spacer(Modifier.height(16.dp))
 
+            //Se der sucesso vai mostrar toda a agenda
+            //se não vai só mostrar uma mensagem de Nunhuma consulta encontrada
             when (val state = uiState) {
                 is AppointmentAgendaUiState.Loading -> CircularProgressIndicator()
                 is AppointmentAgendaUiState.Error -> {
