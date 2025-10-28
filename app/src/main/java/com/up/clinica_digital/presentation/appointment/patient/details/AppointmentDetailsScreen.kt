@@ -40,6 +40,8 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
+//Tela que mostra os detalhes da consulta para
+//o paciente logado
 @Composable
 fun AppointmentDetailsScreen(
     navController: NavHostController,
@@ -47,6 +49,11 @@ fun AppointmentDetailsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
+    //essa tela mostra:
+    //Nome do médico
+    //cpf do médico
+    //data e hora da consulta
+    //botão para cancelar a consulta
     Scaffold(
         topBar = { TopNavigationBar(navController = navController) }
     ) { innerPadding ->

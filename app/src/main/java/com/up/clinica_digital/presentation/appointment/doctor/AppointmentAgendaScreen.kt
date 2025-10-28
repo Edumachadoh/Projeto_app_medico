@@ -37,7 +37,7 @@ fun AppointmentsAgendaScreen(
     val uiState by viewModel.uiState.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
 
-    //estrutura da tela de agenda do médico
+    //estrutura da tela de agenda do médico logado
     Scaffold { paddingValues ->
         Column(
             modifier = Modifier

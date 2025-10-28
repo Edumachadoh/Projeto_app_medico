@@ -24,6 +24,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.up.clinica_digital.presentation.navigation.Screen
 
+/*
+* Essa tela mostra todas as consultas do paciente logado
+* utilizando a ScheduledAppointmentViewModel para pegar
+* os dados e mostrar na tela
+*/
 @Composable
 fun ScheduledAppointmentsScreen(
     navController: NavController,
@@ -31,6 +36,7 @@ fun ScheduledAppointmentsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
+    //estrutura da tela de consultas do paciente logado
     Scaffold { paddingValues ->
         Column(
             modifier = Modifier
@@ -38,6 +44,7 @@ fun ScheduledAppointmentsScreen(
                 .padding(paddingValues)
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
+            //Barra de pesquisa pelo nome do médico
             OutlinedTextField(
                 value = viewModel.searchQuery.value,
                 onValueChange = { viewModel.onSearchQueryChange(it) },
@@ -45,10 +52,13 @@ fun ScheduledAppointmentsScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
+            //Lugar onde mostra todas as consultas do paciente logado
             Spacer(Modifier.height(16.dp))
             Text("Consultas", style = MaterialTheme.typography.titleLarge)
             Spacer(Modifier.height(16.dp))
 
+            //Se der sucesso vai mostrar todas as consultas
+            //se não vai só mostrar uma mensagem de Nunhuma consulta encontrada
             when (val state = uiState) {
                 is ScheduledAppointmentUiState.Loading -> CircularProgressIndicator()
                 is ScheduledAppointmentUiState.Error -> {

@@ -94,10 +94,10 @@ class AppointmentAgendaViewModel @Inject constructor(
         }
     }
 
-    //comando para guardar dados da barra de pesquisa
+    //função para guardar dados da barra de pesquisa
     fun onSearchQueryChange(query: String) {
         _searchQuery.value = query
-        filterAppointments(query) //executando comando de filtro
+        filterAppointments(query) //executando função de filtro
     }
 
     //filtrando os agendamentos de acordo com o nome do paciente

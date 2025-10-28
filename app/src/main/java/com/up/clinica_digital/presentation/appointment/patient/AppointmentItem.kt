@@ -15,12 +15,18 @@ import java.time.ZoneId
 import java.util.Date
 import java.util.Locale
 
+/*
+* Item para mostrar na lazycolunm
+* do ScheduledAppointmentsScreen
+* */
 @Composable
 fun AppointmentItem(
     appointment: Appointment,
     doctor: Doctor?,
     onAppointmentClick: (String) -> Unit
 ) {
+    //é um cartão que mostra nome do doutor
+    //além de data e horário da consulta seguindo uma formatação
     OutlinedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -64,12 +70,14 @@ fun AppointmentItem(
         }
     }
 }
+//formatação de data
 
 private fun formatDate(date: LocalDateTime): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(Date.from(date.atZone(ZoneId.systemDefault()).toInstant()))
 }
 
+//formatação de hora
 private fun formatTime(date: LocalDateTime): String {
     val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
     return formatter.format(Date.from(date.atZone(ZoneId.systemDefault()).toInstant()))

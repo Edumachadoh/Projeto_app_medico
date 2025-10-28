@@ -69,6 +69,7 @@ class AgendaDetailsViewModel @Inject constructor(
         }
     }
 
+    //Função para cancelar consulta
     fun cancelAppointment(onComplete: () -> Unit) {
         viewModelScope.launch {
             val currentState = _uiState.value

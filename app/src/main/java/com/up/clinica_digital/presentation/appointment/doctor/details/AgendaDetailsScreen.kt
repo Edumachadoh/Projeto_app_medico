@@ -33,6 +33,8 @@ import java.time.ZoneId
 import java.util.Date
 import java.util.Locale
 
+//Tela que mostra os detalhes da consulta para
+//o médico logado
 @Composable
 fun AgendaDetailsScreen(
     navController: NavHostController,
@@ -40,6 +42,11 @@ fun AgendaDetailsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
+    //essa tela mostra:
+    //Nome do paciente
+    //cpf do paciente
+    //data e hora da consulta
+    //botão para cancelar a consulta
     Scaffold(
         topBar = { TopNavigationBar(navController = navController) }
     ) { innerPadding ->
