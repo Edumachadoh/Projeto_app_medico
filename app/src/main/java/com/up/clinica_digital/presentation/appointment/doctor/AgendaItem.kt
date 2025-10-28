@@ -24,7 +24,7 @@ fun AgendaItem(
     patient: Patient?,
     onAppointmentClick: (String) -> Unit
 ) {
-    //é um cartão que mostra nome do paciente
+    //é um cartão que mostra nome e cpf do paciente
     //além de data e horário da consulta seguindo uma formatação
     Card(
         modifier = Modifier
