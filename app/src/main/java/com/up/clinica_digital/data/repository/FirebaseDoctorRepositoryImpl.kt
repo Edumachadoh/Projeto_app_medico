@@ -7,10 +7,12 @@ import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.repository.DoctorRepository
 import kotlinx.coroutines.tasks.await
 
+// ANA: Firebase implementation for doctor data management with specialty filtering
 class FirebaseDoctorRepositoryImpl(
     firestore: FirebaseFirestore
 ) : FirebaseCrudRepositoryImpl<Doctor>("doctors", firestore), DoctorRepository {
 
+    // ANA: Converts doctor object to Firestore data format including medical credentials
     override fun Doctor.toMap(): Map<String, Any> = mapOf(
         "id" to id,
         "name" to name,
@@ -23,6 +25,7 @@ class FirebaseDoctorRepositoryImpl(
         "uf" to uf
     )
 
+    // ANA: Converts Firestore document back to doctor object with medical data
     override fun DocumentSnapshot.toDomain(): Doctor? {
         val data = data ?: return null
         return Doctor(
@@ -38,7 +41,7 @@ class FirebaseDoctorRepositoryImpl(
         )
     }
 
-    // ANA: o firebase não tem suporte nativo para queries do tipo LIKE. por isso o startAt e endAt. podem existir outras soluções, eu só não conheço! kkkk
+    // ANA: Searches doctors by state and specialty using Firestore range queries
     override suspend fun listByUFAndSpeciality(
         uf: String,
         speciality: String

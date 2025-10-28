@@ -8,6 +8,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+// ANA: Dagger Hilt modules organize dependency injection by grouping related providers together.
+// This one is for Firestore, our database.
 @Module
 @InstallIn(SingletonComponent::class)
 object FirebaseModule {
