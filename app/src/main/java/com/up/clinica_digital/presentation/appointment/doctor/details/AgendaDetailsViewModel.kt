@@ -16,6 +16,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/*
+* Viewmodel que mostra os detalhes
+* do paciente na consulta que o médico
+* selecionou na tela anterior que é a
+* AppointmentAgendaScreen
+* */
 @HiltViewModel
 class AgendaDetailsViewModel @Inject constructor(
     private val getAppointmentByIdUseCase: GetEntityByIdUseCase<Appointment>,
@@ -24,16 +30,23 @@ class AgendaDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
+    //guardando o Id da consulta
     private val appointmentId: String = savedStateHandle.get<String>("appointmentId")!!
 
+    //guardando estado da tela
     private val _uiState = MutableStateFlow<AgendaDetailsUiState>(AgendaDetailsUiState.Loading)
     val uiState: StateFlow<AgendaDetailsUiState> = _uiState.asStateFlow()
 
+    //Carregando consulta ao iniciar
     init {
         loadAppointmentDetails()
     }
 
+    //Carregando consulta
     private fun loadAppointmentDetails() {
+
+        //se alguma informação der erro ele retorna
+        //o estado de erro
         viewModelScope.launch {
             _uiState.value = AgendaDetailsUiState.Loading
             try {
