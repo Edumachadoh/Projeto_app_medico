@@ -18,6 +18,15 @@ import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.presentation.doctors.DoctorsViewModel
 import com.up.clinica_digital.presentation.navigation.Screen
 
+/**
+ * Tela que mostra a lista de todos os médicos
+ * cadastrado para o paciente logado
+ * quando o paciente clicar em um médico
+ * irá redireciona-lo a tela detalhes médico
+ * onde o paciente poderá começar o processo
+ * de agendamento de consulta
+ *
+ */
 @Composable
 fun DoctorsListScreen(
     viewModel: DoctorsViewModel = hiltViewModel(),

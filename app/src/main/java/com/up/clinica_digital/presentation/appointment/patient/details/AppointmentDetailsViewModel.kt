@@ -14,12 +14,21 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-/*
-* Viewmodel que mostra os detalhes
-* da consulta que o paciente
-* selecionou na tela anterior que é a
-* ScheduledAppointmentsScreen
-* */
+/**
+ * ViewModel para a tela de detalhes do agendamento do paciente (AppointmentDetailsScreen).
+ *
+ * Esta classe é responsável por:
+ * 1. Obter o `appointmentId` passado pela navegação.
+ * 2. Carregar os detalhes da consulta [Appointment] correspondente.
+ * 3. Carregar os detalhes do médico [Doctor] associado a essa consulta.
+ * 4. Expor o estado da UI [AppointmentDetailsUiState] para a tela.
+ * 5. Gerenciar a lógica de cancelamento da consulta pelo paciente.
+ *
+ * @param getAppointmentByIdUseCase Caso de uso para buscar uma consulta pelo ID.
+ * @param getDoctorByIdUseCase Caso de uso para buscar um médico pelo ID.
+ * @param updateAppointmentUseCase Caso de uso para atualizar uma consulta.
+ * @param savedStateHandle Handle para acessar os argumentos de navegação (o "appointmentId").
+ */
 @HiltViewModel
 class AppointmentDetailsViewModel @Inject constructor(
     private val getAppointmentByIdUseCase: GetEntityByIdUseCase<Appointment>,
@@ -40,7 +49,11 @@ class AppointmentDetailsViewModel @Inject constructor(
         loadAppointmentDetails()
     }
 
-    //Carregando consulta
+    /**
+     * Carrega os detalhes da consulta e do médico associado.
+     * Atualiza o [_uiState] para [AppointmentDetailsUiState.Success] ou
+     * [AppointmentDetailsUiState.Error] dependendo do resultado.
+     */
     private fun loadAppointmentDetails() {
         viewModelScope.launch {
             //se alguma informação der erro ele retorna
@@ -65,7 +78,16 @@ class AppointmentDetailsViewModel @Inject constructor(
             }
         }
     }
-    //Função para cancelar consulta
+
+    /**
+     * Cancela a consulta atual.
+     *
+     * Altera o status da consulta para [AppointmentStatus.CANCELED],
+     * atualiza no repositório e executa [onComplete] em caso de sucesso
+     * (geralmente usado para navegar de volta).
+     *
+     * @param onComplete Callback a ser executado após o sucesso do cancelamento.
+     */
     fun cancelAppointment(onComplete: () -> Unit) {
         viewModelScope.launch {
             val currentState = _uiState.value

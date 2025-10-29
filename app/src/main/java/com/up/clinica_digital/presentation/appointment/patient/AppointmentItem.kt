@@ -15,10 +15,16 @@ import java.time.ZoneId
 import java.util.Date
 import java.util.Locale
 
-/*
-* Item para mostrar na lazycolunm
-* do ScheduledAppointmentsScreen
-* */
+/**
+ * Item para exibir na LazyColumn da tela [ScheduledAppointmentsScreen].
+ *
+ * Este Composable mostra um card com as informações resumidas de um agendamento,
+ * incluindo o nome do médico, especialidade, data e hora.
+ *
+ * @param appointment O objeto [Appointment] (consulta) a ser exibido.
+ * @param doctor O objeto [Doctor] (médico) associado à consulta.
+ * @param onAppointmentClick Função lambda executada quando o botão "Ver Detalhes" é clicado.
+ */
 @Composable
 fun AppointmentItem(
     appointment: Appointment,
@@ -70,14 +76,18 @@ fun AppointmentItem(
         }
     }
 }
-//formatação de data
 
+/**
+ * Formata um [LocalDateTime] para uma string de data (dd/MM/yyyy).
+ */
 private fun formatDate(date: LocalDateTime): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(Date.from(date.atZone(ZoneId.systemDefault()).toInstant()))
 }
 
-//formatação de hora
+/**
+ * Formata um [LocalDateTime] para uma string de hora (HH:mm).
+ */
 private fun formatTime(date: LocalDateTime): String {
     val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
     return formatter.format(Date.from(date.atZone(ZoneId.systemDefault()).toInstant()))

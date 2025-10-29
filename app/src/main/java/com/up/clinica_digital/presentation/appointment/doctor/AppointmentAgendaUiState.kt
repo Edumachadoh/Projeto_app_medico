@@ -4,11 +4,18 @@ import com.up.clinica_digital.domain.model.Appointment
 import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.model.Patient
 
-/*
-*   Guardando estados da tela para
-*   mudar de carregar para sucesso
-*   ou se erro para erro
-*/
+/**
+ * Representa os possíveis estados da interface de usuário (UI)
+ * para a tela da agenda de consultas do médico.
+ *
+ * Esta classe selada define os diferentes cenários que a UI pode exibir,
+ * como "carregando", "sucesso" (com os dados) ou "erro".
+ * utilizado pelo [AppointmentAgendaViewModel]
+ *
+ * @property Loading Quando a tela está carregando
+ * @property Success Quando a tela consegue carregar
+ * @property Error Quando ocorre algum erro ao carregar
+ */
 
 sealed class AppointmentAgendaUiState {
     object Loading : AppointmentAgendaUiState()

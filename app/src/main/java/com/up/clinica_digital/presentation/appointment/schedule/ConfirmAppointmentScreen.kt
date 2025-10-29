@@ -20,11 +20,21 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
-/*
-* Tela que mostra ao paciente logado
-* as informações da consulta que ele acabou de agendar
-* antes de confirmar a consulta e guardar no banco
-*/
+/**
+ * Tela de confirmação de agendamento.
+ *
+ * Esta tela exibe um resumo das informações da consulta (médico, data e hora)
+ * que o paciente selecionou na tela anterior. Ela permite que o paciente
+ * confirme o agendamento, que então é salvo no banco de dados.
+ *
+ * @param scheduleViewModel O ViewModel da tela anterior, reutilizado aqui
+ * para carregar os dados do médico.
+ * @param confirmViewModel O ViewModel desta tela, responsável por
+ * salvar o agendamento.
+ * @param navController Controlador de navegação.
+ * @param doctorId O ID do médico (passado via navegação).
+ * @param dateTime A data e hora selecionada (passada via navegação como String).
+ */
 @Composable
 fun ConfirmAppointmentScreen(
     //parâmetros passados pela tela anterior AppointmentScheduleScreen

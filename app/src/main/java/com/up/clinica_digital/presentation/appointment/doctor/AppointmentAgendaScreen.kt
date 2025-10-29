@@ -24,11 +24,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.up.clinica_digital.presentation.navigation.Screen
 
-/*
-* Essa tela mostra todas as consultas do médico logado
-* utilizando a AppointmentAgendaViewModel para pegar
-* os dados e mostrar na tela
-*/
+/**
+ * Tela que mostra a agenda de consultas do médico logado.
+ * Permite filtrar as consultas pelo nome do paciente.
+ * Utiliza [AppointmentAgendaViewModel] para gerenciar o estado e
+ * buscar os dados.
+ *
+ * @param navController Controlador de navegação (usado para ir aos detalhes).
+ * @param viewModel ViewModel da tela, injetada pelo Hilt.
+ */
 @Composable
 fun AppointmentsAgendaScreen(
     navController: NavController,
@@ -65,10 +69,13 @@ fun AppointmentsAgendaScreen(
                 is AppointmentAgendaUiState.Error -> {
                     Text(state.message, color = Color.Red)
                 }
+                // Se o estado for Sucesso, exibe a lista de consultas
                 is AppointmentAgendaUiState.Success -> {
                     if (state.scheduledAppointments.isEmpty()) {
                         Text("Nenhuma consulta agendada.")
-                    } else {
+                    }
+                    // Lista rolável de consultas
+                    else {
                         LazyColumn(
                             verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {

@@ -13,10 +13,14 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-/*
-* Item para mostrar na lazycolunm
-* do appointmenteAgendaScreen
-* */
+/**
+ * Item para mostrar na LazyColumn
+ * da [AppointmentsAgendaScreen].
+ *
+ * @param appointment Objeto da consulta.
+ * @param patient Objeto do paciente.
+ * @param onAppointmentClick Função executada quando clicar no botão "Ver Detalhes".
+ */
 
 @Composable
 fun AgendaItem(

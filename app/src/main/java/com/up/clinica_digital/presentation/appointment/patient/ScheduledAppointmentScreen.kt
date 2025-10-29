@@ -24,11 +24,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.up.clinica_digital.presentation.navigation.Screen
 
-/*
-* Essa tela mostra todas as consultas do paciente logado
-* utilizando a ScheduledAppointmentViewModel para pegar
-* os dados e mostrar na tela
-*/
+/**
+ * Exibe a lista de consultas agendadas para o paciente logado.
+ *
+ * Esta tela permite ao paciente ver seus agendamentos futuros e
+ * filtrar a lista pelo nome do médico.
+ *
+ * @param navController Controlador de navegação para abrir os detalhes da consulta.
+ * @param viewModel O ViewModel que gerencia o estado e a lógica desta tela.
+ */
 @Composable
 fun ScheduledAppointmentsScreen(
     navController: NavController,

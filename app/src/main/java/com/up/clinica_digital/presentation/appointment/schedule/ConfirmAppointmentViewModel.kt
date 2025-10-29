@@ -15,7 +15,15 @@ import java.time.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
 
-//viewmodel que carrega as informações da tela Confirmar agendamento
+/**
+ * ViewModel para a tela de confirmação de agendamento [ConfirmAppointmentScreen].
+ *
+ * Esta classe é responsável pela lógica de *confirmar* e *salvar* o novo
+ * agendamento no banco de dados quando o usuário clica no botão "Confirmar".
+ *
+ * @param createAppointmentUseCase Caso de uso para criar uma nova entidade [Appointment].
+ * @param getCurrentUserIdUseCase Caso de uso para obter o ID do paciente logado.
+ */
 @HiltViewModel
 class ConfirmAppointmentViewModel @Inject constructor(
     private val createAppointmentUseCase: CreateEntityUseCase<Appointment>,
@@ -26,7 +34,12 @@ class ConfirmAppointmentViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ConfirmAppointmentUiState())
     val uiState = _uiState.asStateFlow()
 
-    //função para agendar consulta
+    /**
+     * Executa a lógica para criar e salvar o novo agendamento.
+     *
+     * @param doctorId O ID do médico selecionado.
+     * @param dateTime A data e hora [LocalDateTime] selecionados.
+     */
     fun scheduleAppointment(doctorId: String, dateTime: LocalDateTime) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }

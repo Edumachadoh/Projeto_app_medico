@@ -2,10 +2,10 @@ package com.up.clinica_digital.presentation.appointment.patient
 
 import com.up.clinica_digital.domain.model.Appointment
 import com.up.clinica_digital.domain.model.Doctor
-/*
-* Estado da tela de consultas agendadas
-* do paciente logado
-*/
+/**
+ * Representa os possíveis estados da interface de usuário (UI)
+ * para a tela de consultas agendadas do paciente (ScheduledAppointmentsScreen).
+ */
 
 sealed class ScheduledAppointmentUiState {
     object Loading : ScheduledAppointmentUiState()

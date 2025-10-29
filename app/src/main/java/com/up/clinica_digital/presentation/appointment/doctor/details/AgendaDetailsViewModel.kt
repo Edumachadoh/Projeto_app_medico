@@ -16,12 +16,18 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/*
-* Viewmodel que mostra os detalhes
-* do paciente na consulta que o médico
-* selecionou na tela anterior que é a
-* AppointmentAgendaScreen
-* */
+/**
+ * ViewModel para a tela de detalhes da agenda [AgendaDetailsScreen].
+ *
+ * Responsável por carregar os detalhes de uma consulta específica (usando o ID
+ * recebido via [SavedStateHandle] e os dados do paciente associado.
+ * Também gerencia a lógica para cancelar a consulta.
+ *
+ * @param getAppointmentByIdUseCase Caso de uso para buscar uma consulta pelo ID.
+ * @param getPatientByIdUseCase Caso de uso para buscar um paciente pelo ID.
+ * @param updateAppointmentUseCase Caso de uso para atualizar uma consulta (ex: cancelar).
+ * @param savedStateHandle Handle para acessar os argumentos de navegação (o "appointmentId").
+ */
 @HiltViewModel
 class AgendaDetailsViewModel @Inject constructor(
     private val getAppointmentByIdUseCase: GetEntityByIdUseCase<Appointment>,
@@ -42,7 +48,11 @@ class AgendaDetailsViewModel @Inject constructor(
         loadAppointmentDetails()
     }
 
-    //Carregando consulta
+    /**
+     * Carrega os detalhes da consulta e do paciente usando o [appointmentId].
+     * Atualiza o [_uiState] com [AgendaDetailsUiState.Success] ou
+     * [AgendaDetailsUiState.Error] com base no resultado.
+     */
     private fun loadAppointmentDetails() {
 
         //se alguma informação der erro ele retorna
@@ -69,7 +79,15 @@ class AgendaDetailsViewModel @Inject constructor(
         }
     }
 
-    //Função para cancelar consulta
+    /**
+     * Cancela a consulta atual.
+     *
+     * Esta função atualiza o status da consulta para [AppointmentStatus.CANCELED],
+     * persiste a mudança no banco de dados e, em seguida, chama [onComplete]
+     * (geralmente para fechar a tela).
+     *
+     * @param onComplete Callback executado após o cancelamento ser bem-sucedido.
+     */
     fun cancelAppointment(onComplete: () -> Unit) {
         viewModelScope.launch {
             val currentState = _uiState.value

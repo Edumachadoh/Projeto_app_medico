@@ -26,28 +26,36 @@ import androidx.navigation.NavController
 import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
 import com.up.clinica_digital.presentation.navigation.Screen
 
+/*
+ * Tela de detalhes do médico que foi selecionado
+ * pelo paciente logado na lista de médicos
+ */
+
 @Composable
 fun DoctorDetailsScreen(
     navController: NavController,
     viewModel: DoctorsViewModel = hiltViewModel(),
     doctorId: String,
 ) {
+    //estados da tela
     val uiState by viewModel.uiState.collectAsState()
 
+    //carregando informações do doutor ao iniciar a tela
     LaunchedEffect(key1 = doctorId) {
         viewModel.loadDoctor(doctorId)
     }
 
     Scaffold(
+        //barra superior de navegação para voltar
+        //a tela anterior
         topBar = { TopNavigationBar(navController) },
         bottomBar = {
             BottomAppBar {
                 Row(modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center){
-                    Button(onClick = {
-                navController.navigate(
-                    Screen.Appointment.createRoute(doctorId)
-                )
+                    //Botão para levar o paciente logado a tela
+                    //de agendar consulta com esse médico selecionado
+                    Button(onClick = { navController.navigate(Screen.Appointment.createRoute(doctorId))
                     })
                     {
                         Text("Agendar consulta")
@@ -57,6 +65,8 @@ fun DoctorDetailsScreen(
         })
 
     { innerPadding ->
+
+        //informações do médico
         Column(
             modifier = Modifier
                 .fillMaxSize()

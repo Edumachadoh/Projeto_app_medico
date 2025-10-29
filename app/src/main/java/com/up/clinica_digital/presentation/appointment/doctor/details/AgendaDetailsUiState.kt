@@ -4,7 +4,10 @@ import com.up.clinica_digital.domain.model.Appointment
 import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.model.Patient
 
-//Estado da tela de detalhes da consulta
+/**
+ * Representa os possíveis estados da interface de usuário (UI)
+ * para a tela de detalhes da consulta [AgendaDetailsScreen].
+ */
 sealed class AgendaDetailsUiState {
     object Loading : AgendaDetailsUiState()
     data class Success(

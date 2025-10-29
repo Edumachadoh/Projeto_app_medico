@@ -22,10 +22,14 @@ import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
 import com.up.clinica_digital.presentation.navigation.Screen
 import java.time.format.DateTimeFormatter
 
-/*
-*   Tela para agendamento de consulta
-*   feita pelo paciente logado
-*/
+/**
+ * Tela onde o paciente seleciona a data e a hora para agendar
+ * uma consulta com um médico específico.
+ *
+ * @param viewModel O ViewModel que gerencia o estado desta tela.
+ * @param navController Controlador de navegação para ir para a tela de confirmação.
+ * @param doctorId O ID do médico selecionado na tela anterior.
+ */
 @Composable
 fun AppointmentScheduleScreen(
     viewModel: AppointmentScheduleViewModel = hiltViewModel(),

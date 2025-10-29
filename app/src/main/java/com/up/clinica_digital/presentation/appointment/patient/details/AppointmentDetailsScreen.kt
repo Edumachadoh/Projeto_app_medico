@@ -40,8 +40,18 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-//Tela que mostra os detalhes da consulta para
-//o paciente logado
+/**
+ * Tela que exibe os detalhes de um agendamento para o paciente logado.
+ *
+ * Esta tela gerencia o estado da UI (Loading, Error, Success) e exibe
+ * o conteúdo principal ou indicadores de feedback apropriados.
+ * A consulta é selecionada na tela [ScheduledAppointmentsScreen]
+ *
+ * @param navController O controlador de navegação para ações.
+ * @param viewModel O ViewModel que gerencia o estado desta tela.
+
+ */
+
 @Composable
 fun AppointmentDetailsScreen(
     navController: NavHostController,

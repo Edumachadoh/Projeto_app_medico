@@ -33,8 +33,16 @@ import java.time.ZoneId
 import java.util.Date
 import java.util.Locale
 
-//Tela que mostra os detalhes da consulta para
-//o médico logado
+/**
+ * Tela que exibe os detalhes de um agendamento específico para o médico.
+ *
+ * Permite ao médico visualizar as informações do paciente (nome, CPF),
+ * os dados da consulta (data, hora, status) e realizar ações,
+ * como cancelar o agendamento.
+ *
+ * @param navController O controlador de navegação para ações (ex: voltar).
+ * @param viewModel O ViewModel que gerencia o estado desta tela.
+ */
 @Composable
 fun AgendaDetailsScreen(
     navController: NavHostController,
@@ -121,11 +129,17 @@ fun AgendaDetailsScreen(
         }
     }
 }
+/**
+ * Formata um [LocalDateTime] para uma string de data (dd/MM/yyyy).
+ */
 private fun formatDate(date: LocalDateTime): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(Date.from(date.atZone(ZoneId.systemDefault()).toInstant()))
 }
 
+/**
+ * Formata um [LocalDateTime] para uma string de hora (HH:mm).
+ */
 private fun formatTime(date: LocalDateTime): String {
     val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
     return formatter.format(Date.from(date.atZone(ZoneId.systemDefault()).toInstant()))

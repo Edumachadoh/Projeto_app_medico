@@ -15,12 +15,17 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-/*
-* Viewmodel da tela de consultas agendadas do
-* paciente logado
-* Onde carrega todas as consultas agendadas
-* pelo paciente
-*/
+/**
+ * ViewModel para a tela de consultas agendadas do paciente [ScheduledAppointmentsScreen].
+ *
+ * Responsável por carregar todos os agendamentos do paciente logado,
+ * buscar os dados dos médicos associados e filtrar a lista
+ * com base na pesquisa do usuário.
+ *
+ * @param getPatientScheduledAppointmentsUseCase Caso de uso para listar agendamentos por paciente.
+ * @param getDoctorByIdUseCase Caso de uso para buscar um médico pelo ID.
+ * @param getCurrentUserIdUseCase Caso de uso para obter o ID do usuário logado.
+ */
 
 @HiltViewModel
 class ScheduledAppointmentViewModel @Inject constructor(
@@ -52,7 +57,10 @@ class ScheduledAppointmentViewModel @Inject constructor(
         loadInitialAppointments()
     }
 
-    //carregando todas as consultas
+    /**
+     * Carrega a lista inicial de agendamentos do paciente logado
+     * e os dados dos médicos associados.
+     */
     private fun loadInitialAppointments() {
         viewModelScope.launch {
             _uiState.value = ScheduledAppointmentUiState.Loading
@@ -84,7 +92,12 @@ class ScheduledAppointmentViewModel @Inject constructor(
         }
     }
 
-    //função para guardar dados da barra de pesquisa
+    /**
+     * Chamado quando o texto na barra de pesquisa é alterado.
+     * Atualiza o [searchQuery] e aciona a filtragem da lista.
+     *
+     * @param query O novo texto da pesquisa.
+     */
     fun onSearchQueryChange(query: String) {
         _searchQuery.value = query
         filterAppointments(query) //executando função de filtro
