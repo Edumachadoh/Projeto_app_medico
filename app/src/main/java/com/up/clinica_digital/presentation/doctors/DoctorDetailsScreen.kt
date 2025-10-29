@@ -26,9 +26,14 @@ import androidx.navigation.NavController
 import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
 import com.up.clinica_digital.presentation.navigation.Screen
 
-/*
+/**
  * Tela de detalhes do médico que foi selecionado
  * pelo paciente logado na lista de médicos
+ *
+ * @param navController parametro que permite o
+ * paciente navegar dos detalhes para agendar consulta
+ * @param viewModel Viewmodel que carrega informações de doutor
+ * @param doctorId id do doutor selecionado na tela [DoctorsListScreen]
  */
 
 @Composable
