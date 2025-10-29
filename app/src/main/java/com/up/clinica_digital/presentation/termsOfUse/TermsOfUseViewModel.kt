@@ -7,6 +7,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
+/**
+ * Viewmodel dos termos de uso do aplicativo
+ * termos essses que serão acessados na tela
+ * de cadastro do usuário [RegisterScreen]
+ * */
 @HiltViewModel
 class TermsOfUseViewModel @Inject constructor() : ViewModel() {
 

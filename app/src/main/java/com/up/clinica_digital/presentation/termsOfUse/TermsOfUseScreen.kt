@@ -22,6 +22,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 
+/**
+ * Tela que consume a [TermsOfUseViewModel] e
+ * carrega os termos de uso do aplicativo
+ * que estão presentes na tela [RegisterScreen]
+ * */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TermsOfUseScreen(
