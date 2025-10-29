@@ -20,24 +20,35 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
+/*
+* Tela que mostra ao paciente logado
+* as informações da consulta que ele acabou de agendar
+* antes de confirmar a consulta e guardar no banco
+*/
 @Composable
 fun ConfirmAppointmentScreen(
+    //parâmetros passados pela tela anterior AppointmentScheduleScreen
     scheduleViewModel: AppointmentScheduleViewModel = hiltViewModel(),
     confirmViewModel: ConfirmAppointmentViewModel = hiltViewModel(),
     navController: NavHostController,
     doctorId: String,
     dateTime: String
 ) {
+    //estado da tela
     val scheduleUiState by scheduleViewModel.uiState.collectAsState()
     val confirmUiState by confirmViewModel.uiState.collectAsState()
+
+    //data e hora definidos pela paciente na tela anterior
     val parsedDateTime = LocalDateTime.parse(dateTime)
 
+    //carregando doutor
     LaunchedEffect(key1 = doctorId) {
         scheduleViewModel.loadDoctor(doctorId)
     }
 
     Scaffold(
         topBar = {
+            //barra superior com opção de voltar a tela
             TopNavigationBar(navController)
         }
     ) { innerPadding ->
@@ -62,6 +73,9 @@ fun ConfirmAppointmentScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
+                        //Informações definidas pelo paciente na tela anterior
+                        //que irá aparecer quando ele confirmar a consulta
+                        //para o mesmo saber se vai ou não confirmar a consulta
                         Text("Consulta agendada com sucesso!", style = MaterialTheme.typography.titleLarge)
                         Spacer(modifier = Modifier.height(16.dp))
                         Button(onClick = {
@@ -74,6 +88,8 @@ fun ConfirmAppointmentScreen(
                     }
                 }
                 else -> {
+                    //informações da tela anterior para paciente
+                    //decidir se vai ou não agendar
                     Text(
                         text = "Confirmar Agendamento",
                         style = MaterialTheme.typography.titleLarge,
@@ -81,6 +97,7 @@ fun ConfirmAppointmentScreen(
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(bottom = 32.dp)
                     )
+                    //informações do doutor
                     scheduleUiState.doctor?.let { doctor ->
                         DoctorInformation(doctor = doctor)
                         Spacer(modifier = Modifier.height(24.dp))
@@ -89,6 +106,7 @@ fun ConfirmAppointmentScreen(
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                         )
+                        //data e hora do agendamento
                         Text(
                             text = parsedDateTime.format(
                                 DateTimeFormatter.ofLocalizedDateTime(
@@ -99,6 +117,7 @@ fun ConfirmAppointmentScreen(
                             style = MaterialTheme.typography.bodyLarge
                         )
                         Spacer(modifier = Modifier.height(32.dp))
+                        //botão para confirmar agendamento
                         Button(
                             onClick = {
                                 confirmViewModel.scheduleAppointment(
@@ -110,6 +129,8 @@ fun ConfirmAppointmentScreen(
                         ) {
                             Text("Confirmar")
                         }
+                        // se as informações de médico não forem encontradas
+                        // não é possivel agendar consulta
                     } ?: Text("Médico não encontrado.")
                 }
             }

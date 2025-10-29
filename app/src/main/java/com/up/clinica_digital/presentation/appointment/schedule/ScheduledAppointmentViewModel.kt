@@ -12,14 +12,20 @@ import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import javax.inject.Inject
 
+//viewmodel que carrega o doutor na tela de agendamento
+//e também guarda a data e hora selecionados pelo usuário
 @HiltViewModel
 class AppointmentScheduleViewModel @Inject constructor(
     private val getDoctorUseCase: GetEntityByIdUseCase<Doctor>
 ) : ViewModel() {
 
+    //estados da tela de agendamento
     private val _uiState = MutableStateFlow(AppointmentScheduleUiState())
     val uiState = _uiState.asStateFlow()
 
+    //carregando doutor selecionado na tela detalhes doutor
+    //que foi selecionado na lista de doutores
+    //pelo paciente logado
     fun loadDoctor(doctorId: String) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }

@@ -15,15 +15,18 @@ import java.time.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
 
+//viewmodel que carrega as informações da tela Confirmar agendamento
 @HiltViewModel
 class ConfirmAppointmentViewModel @Inject constructor(
     private val createAppointmentUseCase: CreateEntityUseCase<Appointment>,
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase
 ) : ViewModel() {
 
+    //guardando estado da tela
     private val _uiState = MutableStateFlow(ConfirmAppointmentUiState())
     val uiState = _uiState.asStateFlow()
 
+    //função para agendar consulta
     fun scheduleAppointment(doctorId: String, dateTime: LocalDateTime) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
@@ -34,6 +37,7 @@ class ConfirmAppointmentViewModel @Inject constructor(
                 return@launch
             }
 
+            //criando novo objeto de consulta
             try {
                 val newAppointment = Appointment(
                     id = UUID.randomUUID().toString(),
@@ -42,9 +46,12 @@ class ConfirmAppointmentViewModel @Inject constructor(
                     scheduledAt = dateTime,
                     status = AppointmentStatus.SCHEDULED
                 )
+                //guardando consulta no banco
                 createAppointmentUseCase.invoke(newAppointment)
                 _uiState.update { it.copy(isLoading = false, appointmentScheduled = true) }
             } catch (e: Exception) {
+                //com qualquer erro não irá agendar
+                //e retornar um erro ao estado da tela
                 _uiState.update {
                     it.copy(
                         isLoading = false,

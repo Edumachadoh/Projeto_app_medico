@@ -22,21 +22,29 @@ import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
 import com.up.clinica_digital.presentation.navigation.Screen
 import java.time.format.DateTimeFormatter
 
+/*
+*   Tela para agendamento de consulta
+*   feita pelo paciente logado
+*/
 @Composable
 fun AppointmentScheduleScreen(
     viewModel: AppointmentScheduleViewModel = hiltViewModel(),
     navController: NavHostController,
     doctorId: String,
 ) {
+    //estado da tela (inicia como: Carregando; Erro; Sucesso)
     val uiState by viewModel.uiState.collectAsState()
+    //formatando data para mandar parao banco
     val formatter = remember { DateTimeFormatter.ofPattern("HH:mm") }
 
+    //carergando o doutor selecionado na tela listar médicos
     LaunchedEffect(key1 = doctorId) {
         viewModel.loadDoctor(doctorId)
     }
 
     Scaffold(
         topBar = {
+            //barra de navegação com botão voltar
             TopNavigationBar(navController)
         }
     ) { innerPadding ->
@@ -58,6 +66,7 @@ fun AppointmentScheduleScreen(
                         verticalArrangement = Arrangement.Top,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+                        //estrutura da tela
                         Text(
                             text = "Agendamento",
                             style = MaterialTheme.typography.titleLarge,
@@ -66,18 +75,27 @@ fun AppointmentScheduleScreen(
                             modifier = Modifier.align(Alignment.Start)
                         )
                         Spacer(modifier = Modifier.height(16.dp))
+                        //Quando a tela carregar mostrará as informações
+                        //do doutor selecionado
                         uiState.doctor?.let { doctor ->
                             DoctorInformation(doctor)
                             Spacer(modifier = Modifier.height(16.dp))
+                            //Componente de calendário
+                            // criado para selecionar
+                            // data e hora da consulta
                             CalendarTimeDatePicker(
+                                //irá registrar a data quando alterado
                                 onDateTimeSelected = { dateTime ->
                                     viewModel.onDateTimeSelected(dateTime)
                                 }
                             )
+                            //irá mostrar a hora selecionada
+                            //quando ela for modificada
                             uiState.selectedDateTime?.let {
                                 Text(text = "Horário Selecionado: ${it.format(formatter)}")
                             }
                             Spacer(modifier = Modifier.height(16.dp))
+                            //Botão que leva para a tela confirmar agendamento
                             Button(
                                 onClick = {
                                     navController.navigate(
@@ -92,6 +110,8 @@ fun AppointmentScheduleScreen(
                                 Text("Agendar")
                             }
                         } ?: run {
+                            //se o médico não for encontrado
+                            //não é possivel realizar agendamento
                             Box(
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center
