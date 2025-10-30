@@ -17,23 +17,38 @@ import javax.inject.Inject
 @HiltViewModel
 class ForumViewModel @Inject constructor() : ViewModel() {
 
+     // armazena o estado (Loading, Success, Error)
     private val _uiState = MutableStateFlow<ForumUiState>(ForumUiState.Loading)
+    // A UI (Composable) observa este Flow para reagir a mudanças de estado.
     val uiState: StateFlow<ForumUiState> = _uiState.asStateFlow()
 
+
+    // Estado da Tela de Detalhes do Tópico (TopicItemScreen)
+    // _topicUiState: StateFlow privado para o estado de um *único* tópico
     private val _topicUiState = MutableStateFlow<TopicUiState>(TopicUiState.Idle)
     val topicUiState: StateFlow<TopicUiState> = _topicUiState.asStateFlow()
 
+
+    //  Estado da Barra de Busca
+    // _searchQuery: StateFlow privado que armazena o texto atual da busca.
     private val _searchQuery = MutableStateFlow("")
+    // Ler o texto de busca
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
+    // "Banco de dados" local: Lista em memória que armazena todos os tópicos.
     private var allTopics = mutableListOf<ForumTopic>()
+
+    // É executado uma vez quando o ViewModel é criado.
+    // Inicia o carregamento dos dados de exemplo loadMockForumTopics
 
     init {
         loadMockForumTopics()
     }
 
+    // Carrega uma lista de tópicos e comentários de exemplo
     private fun loadMockForumTopics() {
         viewModelScope.launch {
+            // Define o estado da UI como "Carregando".
             _uiState.value = ForumUiState.Loading
 
             // Dados mockados (mantidos como estão)
@@ -53,31 +68,45 @@ class ForumViewModel @Inject constructor() : ViewModel() {
                 ForumTopic("t3", "Manejo de Burnout na Residência Médica", "Gostaria de abrir um espaço...", "Rafael.Residente", LocalDateTime.now().minusHours(8), listOf(ForumComment("c6", "t3", "Psic.Helena", "Ótima iniciativa...", LocalDateTime.now().minusHours(2)))),
                 ForumTopic("t4", "Dermatose de difícil diagnóstico em paciente pediátrico", "Paciente de 5 anos...", "Beatriz.Pedia", LocalDateTime.now().minusDays(3), emptyList())
             )
+            // Define o estado da UI como "Sucesso", passando a lista de tópicos.
             _uiState.value = ForumUiState.Success(allTopics)
         }
     }
 
+    // Função pública chamada pela UI (ForumScreen) sempre que o usuário altera o texto no campo de busca.
+    // filterTopics aplica o filtro na lista de tópicos.
     fun onSearchQueryChange(query: String) {
         _searchQuery.value = query
         filterTopics(query)
     }
 
+    // Filtra a lista 'allTopics' com base na 'query' de busca.
     private fun filterTopics(query: String) {
+        // Se a busca estiver em branco, usa a lista completa.
         val filteredList = if (query.isBlank()) {
             allTopics
         } else {
+            // Senão, filtra a lista 'allTopics'
             allTopics.filter { topic ->
+                // O critério de busca é: o título OU o conteúdo contêm o texto da busca.
                 topic.title.contains(query, ignoreCase = true) ||
                         topic.content.contains(query, ignoreCase = true)
             }
         }
+        // Atualiza o estado da UI (ForumUiState) com a nova lista filtrada.
         _uiState.value = ForumUiState.Success(filteredList)
     }
 
+    //  Carrega os detalhes de um tópico específico.
     fun loadTopic(topicId: String) {
         viewModelScope.launch {
+            // Define o estado da tela de detalhes como "Carregando".
             _topicUiState.value = TopicUiState.Loading
+            // Procura o tópico na lista em memória.
             val topic = allTopics.find { it.id == topicId }
+
+            // Se o tópico for encontrado, atualiza o estado para "Sucesso".
+            // Se não encontrar, atualiza o estado para "Erro".
             if (topic != null) {
                 _topicUiState.value = TopicUiState.Success(topic)
             } else {
