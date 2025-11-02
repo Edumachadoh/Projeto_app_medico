@@ -27,13 +27,14 @@ import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
 import com.up.clinica_digital.presentation.navigation.Screen
 
 /**
- * Tela de detalhes do médico que foi selecionado
- * pelo paciente logado na lista de médicos
+ * PEDRO:
+ * Doctor details screen, selected
+ * by the logged-in patient from the doctors list.
  *
- * @param navController parametro que permite o
- * paciente navegar dos detalhes para agendar consulta
- * @param viewModel Viewmodel que carrega informações de doutor
- * @param doctorId id do doutor selecionado na tela [DoctorsListScreen]
+ * @param navController Parameter that allows the
+ * patient to navigate from details to schedule an appointment.
+ * @param viewModel ViewModel that loads doctor information.
+ * @param doctorId ID of the doctor selected on the [DoctorsListScreen].
  */
 
 @Composable
@@ -42,24 +43,24 @@ fun DoctorDetailsScreen(
     viewModel: DoctorsViewModel = hiltViewModel(),
     doctorId: String,
 ) {
-    //estados da tela
+    // screen UI state
     val uiState by viewModel.uiState.collectAsState()
 
-    //carregando informações do doutor ao iniciar a tela
+    // loading doctor information when the screen starts
     LaunchedEffect(key1 = doctorId) {
         viewModel.loadDoctor(doctorId)
     }
 
     Scaffold(
-        //barra superior de navegação para voltar
-        //a tela anterior
+        // top navigation bar to go back
+        // to the previous screen
         topBar = { TopNavigationBar(navController) },
         bottomBar = {
             BottomAppBar {
                 Row(modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center){
-                    //Botão para levar o paciente logado a tela
-                    //de agendar consulta com esse médico selecionado
+                    // Button to take the logged-in patient to the
+                    // screen to schedule an appointment with this selected doctor
                     Button(onClick = { navController.navigate(Screen.Appointment.createRoute(doctorId))
                     })
                     {
@@ -71,7 +72,7 @@ fun DoctorDetailsScreen(
 
     { innerPadding ->
 
-        //informações do médico
+        // doctor's information
         Column(
             modifier = Modifier
                 .fillMaxSize()

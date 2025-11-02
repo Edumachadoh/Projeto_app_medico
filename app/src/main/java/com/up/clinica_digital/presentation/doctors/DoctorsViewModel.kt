@@ -13,15 +13,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * ViewModel para as telas relacionadas a Médicos (DoctorsListScreen e DoctorDetailsScreen).
+ * ViewModel for screens related to Doctors (DoctorsListScreen and DoctorDetailsScreen).
  *
- * Esta classe gerencia o estado da UI para:
- * 1. Carregar e exibir a lista completa de médicos.
- * 2. Filtrar a lista de médicos (pela especialidade).
- * 3. Carregar os dados de um médico individual para a tela de detalhes.
+ * This class manages the UI state for:
+ * 1. Loading and displaying the complete list of doctors.
+ * 2. Filtering the list of doctors (by specialty).
+ * 3. Loading the data of an individual doctor for the details screen.
  *
- * @param getDoctorUseCase Caso de uso para buscar um médico específico pelo ID.
- * @param getAllDoctorsUseCase Caso de uso para listar todas as entidades de médicos.
+ * @param getDoctorUseCase Use case to fetch a specific doctor by ID.
+ * @param getAllDoctorsUseCase Use case to list all doctor entities.
  */
 @HiltViewModel
 class DoctorsViewModel @Inject constructor(
@@ -42,21 +42,21 @@ class DoctorsViewModel @Inject constructor(
     }
 
     /**
-     * Chamado quando o texto na barra de pesquisa é alterado.
-     * Atualiza o [DoctorUIState.searchQuery] e aciona a filtragem da lista.
+     * Called when the text in the search bar is changed.
+     * Updates the [DoctorUIState.searchQuery] and triggers the list filtering.
      *
-     * @param query O novo texto da pesquisa.
+     * @param query The new search text.
      */
     fun onSearchQueryChange(query: String) {
         _uiState.update { it.copy(searchQuery = query) }
-        filterDoctors(query) /**--> mandando para a função [filterDoctors]*/
+        filterDoctors(query) //-- > sending to the [filterDoctors] function
     }
 
     /**
-     * Filtra a lista de [allDoctors] com base na especialidade do médico.
-     * Atualiza o [DoctorUIState.doctors] com a lista filtrada.
+     * Filters the [allDoctors] list based on the doctor's specialty.
+     * Updates the [DoctorUIState.doctors] with the filtered list.
      *
-     * @param query O texto (especialidade) usado para filtrar.
+     * @param query The text (specialty) used for filtering.
      */
     private fun filterDoctors(query: String) {
         viewModelScope.launch {
@@ -75,10 +75,10 @@ class DoctorsViewModel @Inject constructor(
     }
 
     /**
-     * Carrega os dados de um médico específico pelo ID.
-     * (Usado pela tela de detalhes do médico).
+     * Loads the data of a specific doctor by ID.
+     * (Used by the doctor details screen).
      *
-     * @param doctorId O ID do médico a ser carregado.
+     * @param doctorId The ID of the doctor to be loaded.
      */
     fun loadDoctor(doctorId: String) {
         viewModelScope.launch {

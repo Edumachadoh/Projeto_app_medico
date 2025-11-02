@@ -30,16 +30,17 @@ import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.presentation.navigation.Screen
 
 /**
- * Tela que mostra a lista de todos os médicos
- * cadastrado para o paciente logado
- * quando o paciente clicar em um médico
- * irá redireciona-lo a tela detalhes médico
- * onde o paciente poderá começar o processo
- * de agendamento de consulta
+ * PEDRO:
+ * Screen that shows the list of all registered
+ * doctors for the logged-in patient.
+ * When the patient clicks on a doctor,
+ * it will redirect them to the doctor details screen
+ * where the patient can begin the process
+ * of scheduling an appointment.
  *
- * @param viewModel viewmodel que carrega a lista de médicos
- * @param navController controlador de navegação que permite
- * o paciente navegar na tela dos detalhes do doutor selecionado
+ * @param viewModel ViewModel that loads the list of doctors.
+ * @param navController Navigation controller that allows
+ * the patient to navigate to the selected doctor's details screen.
  */
 @Composable
 fun DoctorsListScreen(
@@ -113,4 +114,3 @@ fun DoctorItem(doctor: Doctor) {
         )
     }
 }
-
