@@ -1,19 +1,20 @@
-package com.up.clinica_digital.presentation.appointment.components
+package com.up.clinica_digital.presentation.component.top_nav
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.ui.theme.ClinicaDigitalTheme
 
+/**
+ * PEDRO:
+ * Composable component that shows the doctor information for the patient
+ * in any screen that it's called.
+ *
+ * @param doctor The doctor object that determines the information shown.
+ */
 @Composable
 fun DoctorInformation(
     doctor: Doctor

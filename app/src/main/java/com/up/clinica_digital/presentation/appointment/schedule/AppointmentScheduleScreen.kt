@@ -16,8 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.up.clinica_digital.presentation.appointment.components.CalendarTimeDatePicker
-import com.up.clinica_digital.presentation.appointment.components.DoctorInformation
+import com.up.clinica_digital.presentation.component.top_nav.CalendarTimeDatePicker
+import com.up.clinica_digital.presentation.component.top_nav.DoctorInformation
 import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
 import com.up.clinica_digital.presentation.navigation.Screen
 import java.time.format.DateTimeFormatter

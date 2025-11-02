@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.up.clinica_digital.presentation.appointment.components.DoctorInformation
+import com.up.clinica_digital.presentation.component.top_nav.DoctorInformation
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavItem
 import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
 import java.time.LocalDateTime

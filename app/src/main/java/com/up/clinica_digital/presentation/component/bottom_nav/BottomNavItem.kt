@@ -2,13 +2,20 @@ package com.up.clinica_digital.presentation.component.bottom_nav
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.MailOutline
 import androidx.compose.ui.graphics.vector.ImageVector
 
+/**
+ * Defines the sealed class for bottom navigation items.
+ * Each object represents a screen accessible via the bottom navigation bar.
+ *
+ * @param route The navigation route string.
+ * @param icon The [ImageVector] to display for the item.
+ * @param label The text label for the item.
+ */
 sealed class BottomNavItem(
     val route: String,
     val icon: ImageVector,

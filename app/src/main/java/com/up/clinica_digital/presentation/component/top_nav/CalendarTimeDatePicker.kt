@@ -1,4 +1,4 @@
-package com.up.clinica_digital.presentation.appointment.components
+package com.up.clinica_digital.presentation.component.top_nav
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -11,23 +11,35 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 
+/**
+ * A composable component used in the [com.up.clinica_digital.presentation.appointment.schedule.AppointmentScheduleScreen]
+ * that allows the patient to select a date and time for their appointment.
+ *
+ * @param onDateTimeSelected A callback function that is invoked when the
+ * patient confirms a date and time selection.
+ */
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalendarTimeDatePicker(
     onDateTimeSelected: (LocalDateTime) -> Unit,
 ) {
+    //PEDRO: State that stores the picked date
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = LocalDate.now()
             .atStartOfDay(ZoneId.systemDefault())
             .toInstant()
             .toEpochMilli()
     )
+    //PEDRO: State that stores the picked time
     val timePickerState = rememberTimePickerState(
         initialHour = LocalTime.now().hour,
         initialMinute = LocalTime.now().minute,
         is24Hour = true
     )
 
+    //PEDRO: These variables control whether the time picker dialog is shown after a date is selected
     var showTimePicker by remember { mutableStateOf(false) }
     var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
 

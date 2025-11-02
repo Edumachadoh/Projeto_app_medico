@@ -9,11 +9,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.up.clinica_digital.ui.theme.ClinicaDigitalTheme
 
+/**
+ * PEDRO:
+ * A reusable Top App Bar component that displays a back arrow.
+ *
+ * This component is designed to be used as a top navigation bar on screens
+ * that are not primary destinations (e.g., detail screens).
+ * When a [navController] is provided, it displays a back arrow icon button
+ * that triggers [NavController.popBackStack] when clicked.
+ *
+ * @param navController The optional navigation controller. If provided,
+ * the back button will be displayed and functional.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopNavigationBar(
