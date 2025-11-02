@@ -11,7 +11,14 @@ import com.up.clinica_digital.domain.model.UserRole
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.up.clinica_digital.presentation.termsOfUse.TermsOfUseScreen
-
+/**
+ * Defines the main navigation graph for the application, primarily handling
+ * the authentication flow (Initial, Login, Register) before handing off
+ * to the [LoggedInNavGraph] upon success.
+ *
+ * @param navController The [NavHostController] that manages navigation
+ * for this graph.
+ */
 @Composable
 fun AppNavGraph(navController: NavHostController) {
     NavHost(
@@ -63,7 +70,7 @@ fun AppNavGraph(navController: NavHostController) {
         }
 
 
-        //termos de uso
+        //terms of use
         composable(Screen.TermsOfUse.route) {
             TermsOfUseScreen(navController = navController)
         }

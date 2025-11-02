@@ -6,7 +6,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-
+/**
+ * The initial landing screen of the application when no user is logged in.
+ *
+ * It provides two main navigation options:
+ * 1. Navigate to the registration screen.
+ * 2. Navigate to the login screen.
+ *
+ * @param onNavigateToRegister A callback function to navigate to the [com.up.clinica_digital.presentation.auth.RegisterScreen].
+ * @param onNavigateToLogin A callback function to navigate to the [com.up.clinica_digital.presentation.auth.LoginScreen].
+ */
 @Composable
 fun InitialScreen(
     onNavigateToRegister: () -> Unit,

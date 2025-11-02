@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -23,18 +22,28 @@ import com.up.clinica_digital.presentation.appointment.patient.ScheduledAppointm
 import com.up.clinica_digital.presentation.appointment.patient.details.AppointmentDetailsScreen
 import com.up.clinica_digital.presentation.appointment.schedule.AppointmentScheduleScreen
 import com.up.clinica_digital.presentation.appointment.schedule.ConfirmAppointmentScreen
+import com.up.clinica_digital.presentation.chat.ChatPatient
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavConfig
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavItem
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavigationBar
-import com.up.clinica_digital.presentation.doctors.DoctorsListScreen
-import com.up.clinica_digital.presentation.profile.ProfileScreen
-import com.up.clinica_digital.presentation.chat.ChatPatient
 import com.up.clinica_digital.presentation.doctors.DoctorDetailsScreen
+import com.up.clinica_digital.presentation.doctors.DoctorsListScreen
 import com.up.clinica_digital.presentation.forum.ForumScreen
 import com.up.clinica_digital.presentation.forum.TopicItemScreen
-import com.up.clinica_digital.presentation.termsOfUse.TermsOfUseScreen
+import com.up.clinica_digital.presentation.profile.ProfileScreen
 
-
+/**
+ * Creates the nested navigation graph that is displayed after a user
+ * has successfully logged in.
+ *
+ * This graph is placed within a [Scaffold] that contains the [BottomNavigationBar].
+ * The navigation items displayed in the bottom bar are determined by the [userRole].
+ *
+ * @param parentNavController The main navigation controller (from [AppNavGraph])
+ * used to navigate back to the authentication flow (e.g., on logout).
+ * @param userRole The [UserRole] of the logged-in user, which determines
+ * which bottom navigation items and routes are available.
+ */
 @Composable
 fun LoggedInNavGraph(
     parentNavController: NavHostController,
@@ -64,15 +73,14 @@ fun LoggedInNavGraph(
             startDestination = items.first().route,
             modifier = Modifier.padding(paddingValues)
         ) {
-            // TODO: adicionar rotas para cada tela do app!
-            // -------------------------------------Paciente-------------------------------------
+            // -------------------------------------Patient-------------------------------------
 
-            //Lista de Médicos
+            //Doctors List
             composable(BottomNavItem.Medicos.route) {
                 DoctorsListScreen(navController = bottomNavController)
             }
 
-            //Detalhes Médico
+            //Doctor Details
             composable(
                 route = Screen.DoctorDetails.route,
                 arguments = listOf(navArgument("doctorId") { type = NavType.StringType })
@@ -86,7 +94,7 @@ fun LoggedInNavGraph(
                 }
             }
 
-            // Agendamento
+            // Scheduling
             composable(
                 route = Screen.Appointment.route,
                 arguments = listOf(
@@ -103,7 +111,7 @@ fun LoggedInNavGraph(
                 }
             }
 
-            //Confirmar Agendamento Consulta
+            //Confirm Appointment
             composable(
                 route = Screen.ConfirmAppointment.route,
                 arguments = listOf(
@@ -121,7 +129,7 @@ fun LoggedInNavGraph(
                 )
             }
 
-            //Lista de Consultas
+            //Appointments List
             composable(BottomNavItem.Consultas.route) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -131,7 +139,7 @@ fun LoggedInNavGraph(
                 }
             }
 
-            //Detalhes consulta
+            //Appointment Details
             composable(
                 route = Screen.AppointmentDetails.route,
                 arguments = listOf(navArgument("appointmentId") { type = NavType.StringType })
@@ -139,7 +147,7 @@ fun LoggedInNavGraph(
                 AppointmentDetailsScreen(navController = bottomNavController)
             }
 
-            //Perfil
+            //Profile
             composable(BottomNavItem.Perfil.route) {
                 ProfileScreen(
                     userRole = userRole,
@@ -154,9 +162,9 @@ fun LoggedInNavGraph(
             }
 
 
-            // -------------------------------------Médico-------------------------------------
+            // -------------------------------------Doctor-------------------------------------
 
-            //tela agenda
+            //Agenda screen
             composable(BottomNavItem.Agenda.route) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -166,7 +174,7 @@ fun LoggedInNavGraph(
                 }
             }
 
-            //Detalhes consulta
+            //Appointment Details
             composable(
                 route = Screen.AgendaDetails.route,
                 arguments = listOf(navArgument("appointmentId") { type = NavType.StringType })
@@ -174,12 +182,12 @@ fun LoggedInNavGraph(
                 AgendaDetailsScreen(navController = bottomNavController)
             }
 
-            //tela forum
+            //Forum screen
             composable(BottomNavItem.Forum.route) {
                 ForumScreen(navController = bottomNavController)
             }
 
-            //topico forum
+            //Forum topic
             composable(
                 route = Screen.TopicItem.route,
                 arguments = listOf(navArgument("topicItemId") {type = NavType.StringType})
