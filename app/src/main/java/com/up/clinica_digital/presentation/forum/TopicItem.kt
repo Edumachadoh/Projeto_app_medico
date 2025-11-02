@@ -15,38 +15,40 @@ import androidx.compose.ui.unit.dp
 import com.up.clinica_digital.domain.model.ForumTopic
 import java.time.format.DateTimeFormatter
 
+// Reusable component that defines how a list item looks on the Forum-Screen
+
 @Composable
-// Ele mostra o título, autor, data e uma prévia do conteúdo em um Card clicável.
+// It shows the title, author, date, and a content preview in a clickable Card.
 fun TopicItem(
     topic: ForumTopic,
     onTopicClick: () -> Unit
 ) {
-    // Define o padrão de formatação para a data e hora.
+    // Defines the formatting pattern for the date and time.
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
 
     Card(
-        // O Modifier faz o Card ocupar toda a largura disponível.
+        // The Modifier makes the Card occupy the full available width.
         modifier = Modifier.fillMaxWidth(),
-        // Define a ação a ser executada quando o card for clicado.
+        // Defines the action to be executed when the card is clicked.
         onClick = onTopicClick
     ) {
-        // Organiza os elementos internos verticalmente, um abaixo do outro.
+        // Organizes the internal elements vertically, one below the other.
         Column(modifier = Modifier.padding(16.dp)) {
-            // Exibe o título do tópico.
+            // Displays the topic title.
             Text(
                 text = topic.title,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(4.dp))
-            // Exibe autor e data de criação.
+            // Displays author and creation date.
             Text(
                 text = "por ${topic.authorId} em ${topic.createdAt.format(formatter)}",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(modifier = Modifier.height(12.dp))
-            // Exibe uma prévia do conteúdo do tópico., os primeiros 120 caracteres
+            // Displays a preview of the topic content, the first 120 characters
             Text(text = topic.content.take(120).plus("..."), style = MaterialTheme.typography.bodyMedium)
 
         }

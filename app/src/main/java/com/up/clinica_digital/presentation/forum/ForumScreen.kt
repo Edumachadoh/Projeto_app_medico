@@ -19,28 +19,32 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.up.clinica_digital.presentation.navigation.Screen
 
+// Defines the main list screen for forum topics
+// Observes changes in viewModel.uiState to know what to draw on the screen
+//
+
 @Composable
 fun ForumScreen(
     viewModel: ForumViewModel = hiltViewModel(),
     navController: NavController
 ) {
 
-    // armazena o estado da UI (Loading, Success, Error) do ViewModel.
+    // stores the UI state (Loading, Success, Error) from the ViewModel.
     val uiState by viewModel.uiState.collectAsState()
 
-    // armazena o texto atual da barra de busca do ViewModel.
+    // stores the current text from the ViewModel's search bar.
     val searchQuery by viewModel.searchQuery.collectAsState()
 
-    // layout que organiza a tela
+    // layout that organizes the screen
     Scaffold { paddingValues ->
         Column(
             modifier = Modifier
-                .fillMaxSize() // Preenche todo o tamanho da tela
-                .padding(paddingValues) // Aplica o padding interno do Scaffold
-                .padding(horizontal = 16.dp, vertical = 8.dp) // Padding customizado
+                .fillMaxSize() // Fills the entire screen size
+                .padding(paddingValues) // Applies the internal padding from the Scaffold
+                .padding(horizontal = 16.dp, vertical = 8.dp) // Custom padding
         ) {
-            // Campo de busca
-            // notifica o ViewModel quando o texto muda e define o texto do placeholder "Buscar no Fórum"
+            // Search field
+            // notifies the ViewModel when the text changes and sets the placeholder text "Buscar no Fórum"
             OutlinedTextField(
                 value = searchQuery,
                 onValueChange = { viewModel.onSearchQueryChange(it) },
@@ -48,42 +52,42 @@ fun ForumScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // Espaçamento vertical e Titulo da tela
+            // Vertical spacing and Screen Title
             Spacer(Modifier.height(16.dp))
             Text("Forum", style = MaterialTheme.typography.titleLarge)
             Spacer(Modifier.height(16.dp))
 
-            // Gerenciamento de estado da UI
-            // 'when' é usado para renderizar diferentes UIs com base no 'uiState'.
+            // UI state management
+            // 'when' is used to render different UIs based on 'uiState'.
             when (val state = uiState) {
-                // Estado 1: Carregando
-                // Exibe um indicador de progresso no centro da tela.
+                // State 1: Loading
+                // Displays a progress indicator in the center of the screen.
                 is ForumUiState.Loading -> {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator()
                     }
                 }
 
-                // Estado 2: Erro
-                // Exibe a mensagem de erro em vermelho.
+                // State 2: Error
+                // Displays the error message in red.
                 is ForumUiState.Error -> {
                     Text(state.message, color = Color.Red)
                 }
 
-                // Estado 3: Sucesso (Dados carregados)
-                // Lista rolavel por meio de LazyColumn
+                // State 3: Success (Data loaded)
+                // Scrollable list using LazyColumn
                 is ForumUiState.Success -> {
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        // Itera sobre a lista de tópicos (vinda do 'state') e cria um item para cada.
+                        // Iterates over the list of topics (from 'state') and creates an item for each.
                         items(state.topics) { topic ->
-                            // Renderiza o Composable 'TopicItem' (definido em outro arquivo).
+                            // Renders the 'TopicItem' Composable (defined in another file).
                             TopicItem(topic = topic, onTopicClick = {
-                                // Define a ação de clique: navegar para os detalhes do tópico.
+                                // Defines the click action: navigate to the topic details.
                                 navController.navigate(
                                     Screen.TopicItem.createRoute(
-                                        // Cria a rota de navegação passando o ID do tópico.
+                                        // Creates the navigation route, passing the topic's ID.
                                         topic.id
                                     )
                                 )

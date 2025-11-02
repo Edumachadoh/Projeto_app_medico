@@ -16,92 +16,96 @@ import androidx.navigation.NavController
 import com.up.clinica_digital.presentation.component.top_nav.TopNavigationBar
 import java.time.format.DateTimeFormatter
 
+// Displays a single topic in detail, including its comments
+// Receives the topicId from the navigation route and calls the screen
+// Observes the states via viewModel.topicUiState
+
 @Composable
-// exibir um único tópico do fórum.
+// display a single forum topic.
 fun TopicItemScreen(
-    // Recebe o NavController para gerenciar a navegação (ex: voltar).
+    // Receives the NavController to manage navigation (e.g., going back).
     navController: NavController,
-    // Recebe o ID do tópico a ser carregado
+    // Receives the ID of the topic to be loaded
     topicId: String?,
-    // Obtém uma instância do ForumViewModel
+    // Gets an instance of the ForumViewModel
     viewModel: ForumViewModel = hiltViewModel()
 ) {
-    // É usado para disparar "efeitos colaterais" (como chamadas de rede) de forma segura.
-    // Garante que só tentamos carregar um tópico se um ID válido foi fornecido.
+    // Used to trigger "side effects" (like network calls) safely.
+    // Ensures we only try to load a topic if a valid ID was provided.
     LaunchedEffect(topicId) {
         if (topicId != null) {
-            // Chama a função no ViewModel para buscar os dados do tópico.
+            // Calls the function in the ViewModel to fetch the topic data.
             viewModel.loadTopic(topicId)
         }
     }
 
-    // "Observa" o estado (topicUiState) do ViewModel.
+    // "Observes" the state (topicUiState) from the ViewModel.
     val topicUiState by viewModel.topicUiState.collectAsState()
 
     Scaffold(
         modifier = Modifier.fillMaxWidth(),
-        // Define a barra de navegação no topo da tela.
+        // Sets the navigation bar at the top of the screen.
         topBar = { TopNavigationBar(navController) }
     ) { paddingValues ->
         when (val state = topicUiState) {
-            // Caso 1: Se o estado for 'Loading' (carregando dados).
+            // Case 1: If the state is 'Loading' (loading data).
             is TopicUiState.Loading -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    // Mostra um ícone de carregamento giratório.
+                    // Shows a spinning loading icon.
                     CircularProgressIndicator()
                 }
             }
-            // Caso 2: Se o estado for 'Error' (ocorreu um erro).
+            // Case 2: If the state is 'Error' (an error occurred).
             is TopicUiState.Error -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(state.message, color = Color.Red)
                 }
             }
-            // Caso 3: Se o estado for 'Success' (dados carregados com sucesso).
+            // Case 3: If the state is 'Success' (data loaded successfully).
             is TopicUiState.Success -> {
-                // Extrai o objeto 'topic' de dentro do estado de sucesso.
+                // Extracts the 'topic' object from the success state.
                 val topic = state.topic
                 val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
 
                 Column(modifier = Modifier.padding(16.dp).padding(paddingValues)) {
                     Text(
-                        // Exibe o título do tópico em negrito e com estilo grande.
+                        // Displays the topic title in bold and large style.
                         text = topic.title,
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        // Exibe os metadados: autor e data de criação formatada.
+                        // Displays the metadata: author and formatted creation date.
                         text = "por ${topic.authorId} em ${topic.createdAt.format(formatter)}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(modifier = Modifier.height(12.dp))
-                    // Exibe o conteúdo completo do tópico.
+                    // Displays the full content of the topic.
                     Text(text = topic.content, style = MaterialTheme.typography.bodyMedium)
 
-                    // Verifica se a lista de comentários do tópico não está vazia.
+                    // Checks if the topic's comment list is not empty.
                     if (topic.comments.isNotEmpty()) {
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
-                            // Exibe um título para a seção de comentários.
+                            // Displays a title for the comments section.
                             text = "Comentários (${topic.comments.size})",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                         )
                         Spacer(modifier = Modifier.height(8.dp))
-                        // Faz um loop por cada 'comment' na lista 'topic.comments'.
+                        // Loops through each 'comment' in the 'topic.comments' list.
                         topic.comments.forEach { comment ->
                             Column(modifier = Modifier.padding(vertical = 4.dp)) {
                                 Text(
-                                    // Mostra o autor do comentário
+                                    // Shows the comment author
                                     text = "${comment.authorId}:",
                                     fontWeight = FontWeight.Bold,
                                     style = MaterialTheme.typography.bodySmall
                                 )
                                 Text(
-                                    // Mostra o conteúdo do comentário.
+                                    // Shows the comment content.
                                     text = comment.content,
                                     style = MaterialTheme.typography.bodySmall
                                 )
@@ -110,7 +114,7 @@ fun TopicItemScreen(
                     }
                 }
             }
-            // Caso 4: Estado inicial, pode mostrar um indicador ou nada (antes de qualquer carregamento).
+            // Case 4: Initial state, can show an indicator or nothing (before any loading).
             is TopicUiState.Idle -> {
             }
         }

@@ -2,16 +2,16 @@ package com.up.clinica_digital.presentation.forum
 
 import com.up.clinica_digital.domain.model.ForumTopic
 
+// Defines a sealed interface to represent all
+// * possible UI states for the Forum Topic screen (Loading, Success, Error)
 
-// Define uma interface 'selada' para representar todos os
-// * estados possíveis da UI da tela do Topico de Fórum (Loading, Success, Error)
 sealed class TopicUiState {
-    // Estado Ocioso (antes de qualquer carregamento).
+    // State before loading the screen.
     data object Idle : TopicUiState()
-    // Estado de Loading.
+    // Loading State.
     data object Loading : TopicUiState()
-    // Estado de Sucesso.
+    // Sucesso State.
     data class Success(val topic: ForumTopic) : TopicUiState()
-    // Estado de Erro.
+    // Erro State.
     data class Error(val message: String) : TopicUiState()
 }
