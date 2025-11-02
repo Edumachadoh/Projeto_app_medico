@@ -8,21 +8,24 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 /**
- * Viewmodel dos termos de uso do aplicativo
- * termos essses que serão acessados na tela
- * de cadastro do usuário [RegisterScreen]
- * */
+ * ViewModel for the application's terms of use.
+ * These terms will be accessed on the
+ * user registration screen [com.up.clinica_digital.presentation.auth.RegisterScreen].
+ */
 @HiltViewModel
 class TermsOfUseViewModel @Inject constructor() : ViewModel() {
 
     private val _uiState = MutableStateFlow<TermsOfUseUiState>(
         TermsOfUseUiState.Success(
-            title = "Termos de Uso", // O título da tela
+            title = "Termos de Uso", // The screen title
             content = getTermsOfUseContent()
         )
     )
     val uiState: StateFlow<TermsOfUseUiState> = _uiState.asStateFlow()
 
+    /**
+     * Returns the hardcoded content for the Terms of Use.
+     */
     private fun getTermsOfUseContent(): String {
 
         return """

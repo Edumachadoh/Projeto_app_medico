@@ -1,14 +1,10 @@
 package com.up.clinica_digital.presentation.termsOfUse
 
-import com.up.clinica_digital.domain.model.Doctor
-import java.time.LocalDateTime
-
 /**
- * Representa os estados da interface de termos de uso (UI).
+ * Represents the states of the terms of use interface (UI).
  *
- * @property Success estado que guarda se caso a tela
- * foi carregada com sucesso.
-
+ * @property Success state that stores if the screen
+ * was loaded successfully.
  */
 sealed interface TermsOfUseUiState {
     data class Success(

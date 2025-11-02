@@ -23,13 +23,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 
 /**
- * Tela que consume a [TermsOfUseViewModel] e
- * carrega os termos de uso do aplicativo
- * que estão presentes na tela [com.up.clinica_digital.presentation.auth.RegisterScreen]
+ * Screen that consumes the [TermsOfUseViewModel] and
+ * loads the application's terms of use,
+ * which are presented on the [com.up.clinica_digital.presentation.auth.RegisterScreen] screen.
  *
- * @param navController controle para o usuário poder sair dessa tela
- * @param viewModel viewmodel que irá carregar as informações dos termos
- * */
+ * @param navController controller to allow the user to leave this screen.
+ * @param viewModel viewmodel that will load the terms information.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TermsOfUseScreen(
@@ -41,12 +41,12 @@ fun TermsOfUseScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text((uiState as? TermsOfUseUiState.Success)?.title ?: "Termos de Uso") },
+                title = { Text((uiState as? TermsOfUseUiState.Success)?.title ?: "Terms of Use") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Voltar"
+                            contentDescription = "Back"
                         )
                     }
                 }
@@ -60,7 +60,7 @@ fun TermsOfUseScreen(
                     modifier = Modifier
                         .padding(paddingValues)
                         .padding(16.dp)
-                        .verticalScroll(rememberScrollState()) // Habilita a rolagem
+                        .verticalScroll(rememberScrollState()) // Enables scrolling
                 ) {
                     Text(
                         text = state.content,
