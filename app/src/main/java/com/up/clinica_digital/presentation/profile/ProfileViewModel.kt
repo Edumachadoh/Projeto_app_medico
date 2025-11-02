@@ -2,7 +2,6 @@ package com.up.clinica_digital.presentation.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.type.DateTime
 import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.model.Patient
 import com.up.clinica_digital.domain.model.User
@@ -17,6 +16,17 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
+/**
+ * ViewModel for the [ProfileScreen].
+ *
+ * Responsible for loading the profile data (Patient or Doctor) of the
+ * currently authenticated user and handling the logout logic.
+ *
+ * @param getCurrentUserIdUseCase Use case to get the ID of the logged-in user.
+ * @param getPatientByIdUseCase Use case to fetch a patient by ID.
+ * @param getDoctorByIdUseCase Use case to fetch a doctor by ID.
+ * @param logoutUseCase Use case to log the user out.
+ */
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase,
@@ -25,9 +35,19 @@ class ProfileViewModel @Inject constructor(
     private val logoutUseCase: LogoutUseCase
 ) : ViewModel() {
 
+    // Holds the current UI state for the profile screen [ProfileUiState].
     private val _uiState = MutableStateFlow<ProfileUiState>(ProfileUiState.Idle)
     val uiState: StateFlow<ProfileUiState> = _uiState.asStateFlow()
 
+    /**
+     * Loads the profile of the currently authenticated user.
+     *
+     * It first gets the user ID, then fetches either [Patient] or [Doctor] data
+     * based on the [isDoctor] flag. Updates the [_uiState] to
+     * [ProfileUiState.Loading], [ProfileUiState.Success], or [ProfileUiState.Error].
+     *
+     * @param isDoctor True if the logged-in user is a doctor, false if they are a patient.
+     */
     fun loadProfile(isDoctor: Boolean) {
         viewModelScope.launch {
             _uiState.value = ProfileUiState.Loading
@@ -49,6 +69,7 @@ class ProfileViewModel @Inject constructor(
                     _uiState.value = ProfileUiState.Success(user)
                 } else {
 //                    _uiState.value = ProfileUiState.Error("User not found")
+                    // Fallback to mock data if user is not found (temporary/debug logic)
                     _uiState.value = if(isDoctor) {
                         ProfileUiState.Success(Doctor(
                             id = "some-firebase-uid-123",
@@ -78,6 +99,9 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Executes the logout use case to sign the user out.
+     */
     fun logout() {
         viewModelScope.launch {
             logoutUseCase.invoke()
