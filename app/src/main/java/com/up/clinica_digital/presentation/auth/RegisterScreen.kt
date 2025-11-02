@@ -14,7 +14,24 @@ import com.up.clinica_digital.domain.model.UserRole
 import java.time.LocalDate
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-
+/**
+ * PEDRO:
+ * Composable function for the Registration Screen.
+ *
+ * This screen provides a form for new users to register as either
+ * a [UserRole.PATIENT] or a [UserRole.DOCTOR]. It collects common
+ * user data (name, email, cpf, password) and role-specific data.
+ * It observes the [AuthUiState] from the [AuthViewModel] to handle
+ * loading, error, and success states.
+ *
+ * @param viewModel The [AuthViewModel] used for registration logic.
+ * @param onRegisterSuccess A callback function invoked upon successful
+ * registration, providing the new user's ID and role.
+ * @param onNavigateToLogin A callback function to navigate to the
+ * login screen.
+ * @param onNavigateToTermsOfUse A callback function to navigate to the
+ * terms of use screen.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(
@@ -31,10 +48,10 @@ fun RegisterScreen(
     var cpf by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    // ESPECÍFICO PARA PACIENTE
+    //ANA: PATIENT-SPECIFIC
     var birthDate by remember { mutableStateOf("") }
 
-    // ESPECÍFICOS PARA MÉDICO
+    //ANA: DOCTOR-SPECIFIC
     var crm by remember { mutableStateOf("") }
     var rqe by remember { mutableStateOf("") }
     var specialization by remember { mutableStateOf("") }
@@ -172,7 +189,7 @@ fun RegisterScreen(
                                 )
                                 viewModel.registerPatient(patient)
                             } catch (e: Exception) {
-                                // TODO: Lidar com exceção de birth date inválida
+                                // TODO: Handle invalid birth date exception
                                 return@Button
                             }
                         } else {

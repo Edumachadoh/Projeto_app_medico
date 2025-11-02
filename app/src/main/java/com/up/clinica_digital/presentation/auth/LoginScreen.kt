@@ -10,7 +10,21 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.up.clinica_digital.domain.model.UserRole
-
+/**
+ * PEDRO:
+ * Composable function for the Login Screen.
+ *
+ * This screen provides UI elements for user authentication, including
+ * email and password fields, a login button, and a navigation option
+ * to the registration screen. It observes the [AuthUiState] from the
+ * [AuthViewModel] to handle loading, error, and success states.
+ *
+ * @param viewModel The [AuthViewModel] used for authentication logic.
+ * @param onLoginSuccess A callback function that is invoked upon successful
+ * login, providing the user's ID and role.
+ * @param onNavigateToRegister A callback function to navigate to the
+ * registration screen.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
@@ -78,7 +92,7 @@ fun LoginScreen(
 
             Spacer(Modifier.height(16.dp))
 
-            // ANA: acho isso daqui meio padrão, caso você, pedroca, estiver dando uma olhada. sei lá se você precisar
+            // ANA: I think this here is pretty standard, in case you, pedro, are taking a look. I don't know if you need it
             when (uiState) {
                 is AuthUiState.Idle -> Unit
                 is AuthUiState.Loading -> CircularProgressIndicator()
