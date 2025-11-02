@@ -1,14 +1,15 @@
 package com.up.clinica_digital.presentation.appointment.schedule
 
 /**
- * Representa o estado da interface de usuário (UI) para a tela
- * de confirmação de agendamento (ConfirmAppointmentScreen).
+ * PEDRO:
+ * Represents the state of the user interface (UI) for the
+ * appointment confirmation screen (ConfirmAppointmentScreen).
  *
- * @property isLoading Indica se a operação de salvar o agendamento
- * está em andamento.
- * @property appointmentScheduled Indica se o agendamento foi salvo
- * com sucesso (usado para exibir a mensagem de sucesso).
- * @property error Contém uma mensagem de erro, caso a operação falhe.
+ * @property isLoading Indicates if the operation to save the appointment
+ * is in progress.
+ * @property appointmentScheduled Indicates if the appointment was saved
+ * successfully (used to display the success message).
+ * @property error Contains an error message if the operation fails.
  */
 data class ConfirmAppointmentUiState(
     val isLoading: Boolean = false,

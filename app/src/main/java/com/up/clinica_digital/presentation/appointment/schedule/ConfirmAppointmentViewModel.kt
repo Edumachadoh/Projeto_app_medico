@@ -16,13 +16,14 @@ import java.util.UUID
 import javax.inject.Inject
 
 /**
- * ViewModel para a tela de confirmação de agendamento [ConfirmAppointmentScreen].
+ * PEDRO:
+ * ViewModel for the appointment confirmation screen [ConfirmAppointmentScreen].
  *
- * Esta classe é responsável pela lógica de *confirmar* e *salvar* o novo
- * agendamento no banco de dados quando o usuário clica no botão "Confirmar".
+ * This class is responsible for the logic of *confirming* and *saving* the new
+ * appointment to the database when the user clicks the "Confirm" button.
  *
- * @param createAppointmentUseCase Caso de uso para criar uma nova entidade [Appointment].
- * @param getCurrentUserIdUseCase Caso de uso para obter o ID do paciente logado.
+ * @param createAppointmentUseCase Use case to create a new [Appointment] entity.
+ * @param getCurrentUserIdUseCase Use case to get the ID of the logged-in patient.
  */
 @HiltViewModel
 class ConfirmAppointmentViewModel @Inject constructor(
@@ -30,15 +31,16 @@ class ConfirmAppointmentViewModel @Inject constructor(
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase
 ) : ViewModel() {
 
-    //guardando estado da tela
+    //PEDRO: Storing screen state
     private val _uiState = MutableStateFlow(ConfirmAppointmentUiState())
     val uiState = _uiState.asStateFlow()
 
     /**
-     * Executa a lógica para criar e salvar o novo agendamento.
+     * PEDRO:
+     * Executes the logic to create and save the new appointment.
      *
-     * @param doctorId O ID do médico selecionado.
-     * @param dateTime A data e hora [LocalDateTime] selecionados.
+     * @param doctorId The ID of the selected doctor.
+     * @param dateTime The selected [LocalDateTime].
      */
     fun scheduleAppointment(doctorId: String, dateTime: LocalDateTime) {
         viewModelScope.launch {
@@ -50,7 +52,7 @@ class ConfirmAppointmentViewModel @Inject constructor(
                 return@launch
             }
 
-            //criando novo objeto de consulta
+            //PEDRO: Creating new appointment object
             try {
                 val newAppointment = Appointment(
                     id = UUID.randomUUID().toString(),
@@ -59,12 +61,13 @@ class ConfirmAppointmentViewModel @Inject constructor(
                     scheduledAt = dateTime,
                     status = AppointmentStatus.SCHEDULED
                 )
-                //guardando consulta no banco
+                //PEDRO: Saving appointment in the database
                 createAppointmentUseCase.invoke(newAppointment)
                 _uiState.update { it.copy(isLoading = false, appointmentScheduled = true) }
             } catch (e: Exception) {
-                //com qualquer erro não irá agendar
-                //e retornar um erro ao estado da tela
+                //PEDRO:
+                //With any error, it will not schedule
+                //and will return an error to the screen state
                 _uiState.update {
                     it.copy(
                         isLoading = false,

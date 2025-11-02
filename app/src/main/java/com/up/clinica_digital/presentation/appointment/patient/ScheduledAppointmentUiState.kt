@@ -3,8 +3,9 @@ package com.up.clinica_digital.presentation.appointment.patient
 import com.up.clinica_digital.domain.model.Appointment
 import com.up.clinica_digital.domain.model.Doctor
 /**
- * Representa os possíveis estados da interface de usuário (UI)
- * para a tela de consultas agendadas do paciente (ScheduledAppointmentsScreen).
+ * PEDRO:
+ * Represents the possible states of the user interface (UI)
+ * for the patient's scheduled appointments screen (ScheduledAppointmentsScreen).
  */
 
 sealed class ScheduledAppointmentUiState {

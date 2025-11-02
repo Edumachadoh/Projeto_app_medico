@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.up.clinica_digital.domain.model.Appointment
 import com.up.clinica_digital.domain.model.AppointmentStatus
-import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.model.Patient
 import com.up.clinica_digital.domain.usecase.GetEntityByIdUseCase
 import com.up.clinica_digital.domain.usecase.UpdateEntityUseCase
@@ -17,16 +16,17 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * ViewModel para a tela de detalhes da agenda [AgendaDetailsScreen].
+ * PEDRO:
+ * ViewModel for the appointment details screen [AgendaDetailsScreen].
  *
- * Responsável por carregar os detalhes de uma consulta específica (usando o ID
- * recebido via [SavedStateHandle] e os dados do paciente associado.
- * Também gerencia a lógica para cancelar a consulta.
+ * Responsible for loading the details of a specific appointment (using the ID
+ * received via [SavedStateHandle]) and the associated patient data.
+ * Also manages the logic for canceling the appointment.
  *
- * @param getAppointmentByIdUseCase Caso de uso para buscar uma consulta pelo ID.
- * @param getPatientByIdUseCase Caso de uso para buscar um paciente pelo ID.
- * @param updateAppointmentUseCase Caso de uso para atualizar uma consulta (ex: cancelar).
- * @param savedStateHandle Handle para acessar os argumentos de navegação (o "appointmentId").
+ * @param getAppointmentByIdUseCase Use case to retrieve an appointment by ID.
+ * @param getPatientByIdUseCase Use case to retrieve a patient by ID.
+ * @param updateAppointmentUseCase Use case to update an appointment (e.g., cancel).
+ * @param savedStateHandle Handle to access the navigation arguments (the "appointmentId").
  */
 @HiltViewModel
 class AgendaDetailsViewModel @Inject constructor(
@@ -36,27 +36,28 @@ class AgendaDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    //guardando o Id da consulta
+    //PEDRO: store the appointment id
     private val appointmentId: String = savedStateHandle.get<String>("appointmentId")!!
 
-    //guardando estado da tela
+    //PEDRO: store the screen state
     private val _uiState = MutableStateFlow<AgendaDetailsUiState>(AgendaDetailsUiState.Loading)
     val uiState: StateFlow<AgendaDetailsUiState> = _uiState.asStateFlow()
 
-    //Carregando consulta ao iniciar
+    //PEDRO: Load the initial appointment
     init {
         loadAppointmentDetails()
     }
 
     /**
-     * Carrega os detalhes da consulta e do paciente usando o [appointmentId].
-     * Atualiza o [_uiState] com [AgendaDetailsUiState.Success] ou
-     * [AgendaDetailsUiState.Error] com base no resultado.
+     * PEDRO:
+     * Loads the appointment and patient details using the [appointmentId].
+     * Updates the [_uiState] with [AgendaDetailsUiState.Success] or
+     * [AgendaDetailsUiState.Error] based on the result.
      */
     private fun loadAppointmentDetails() {
 
-        //se alguma informação der erro ele retorna
-        //o estado de erro
+        // PEDRO: if any information fails, it returns
+        // the error state
         viewModelScope.launch {
             _uiState.value = AgendaDetailsUiState.Loading
             try {
@@ -80,13 +81,14 @@ class AgendaDetailsViewModel @Inject constructor(
     }
 
     /**
-     * Cancela a consulta atual.
+     * PEDRO:
+     * Cancels the current appointment.
      *
-     * Esta função atualiza o status da consulta para [AppointmentStatus.CANCELED],
-     * persiste a mudança no banco de dados e, em seguida, chama [onComplete]
-     * (geralmente para fechar a tela).
+     * This function updates the appointment status to [AppointmentStatus.CANCELED],
+     * persists the change in the database, and then calls [onComplete]
+     * (usually to close the screen).
      *
-     * @param onComplete Callback executado após o cancelamento ser bem-sucedido.
+     * @param onComplete Callback executed after the cancellation is successful.
      */
     fun cancelAppointment(onComplete: () -> Unit) {
         viewModelScope.launch {

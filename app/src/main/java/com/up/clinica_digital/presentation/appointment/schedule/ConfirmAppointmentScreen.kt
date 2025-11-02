@@ -21,44 +21,45 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
 /**
- * Tela de confirmação de agendamento.
+ * PEDRO:
+ * Appointment confirmation screen.
  *
- * Esta tela exibe um resumo das informações da consulta (médico, data e hora)
- * que o paciente selecionou na tela anterior. Ela permite que o paciente
- * confirme o agendamento, que então é salvo no banco de dados.
+ * This screen displays a summary of the appointment information (doctor, date, and time)
+ * that the patient selected on the previous screen. It allows the patient
+ * to confirm the appointment, which is then saved to the database.
  *
- * @param scheduleViewModel O ViewModel da tela anterior, reutilizado aqui
- * para carregar os dados do médico.
- * @param confirmViewModel O ViewModel desta tela, responsável por
- * salvar o agendamento.
- * @param navController Controlador de navegação.
- * @param doctorId O ID do médico (passado via navegação).
- * @param dateTime A data e hora selecionada (passada via navegação como String).
+ * @param scheduleViewModel The ViewModel from the previous screen, reused here
+ * to load the doctor's data.
+ * @param confirmViewModel The ViewModel for this screen, responsible for
+ * saving the appointment.
+ * @param navController Navigation controller.
+ * @param doctorId The doctor's ID (passed via navigation).
+ * @param dateTime The selected date and time (passed via navigation as a String).
  */
 @Composable
 fun ConfirmAppointmentScreen(
-    //parâmetros passados pela tela anterior AppointmentScheduleScreen
+    //PEDRO: Parameters passed from the previous screen AppointmentScheduleScreen
     scheduleViewModel: AppointmentScheduleViewModel = hiltViewModel(),
     confirmViewModel: ConfirmAppointmentViewModel = hiltViewModel(),
     navController: NavHostController,
     doctorId: String,
     dateTime: String
 ) {
-    //estado da tela
+    //PEDRO: Screen state
     val scheduleUiState by scheduleViewModel.uiState.collectAsState()
     val confirmUiState by confirmViewModel.uiState.collectAsState()
 
-    //data e hora definidos pela paciente na tela anterior
+    //PEDRO: Date and time defined by the patient on the previous screen
     val parsedDateTime = LocalDateTime.parse(dateTime)
 
-    //carregando doutor
+    //PEDRO: Loading doctor
     LaunchedEffect(key1 = doctorId) {
         scheduleViewModel.loadDoctor(doctorId)
     }
 
     Scaffold(
         topBar = {
-            //barra superior com opção de voltar a tela
+            //PEDRO: Top bar with option to go back
             TopNavigationBar(navController)
         }
     ) { innerPadding ->
@@ -83,9 +84,10 @@ fun ConfirmAppointmentScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
-                        //Informações definidas pelo paciente na tela anterior
-                        //que irá aparecer quando ele confirmar a consulta
-                        //para o mesmo saber se vai ou não confirmar a consulta
+                        //PEDRO:
+                        //Information defined by the patient on the previous screen
+                        //that will appear when they confirm the appointment
+                        //so they know whether or not to confirm the appointment
                         Text("Consulta agendada com sucesso!", style = MaterialTheme.typography.titleLarge)
                         Spacer(modifier = Modifier.height(16.dp))
                         Button(onClick = {
@@ -98,8 +100,9 @@ fun ConfirmAppointmentScreen(
                     }
                 }
                 else -> {
-                    //informações da tela anterior para paciente
-                    //decidir se vai ou não agendar
+                    //PEDRO:
+                    //Information from the previous screen for the patient
+                    //to decide whether or not to schedule
                     Text(
                         text = "Confirmar Agendamento",
                         style = MaterialTheme.typography.titleLarge,
@@ -107,7 +110,7 @@ fun ConfirmAppointmentScreen(
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(bottom = 32.dp)
                     )
-                    //informações do doutor
+                    //PEDRO: Doctor information
                     scheduleUiState.doctor?.let { doctor ->
                         DoctorInformation(doctor = doctor)
                         Spacer(modifier = Modifier.height(24.dp))
@@ -116,7 +119,7 @@ fun ConfirmAppointmentScreen(
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                         )
-                        //data e hora do agendamento
+                        //PEDRO: Appointment date and time
                         Text(
                             text = parsedDateTime.format(
                                 DateTimeFormatter.ofLocalizedDateTime(
@@ -127,7 +130,7 @@ fun ConfirmAppointmentScreen(
                             style = MaterialTheme.typography.bodyLarge
                         )
                         Spacer(modifier = Modifier.height(32.dp))
-                        //botão para confirmar agendamento
+                        //PEDRO: Button to confirm appointment
                         Button(
                             onClick = {
                                 confirmViewModel.scheduleAppointment(
@@ -139,8 +142,9 @@ fun ConfirmAppointmentScreen(
                         ) {
                             Text("Confirmar")
                         }
-                        // se as informações de médico não forem encontradas
-                        // não é possivel agendar consulta
+                        //PEDRO:
+                        // If doctor information is not found
+                        // it is not possible to schedule an appointment
                     } ?: Text("Médico não encontrado.")
                 }
             }

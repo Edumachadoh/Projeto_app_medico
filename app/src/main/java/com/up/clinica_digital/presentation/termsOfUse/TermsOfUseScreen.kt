@@ -25,7 +25,10 @@ import androidx.navigation.NavController
 /**
  * Tela que consume a [TermsOfUseViewModel] e
  * carrega os termos de uso do aplicativo
- * que estão presentes na tela [RegisterScreen]
+ * que estão presentes na tela [com.up.clinica_digital.presentation.auth.RegisterScreen]
+ *
+ * @param navController controle para o usuário poder sair dessa tela
+ * @param viewModel viewmodel que irá carregar as informações dos termos
  * */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

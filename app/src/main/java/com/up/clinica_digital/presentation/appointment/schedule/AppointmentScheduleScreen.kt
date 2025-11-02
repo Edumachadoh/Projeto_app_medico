@@ -23,12 +23,13 @@ import com.up.clinica_digital.presentation.navigation.Screen
 import java.time.format.DateTimeFormatter
 
 /**
- * Tela onde o paciente seleciona a data e a hora para agendar
- * uma consulta com um médico específico.
+ * PEDRO:
+ * Screen where the patient selects the date and time to schedule
+ * an appointment with a specific doctor.
  *
- * @param viewModel O ViewModel que gerencia o estado desta tela.
- * @param navController Controlador de navegação para ir para a tela de confirmação.
- * @param doctorId O ID do médico selecionado na tela anterior.
+ * @param viewModel The ViewModel that manages the state of this screen.
+ * @param navController Navigation controller to go to the confirmation screen.
+ * @param doctorId The ID of the doctor selected on the previous screen.
  */
 @Composable
 fun AppointmentScheduleScreen(
@@ -36,19 +37,19 @@ fun AppointmentScheduleScreen(
     navController: NavHostController,
     doctorId: String,
 ) {
-    //estado da tela (inicia como: Carregando; Erro; Sucesso)
+    //PEDRO: Screen state (starts as: Loading; Error; Success)
     val uiState by viewModel.uiState.collectAsState()
-    //formatando data para mandar parao banco
+    //PEDRO: Formatting date to send to the database
     val formatter = remember { DateTimeFormatter.ofPattern("HH:mm") }
 
-    //carergando o doutor selecionado na tela listar médicos
+    //PEDRO: Loading the doctor selected on the list doctors screen
     LaunchedEffect(key1 = doctorId) {
         viewModel.loadDoctor(doctorId)
     }
 
     Scaffold(
         topBar = {
-            //barra de navegação com botão voltar
+            //PEDRO: Navigation bar with back button
             TopNavigationBar(navController)
         }
     ) { innerPadding ->
@@ -70,7 +71,7 @@ fun AppointmentScheduleScreen(
                         verticalArrangement = Arrangement.Top,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        //estrutura da tela
+                        //PEDRO: Screen structure
                         Text(
                             text = "Agendamento",
                             style = MaterialTheme.typography.titleLarge,
@@ -79,27 +80,29 @@ fun AppointmentScheduleScreen(
                             modifier = Modifier.align(Alignment.Start)
                         )
                         Spacer(modifier = Modifier.height(16.dp))
-                        //Quando a tela carregar mostrará as informações
-                        //do doutor selecionado
+                        //PEDRO:
+                        //  When the screen loads it will show the information
+                        //  of the selected doctor
                         uiState.doctor?.let { doctor ->
                             DoctorInformation(doctor)
                             Spacer(modifier = Modifier.height(16.dp))
-                            //Componente de calendário
-                            // criado para selecionar
-                            // data e hora da consulta
+                            //PEDRO:
+                            // Calendar component
+                            // created to select
+                            // date and time of the appointment
                             CalendarTimeDatePicker(
-                                //irá registrar a data quando alterado
+                                //PEDRO: It will register the date when changed
                                 onDateTimeSelected = { dateTime ->
                                     viewModel.onDateTimeSelected(dateTime)
                                 }
                             )
-                            //irá mostrar a hora selecionada
-                            //quando ela for modificada
+                            //PEDRO: It will show the selected time
+                            //when it is modified
                             uiState.selectedDateTime?.let {
                                 Text(text = "Horário Selecionado: ${it.format(formatter)}")
                             }
                             Spacer(modifier = Modifier.height(16.dp))
-                            //Botão que leva para a tela confirmar agendamento
+                            //PEDRO: Button that leads to the confirm appointment screen
                             Button(
                                 onClick = {
                                     navController.navigate(
@@ -114,8 +117,8 @@ fun AppointmentScheduleScreen(
                                 Text("Agendar")
                             }
                         } ?: run {
-                            //se o médico não for encontrado
-                            //não é possivel realizar agendamento
+                            //PEDRO: If the doctor is not found
+                            //it is not possible to schedule an appointment
                             Box(
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center

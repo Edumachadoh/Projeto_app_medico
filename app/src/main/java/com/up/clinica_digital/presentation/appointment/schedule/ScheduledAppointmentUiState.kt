@@ -4,18 +4,19 @@ import com.up.clinica_digital.domain.model.Doctor
 import java.time.LocalDateTime
 
 /**
- * Representa os estados da interface de usuário (UI) para a tela
- * de seleção de agendamento (AppointmentScheduleScreen).
+ * PEDRO:
+ * Represents the states of the user interface (UI) for the
+ * appointment selection screen (AppointmentScheduleScreen).
  *
- * @property isLoading Indica se os dados iniciais (ex: informações do médico)
- * estão sendo carregados.
- * @property doctor O objeto [Doctor] para o qual o agendamento está sendo feito.
- * @property selectedDateTime A data e hora [LocalDateTime] que o usuário
- * selecionou no calendário.
- * @property appointmentScheduled (Esta propriedade parece não ser usada
- * nesta tela, mas sim na tela de confirmação).
- * @property error Contém uma mensagem de erro, caso ocorra uma falha
- * (ex: médico não encontrado).
+ * @property isLoading Indicates if the initial data (e.g., doctor information)
+ * is being loaded.
+ * @property doctor The [Doctor] object for whom the appointment is being made.
+ * @property selectedDateTime The [LocalDateTime] date and time that the user
+ * selected on the calendar.
+ * @property appointmentScheduled (This property seems not to be used
+ * on this screen, but rather on the confirmation screen).
+ * @property error Contains an error message, in case a failure occurs
+ * (e.g., doctor not found).
  */
 data class AppointmentScheduleUiState(
     val isLoading: Boolean = false,

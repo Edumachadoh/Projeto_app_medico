@@ -41,14 +41,15 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 /**
- * Tela que exibe os detalhes de um agendamento para o paciente logado.
+ * PEDRO:
+ * Screen that displays the details of an appointment for the logged-in patient.
  *
- * Esta tela gerencia o estado da UI (Loading, Error, Success) e exibe
- * o conteúdo principal ou indicadores de feedback apropriados.
- * A consulta é selecionada na tela [ScheduledAppointmentsScreen]
+ * This screen manages the UI state (Loading, Error, Success) and displays
+ * the main content or appropriate feedback indicators.
+ * The appointment is selected on the [com.up.clinica_digital.presentation.appointment.patient.ScheduledAppointmentsScreen]
  *
- * @param navController O controlador de navegação para ações.
- * @param viewModel O ViewModel que gerencia o estado desta tela.
+ * @param navController The navigation controller for actions.
+ * @param viewModel The ViewModel that manages the state of this screen.
 
  */
 
@@ -59,11 +60,12 @@ fun AppointmentDetailsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    //essa tela mostra:
-    //Nome do médico
-    //cpf do médico
-    //data e hora da consulta
-    //botão para cancelar a consulta
+    //PEDRO:
+    //this screen shows:
+    //Doctor's name
+    //Doctor's cpf (Note: cpf might be specific to Brazil, consider "Doctor's ID" or removing if not applicable)
+    //Date and time of the appointment
+    //Button to cancel the appointment
     Scaffold(
         topBar = { TopNavigationBar(navController = navController) }
     ) { innerPadding ->
@@ -135,7 +137,7 @@ private fun AppointmentDetailsContent(
             }
         }
 
-        Spacer(modifier = Modifier.weight(1f)) // Empurra o botão para baixo
+        Spacer(modifier = Modifier.weight(1f)) //PEDRO: Pushes the button down
 
         Button(
             enabled = appointment.status == AppointmentStatus.SCHEDULED || appointment.status == AppointmentStatus.CONFIRMED,
@@ -166,11 +168,11 @@ private fun InfoRow(icon: ImageVector, text: String) {
 private fun StatusBadge(status: AppointmentStatus) {
     val backgroundColor = when (status) {
         AppointmentStatus.CANCELED -> MaterialTheme.colorScheme.errorContainer
-        else -> Color(0xFFD1FAE5) // Verde claro
+        else -> Color(0xFFD1FAE5) //PEDRO: Light green
     }
     val contentColor = when (status) {
         AppointmentStatus.CANCELED -> MaterialTheme.colorScheme.onErrorContainer
-        else -> Color(0xFF065F46) // Verde escuro
+        else -> Color(0xFF065F46) //PEDRO: Dark green
     }
 
     Box(

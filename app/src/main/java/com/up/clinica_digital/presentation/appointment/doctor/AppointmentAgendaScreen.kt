@@ -25,13 +25,14 @@ import androidx.navigation.NavController
 import com.up.clinica_digital.presentation.navigation.Screen
 
 /**
- * Tela que mostra a agenda de consultas do médico logado.
- * Permite filtrar as consultas pelo nome do paciente.
- * Utiliza [AppointmentAgendaViewModel] para gerenciar o estado e
- * buscar os dados.
+ * PEDRO:
+ * Screen that shows the appointment agenda for the logged-in doctor.
+ * Allows filtering appointments by patient name.
+ * Uses [AppointmentAgendaViewModel] to manage state and
+ * fetch data.
  *
- * @param navController Controlador de navegação (usado para ir aos detalhes).
- * @param viewModel ViewModel da tela, injetada pelo Hilt.
+ * @param navController Navigation controller (used to go to details).
+ * @param viewModel Screen's ViewModel, injected by Hilt.
  */
 @Composable
 fun AppointmentsAgendaScreen(
@@ -41,7 +42,7 @@ fun AppointmentsAgendaScreen(
     val uiState by viewModel.uiState.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
 
-    //estrutura da tela de agenda do médico logado
+    //PEDRO: structure of the logged-in doctor's agenda screen
     Scaffold { paddingValues ->
         Column(
             modifier = Modifier
@@ -49,7 +50,7 @@ fun AppointmentsAgendaScreen(
                 .padding(paddingValues)
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            //Barra de pesquisa pelo nome de paciente
+            //PEDRO: Search bar by patient name
             OutlinedTextField(
                 value = searchQuery,
                 onValueChange = { viewModel.onSearchQueryChange(it) },
@@ -57,24 +58,24 @@ fun AppointmentsAgendaScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            //Lugar onde mostra todas as consultas do médico logado
+            //PEDRO: Place where all appointments for the logged-in doctor are shown
             Spacer(Modifier.height(16.dp))
             Text("Minha Agenda", style = MaterialTheme.typography.titleLarge)
             Spacer(Modifier.height(16.dp))
 
-            //Se der sucesso vai mostrar toda a agenda
-            //se não vai só mostrar uma mensagem de Nunhuma consulta encontrada
+            //PEDRO: If successful it will show the entire agenda
+            //otherwise it will just show a message "No appointments found"
             when (val state = uiState) {
                 is AppointmentAgendaUiState.Loading -> CircularProgressIndicator()
                 is AppointmentAgendaUiState.Error -> {
                     Text(state.message, color = Color.Red)
                 }
-                // Se o estado for Sucesso, exibe a lista de consultas
+                //PEDRO: If the state is Success, displays the list of appointments
                 is AppointmentAgendaUiState.Success -> {
                     if (state.scheduledAppointments.isEmpty()) {
                         Text("Nenhuma consulta agendada.")
                     }
-                    // Lista rolável de consultas
+                    //PEDRO: Scrollable list of appointments
                     else {
                         LazyColumn(
                             verticalArrangement = Arrangement.spacedBy(16.dp)

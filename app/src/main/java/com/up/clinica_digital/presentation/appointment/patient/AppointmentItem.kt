@@ -16,14 +16,15 @@ import java.util.Date
 import java.util.Locale
 
 /**
- * Item para exibir na LazyColumn da tela [ScheduledAppointmentsScreen].
+ * PEDRO:
+ * Item to display in the LazyColumn of the [ScheduledAppointmentsScreen].
  *
- * Este Composable mostra um card com as informações resumidas de um agendamento,
- * incluindo o nome do médico, especialidade, data e hora.
+ * This Composable shows a card with the summary information of an appointment,
+ * including the doctor's name, specialty, date, and time.
  *
- * @param appointment O objeto [Appointment] (consulta) a ser exibido.
- * @param doctor O objeto [Doctor] (médico) associado à consulta.
- * @param onAppointmentClick Função lambda executada quando o botão "Ver Detalhes" é clicado.
+ * @param appointment The [Appointment] object (appointment) to be displayed.
+ * @param doctor The [Doctor] object (doctor) associated with the appointment.
+ * @param onAppointmentClick Lambda function executed when the "View Details" button is clicked.
  */
 @Composable
 fun AppointmentItem(
@@ -31,8 +32,10 @@ fun AppointmentItem(
     doctor: Doctor?,
     onAppointmentClick: (String) -> Unit
 ) {
-    //é um cartão que mostra nome do doutor
-    //além de data e horário da consulta seguindo uma formatação
+
+    //PEDRO:
+    //it's a card that shows the doctor's name
+    //in addition to the date and time of the appointment following formatting
     OutlinedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -78,7 +81,8 @@ fun AppointmentItem(
 }
 
 /**
- * Formata um [LocalDateTime] para uma string de data (dd/MM/yyyy).
+ * PEDRO:
+ * Formats a [LocalDateTime] into a date string (dd/MM/yyyy).
  */
 private fun formatDate(date: LocalDateTime): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -86,7 +90,8 @@ private fun formatDate(date: LocalDateTime): String {
 }
 
 /**
- * Formata um [LocalDateTime] para uma string de hora (HH:mm).
+ * PEDRO:
+ * Formats a [LocalDateTime] into a time string (HH:mm).
  */
 private fun formatTime(date: LocalDateTime): String {
     val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())

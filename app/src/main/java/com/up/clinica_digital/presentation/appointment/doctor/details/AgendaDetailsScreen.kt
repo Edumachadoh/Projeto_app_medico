@@ -34,14 +34,14 @@ import java.util.Date
 import java.util.Locale
 
 /**
- * Tela que exibe os detalhes de um agendamento específico para o médico.
+PEDRO:
+ * Screen that displays the details of a specific appointment for the doctor.
+ * Allows the doctor to view patient information (name, CPF),
+ * appointment data (dates, time, status) and perform actions,
+ * such as canceling the appointment.
  *
- * Permite ao médico visualizar as informações do paciente (nome, CPF),
- * os dados da consulta (data, hora, status) e realizar ações,
- * como cancelar o agendamento.
- *
- * @param navController O controlador de navegação para ações (ex: voltar).
- * @param viewModel O ViewModel que gerencia o estado desta tela.
+ * @param navController The navigation driver for actions (e.g., back).
+ * @param viewModel The ViewModel that manages the state of this screen.
  */
 @Composable
 fun AgendaDetailsScreen(
@@ -50,11 +50,14 @@ fun AgendaDetailsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    //essa tela mostra:
-    //Nome do paciente
-    //cpf do paciente
-    //data e hora da consulta
-    //botão para cancelar a consulta
+    /*PEDRO:
+        This screen displays:
+
+        - Patient's name
+        - Patient's CPF
+        - Date and time of the appointment
+        - Button to cancel the appointment
+    */
     Scaffold(
         topBar = { TopNavigationBar(navController = navController) }
     ) { innerPadding ->
@@ -130,7 +133,8 @@ fun AgendaDetailsScreen(
     }
 }
 /**
- * Formata um [LocalDateTime] para uma string de data (dd/MM/yyyy).
+ * PEDRO:
+ * Formats a [LocalDateTime] into a date string (dd/MM/yyyy).
  */
 private fun formatDate(date: LocalDateTime): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -138,7 +142,8 @@ private fun formatDate(date: LocalDateTime): String {
 }
 
 /**
- * Formata um [LocalDateTime] para uma string de hora (HH:mm).
+ * PEDRO:
+ * Formats a [LocalDateTime] to a time string (HH:mm).
  */
 private fun formatTime(date: LocalDateTime): String {
     val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())

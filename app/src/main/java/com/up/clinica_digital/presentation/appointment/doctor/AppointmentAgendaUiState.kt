@@ -1,20 +1,20 @@
 package com.up.clinica_digital.presentation.appointment.doctor
 
 import com.up.clinica_digital.domain.model.Appointment
-import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.model.Patient
 
 /**
- * Representa os possíveis estados da interface de usuário (UI)
- * para a tela da agenda de consultas do médico.
+ * PEDRO:
+ * Represents the possible states of the user interface (UI)
+ * for the doctor's appointment agenda screen.
  *
- * Esta classe selada define os diferentes cenários que a UI pode exibir,
- * como "carregando", "sucesso" (com os dados) ou "erro".
- * utilizado pelo [AppointmentAgendaViewModel]
+ * This sealed class defines the different scenarios that the UI can display,
+ * such as "loading", "success" (with data), or "error".
+ * Used by [AppointmentAgendaViewModel]
  *
- * @property Loading Quando a tela está carregando
- * @property Success Quando a tela consegue carregar
- * @property Error Quando ocorre algum erro ao carregar
+ * @property Loading When the screen is loading
+ * @property Success When the screen loads successfully
+ * @property Error When an error occurs while loading
  */
 
 sealed class AppointmentAgendaUiState {

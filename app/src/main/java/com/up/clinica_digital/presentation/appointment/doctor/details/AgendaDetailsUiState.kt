@@ -1,12 +1,12 @@
 package com.up.clinica_digital.presentation.appointment.doctor.details
 
 import com.up.clinica_digital.domain.model.Appointment
-import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.model.Patient
 
 /**
- * Representa os possíveis estados da interface de usuário (UI)
- * para a tela de detalhes da consulta [AgendaDetailsScreen].
+ * PEDRO:
+ * Represents the possible user interface (UI) states
+ * for the appointment details screen [AgendaDetailsScreen].
  */
 sealed class AgendaDetailsUiState {
     object Loading : AgendaDetailsUiState()

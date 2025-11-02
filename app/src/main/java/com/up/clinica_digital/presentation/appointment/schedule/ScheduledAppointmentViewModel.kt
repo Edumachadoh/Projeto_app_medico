@@ -13,27 +13,29 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 /**
- * ViewModel para a tela de agendamento (AppointmentScheduleScreen).
+ * PEDRO:
+ * ViewModel for the appointment scheduling screen (AppointmentScheduleScreen).
  *
- * Responsável por:
- * 1. Carregar os dados do médico ([Doctor]) com base no ID recebido da navegação.
- * 2. Armazenar a data e hora ([LocalDateTime]) que o usuário seleciona no calendário.
+ * Responsible for:
+ * 1. Loading the doctor's data ([Doctor]) based on the ID received from navigation.
+ * 2. Storing the date and time ([LocalDateTime]) that the user selects on the calendar.
  *
- * @param getDoctorUseCase Caso de uso para buscar um médico pelo ID.
+ * @param getDoctorUseCase Use case to fetch a doctor by ID.
  */
 @HiltViewModel
 class AppointmentScheduleViewModel @Inject constructor(
     private val getDoctorUseCase: GetEntityByIdUseCase<Doctor>
 ) : ViewModel() {
 
-    //estados da tela de agendamento
+    //PEDRO: Appointment scheduling screen states
     private val _uiState = MutableStateFlow(AppointmentScheduleUiState())
     val uiState = _uiState.asStateFlow()
 
     /**
-     * Carrega os dados do médico usando o ID fornecido (recebido da navegação).
+     * PEDRO:
+     * Loads the doctor's data using the provided ID (received from navigation).
      *
-     * @param doctorId O ID do médico a ser carregado.
+     * @param doctorId The ID of the doctor to be loaded.
      */
     fun loadDoctor(doctorId: String) {
         viewModelScope.launch {
@@ -53,9 +55,10 @@ class AppointmentScheduleViewModel @Inject constructor(
     }
 
     /**
-     * Atualiza o estado da UI com a data e hora selecionadas pelo usuário.
+     * PEDRO:
+     * Updates the UI state with the date and time selected by the user.
      *
-     * @param dateTime O [LocalDateTime] que o usuário escolheu no componente.
+     * @param dateTime The [LocalDateTime] that the user chose in the component.
      */
     fun onDateTimeSelected(dateTime: LocalDateTime) {
         _uiState.update { it.copy(selectedDateTime = dateTime) }

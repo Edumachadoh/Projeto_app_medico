@@ -16,15 +16,16 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 /**
- * ViewModel para a tela de consultas agendadas do paciente [ScheduledAppointmentsScreen].
+ * PEDRO:
+ * ViewModel for the patient's scheduled appointments screen [ScheduledAppointmentsScreen].
  *
- * Responsável por carregar todos os agendamentos do paciente logado,
- * buscar os dados dos médicos associados e filtrar a lista
- * com base na pesquisa do usuário.
+ * Responsible for loading all appointments for the logged-in patient,
+ * fetching the associated doctors' data, and filtering the list
+ * based on the user's search.
  *
- * @param getPatientScheduledAppointmentsUseCase Caso de uso para listar agendamentos por paciente.
- * @param getDoctorByIdUseCase Caso de uso para buscar um médico pelo ID.
- * @param getCurrentUserIdUseCase Caso de uso para obter o ID do usuário logado.
+ * @param getPatientScheduledAppointmentsUseCase Use case to list appointments by patient.
+ * @param getDoctorByIdUseCase Use case to fetch a doctor by ID.
+ * @param getCurrentUserIdUseCase Use case to get the ID of the logged-in user.
  */
 
 @HiltViewModel
@@ -34,32 +35,35 @@ class ScheduledAppointmentViewModel @Inject constructor(
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase
 ) : ViewModel() {
     /*
-    *   Guardado o estado da tela para que seja mudada de acordo
-    *   Com o que for carregado na tela
+    PEDRO:
+    * Stores the state of the screen so it can be changed according
+    * to what is loaded on the screen
     */
     private val _uiState = MutableStateFlow<ScheduledAppointmentUiState>(ScheduledAppointmentUiState.Loading)
     val uiState: StateFlow<ScheduledAppointmentUiState> = _uiState.asStateFlow()
 
     /*
-    *   Variável para guarfar o texto que está escrito
-    *   no pesquisar
+    PEDRO:
+    * Variable to store the text that is written
+    * in the search bar
     */
     private val _searchQuery = mutableStateOf("")
     val searchQuery: State<String> = _searchQuery
 
-    //guardando os consultas agendandas que o usecase encontrou
+    //PEDRO: Storing the scheduled appointments that the use case found
     private var allAppointments = listOf<Appointment>()
-    //mapa de doutores encontrados
+    //PEDRO: Map of found doctors
     private val doctorsMap = mutableMapOf<String, Doctor>()
 
-    //carregando todas as consultas ao iniciar
+    //PEDRO: Loading all appointments on init
     init {
         loadInitialAppointments()
     }
 
     /**
-     * Carrega a lista inicial de agendamentos do paciente logado
-     * e os dados dos médicos associados.
+     * PEDRO:
+     * Loads the initial list of appointments for the logged-in patient
+     * and the associated doctors' data.
      */
     private fun loadInitialAppointments() {
         viewModelScope.launch {
@@ -93,17 +97,18 @@ class ScheduledAppointmentViewModel @Inject constructor(
     }
 
     /**
-     * Chamado quando o texto na barra de pesquisa é alterado.
-     * Atualiza o [searchQuery] e aciona a filtragem da lista.
+     * PEDRO:
+     * Called when the text in the search bar is changed.
+     * Updates the [searchQuery] and triggers the list filtering.
      *
-     * @param query O novo texto da pesquisa.
+     * @param query The new search text.
      */
     fun onSearchQueryChange(query: String) {
         _searchQuery.value = query
-        filterAppointments(query) //executando função de filtro
+        filterAppointments(query) //executing filter function
     }
 
-    //filtrando as consultas de acordo com o nome do doutor
+    //PEDRO: Filtering appointments according to the doctor's name
     private fun filterAppointments(query: String) {
         val filteredList = if (query.isBlank()) {
             allAppointments

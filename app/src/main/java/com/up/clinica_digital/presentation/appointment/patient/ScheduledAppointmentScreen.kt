@@ -25,13 +25,14 @@ import androidx.navigation.NavController
 import com.up.clinica_digital.presentation.navigation.Screen
 
 /**
- * Exibe a lista de consultas agendadas para o paciente logado.
+ * PEDRO:
+ * Displays the list of scheduled appointments for the logged-in patient.
  *
- * Esta tela permite ao paciente ver seus agendamentos futuros e
- * filtrar a lista pelo nome do médico.
+ * This screen allows the patient to see their future appointments and
+ * filter the list by the doctor's name.
  *
- * @param navController Controlador de navegação para abrir os detalhes da consulta.
- * @param viewModel O ViewModel que gerencia o estado e a lógica desta tela.
+ * @param navController Navigation controller to open appointment details.
+ * @param viewModel The ViewModel that manages the state and logic of this screen.
  */
 @Composable
 fun ScheduledAppointmentsScreen(
@@ -40,7 +41,7 @@ fun ScheduledAppointmentsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    //estrutura da tela de consultas do paciente logado
+    //PEDRO: Structure of the logged-in patient's appointments screen
     Scaffold { paddingValues ->
         Column(
             modifier = Modifier
@@ -48,7 +49,7 @@ fun ScheduledAppointmentsScreen(
                 .padding(paddingValues)
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            //Barra de pesquisa pelo nome do médico
+            //PEDRO: Search bar by doctor's name
             OutlinedTextField(
                 value = viewModel.searchQuery.value,
                 onValueChange = { viewModel.onSearchQueryChange(it) },
@@ -56,13 +57,13 @@ fun ScheduledAppointmentsScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            //Lugar onde mostra todas as consultas do paciente logado
+            //PEDRO: Place where all appointments for the logged-in patient are shown
             Spacer(Modifier.height(16.dp))
             Text("Consultas", style = MaterialTheme.typography.titleLarge)
             Spacer(Modifier.height(16.dp))
 
-            //Se der sucesso vai mostrar todas as consultas
-            //se não vai só mostrar uma mensagem de Nunhuma consulta encontrada
+            //PEDRO: If successful, it will show all appointments
+            //otherwise, it will just show a message "No appointments found"
             when (val state = uiState) {
                 is ScheduledAppointmentUiState.Loading -> CircularProgressIndicator()
                 is ScheduledAppointmentUiState.Error -> {

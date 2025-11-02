@@ -15,19 +15,20 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 /**
- * ViewModel para a tela de detalhes do agendamento do paciente (AppointmentDetailsScreen).
+ * PEDRO:
+ * ViewModel for the patient's appointment details screen (AppointmentDetailsScreen).
  *
- * Esta classe é responsável por:
- * 1. Obter o `appointmentId` passado pela navegação.
- * 2. Carregar os detalhes da consulta [Appointment] correspondente.
- * 3. Carregar os detalhes do médico [Doctor] associado a essa consulta.
- * 4. Expor o estado da UI [AppointmentDetailsUiState] para a tela.
- * 5. Gerenciar a lógica de cancelamento da consulta pelo paciente.
+ * This class is responsible for:
+ * 1. Getting the `appointmentId` passed via navigation.
+ * 2. Loading the details of the corresponding [Appointment].
+ * 3. Loading the details of the [Doctor] associated with that appointment.
+ * 4. Exposing the [AppointmentDetailsUiState] to the screen.
+ * 5. Managing the logic for canceling the appointment by the patient.
  *
- * @param getAppointmentByIdUseCase Caso de uso para buscar uma consulta pelo ID.
- * @param getDoctorByIdUseCase Caso de uso para buscar um médico pelo ID.
- * @param updateAppointmentUseCase Caso de uso para atualizar uma consulta.
- * @param savedStateHandle Handle para acessar os argumentos de navegação (o "appointmentId").
+ * @param getAppointmentByIdUseCase Use case to fetch an appointment by ID.
+ * @param getDoctorByIdUseCase Use case to fetch a doctor by ID.
+ * @param updateAppointmentUseCase Use case to update an appointment.
+ * @param savedStateHandle Handle to access navigation arguments (the "appointmentId").
  */
 @HiltViewModel
 class AppointmentDetailsViewModel @Inject constructor(
@@ -37,27 +38,28 @@ class AppointmentDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    //guardando o Id da consulta
+    //PEDRO: Storing the appointment Id
     private val appointmentId: String = savedStateHandle.get<String>("appointmentId")!!
 
-    //guardando estado da tela
+    //PEDRO: Storing screen state
     private val _uiState = MutableStateFlow<AppointmentDetailsUiState>(AppointmentDetailsUiState.Loading)
     val uiState: StateFlow<AppointmentDetailsUiState> = _uiState.asStateFlow()
 
-    //Carregando consulta ao iniciar
+    //PEDRO: Loading appointment on init
     init {
         loadAppointmentDetails()
     }
 
     /**
-     * Carrega os detalhes da consulta e do médico associado.
-     * Atualiza o [_uiState] para [AppointmentDetailsUiState.Success] ou
-     * [AppointmentDetailsUiState.Error] dependendo do resultado.
+     * PEDRO:
+     * Loads the details of the appointment and the associated doctor.
+     * Updates the [_uiState] to [AppointmentDetailsUiState.Success] or
+     * [AppointmentDetailsUiState.Error] depending on the result.
      */
     private fun loadAppointmentDetails() {
         viewModelScope.launch {
-            //se alguma informação der erro ele retorna
-            //o estado de erro
+            //PEDRO: If any information fails, it returns
+            //the error state
             _uiState.value = AppointmentDetailsUiState.Loading
             try {
                 val appointment = getAppointmentByIdUseCase.invoke(appointmentId)
@@ -80,13 +82,14 @@ class AppointmentDetailsViewModel @Inject constructor(
     }
 
     /**
-     * Cancela a consulta atual.
+     * PEDRO:
+     * Cancels the current appointment.
      *
-     * Altera o status da consulta para [AppointmentStatus.CANCELED],
-     * atualiza no repositório e executa [onComplete] em caso de sucesso
-     * (geralmente usado para navegar de volta).
+     * Changes the appointment status to [AppointmentStatus.CANCELED],
+     * updates it in the repository, and executes [onComplete] on success
+     * (usually used to navigate back).
      *
-     * @param onComplete Callback a ser executado após o sucesso do cancelamento.
+     * @param onComplete Callback to be executed after successful cancellation.
      */
     fun cancelAppointment(onComplete: () -> Unit) {
         viewModelScope.launch {
