@@ -14,6 +14,7 @@ import com.up.clinica_digital.domain.model.UserRole
 import java.time.LocalDate
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.Alignment
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -197,26 +198,39 @@ fun RegisterScreen(
 
                 Spacer(Modifier.height(8.dp))
 
-                TextButton(onClick = onNavigateToLogin) {
-                    Text("Já tem conta? Faça login")
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                    TextButton(onClick = onNavigateToLogin) {
+                        Text("Já tem conta? Faça login")
+                    }
                 }
 
                 Spacer(Modifier.height(16.dp))
 
                 when (uiState) {
-                    is AuthUiState.Idle -> Unit
-                    is AuthUiState.Loading -> CircularProgressIndicator()
-                    is AuthUiState.Error -> {
-                        val message = (uiState as AuthUiState.Error).message
-                        Text(message, color = Color.Red)
-                    }
-                    is AuthUiState.Success -> {
-                        val userId = (uiState as AuthUiState.Success).userId
-                        val role = (uiState as AuthUiState.Success).role
-                        LaunchedEffect(userId) {
-                            onRegisterSuccess(userId, role)
+                    is AuthUiState.Loading -> {
+                        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                         }
                     }
+
+                    is AuthUiState.Error -> {
+                        val message = (uiState as AuthUiState.Error).message
+                        Text(
+                            text = message,
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
+                    }
+
+                    is AuthUiState.Success -> {
+                        val state = uiState as AuthUiState.Success
+                        LaunchedEffect(state.userId) {
+                            onRegisterSuccess(state.userId, state.role)
+                        }
+                    }
+
+                    else -> Unit
                 }
             }
         }
