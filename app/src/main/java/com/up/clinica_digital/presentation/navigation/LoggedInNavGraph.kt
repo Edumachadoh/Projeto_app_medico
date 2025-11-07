@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -28,12 +27,11 @@ import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavItem
 import com.up.clinica_digital.presentation.component.bottom_nav.BottomNavigationBar
 import com.up.clinica_digital.presentation.doctors.DoctorsListScreen
 import com.up.clinica_digital.presentation.profile.ProfileScreen
-import com.up.clinica_digital.presentation.chat.ChatPatient
+import com.up.clinica_digital.presentation.chat.Chat
 import com.up.clinica_digital.presentation.doctors.DoctorDetailsScreen
 import com.up.clinica_digital.presentation.forum.ForumScreen
 import com.up.clinica_digital.presentation.forum.TopicItemScreen
 import com.up.clinica_digital.presentation.home.HomeScreen
-import com.up.clinica_digital.presentation.termsOfUse.TermsOfUseScreen
 
 
 @Composable
@@ -162,7 +160,7 @@ fun LoggedInNavGraph(
 
             //Chat
             composable(BottomNavItem.Chat.route) {
-                ChatPatient(onBack = { parentNavController.popBackStack() })
+                Chat(onBack = { parentNavController.popBackStack() })
             }
 
 
