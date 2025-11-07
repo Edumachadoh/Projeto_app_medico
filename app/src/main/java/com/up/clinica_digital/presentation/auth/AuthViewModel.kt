@@ -63,37 +63,30 @@ class AuthViewModel @Inject constructor(
     }
 
     fun registerDoctor(doctor: Doctor) {
-        // ANA: We are specifying the context because we want to run this on a background thread.
-        // This (Dispatchers.IO) is the ideal context for performing network requests or database operations.
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
+            _authState.value = AuthUiState.Loading
             try {
-                // ANA: UI State is updated on the main thread.
-                withContext(Dispatchers.Main) {
-                    _authState.value = AuthUiState.Loading
+                val crmValidation = withContext(Dispatchers.IO) {
+                    validateDoctorCrmUseCase(doctor.crm, doctor.uf)
                 }
 
-                // ANA: CRM validation.
-                val crmValidation = validateDoctorCrmUseCase(doctor.crm, doctor.uf)
                 if (crmValidation.isEmpty()) {
-                    withContext(Dispatchers.Main) {
-                        _authState.value = AuthUiState.Error("CRM inválido")
-                    }
+                    _authState.value = AuthUiState.Error("CRM inválido")
                     return@launch
                 }
 
-                // ANA: Back-end register.
-                val uid = registerDoctorUseCase.invoke(doctor)
-                withContext(Dispatchers.Main) {
-                    if (uid != null) {
-                        _authState.value = AuthUiState.Success(uid, doctor.role)
-                    } else {
-                        _authState.value = AuthUiState.Error("Falha ao cadastrar médico")
-                    }
+                val uid = withContext(Dispatchers.IO) {
+                    registerDoctorUseCase.invoke(doctor)
                 }
+
+                if (uid != null) {
+                    _authState.value = AuthUiState.Success(uid, doctor.role)
+                } else {
+                    _authState.value = AuthUiState.Error("Falha ao cadastrar médico")
+                }
+
             } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    _authState.value = AuthUiState.Error(e.message ?: "Erro no cadastro do médico")
-                }
+                _authState.value = AuthUiState.Error(e.message ?: "Erro no cadastro do médico")
             }
         }
     }
