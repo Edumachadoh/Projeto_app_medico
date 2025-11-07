@@ -1,5 +1,6 @@
 package com.up.clinica_digital.presentation.auth
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.up.clinica_digital.domain.model.Doctor
@@ -71,6 +72,7 @@ class AuthViewModel @Inject constructor(
                 }
 
                 if (crmValidation.isEmpty()) {
+                    Log.d("AuthViewModel", "CRM inválido — lista vazia retornada")
                     _authState.value = AuthUiState.Error("CRM inválido")
                     return@launch
                 }

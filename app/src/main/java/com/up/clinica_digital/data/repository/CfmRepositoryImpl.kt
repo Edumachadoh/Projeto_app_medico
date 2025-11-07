@@ -6,7 +6,6 @@ import com.up.clinica_digital.domain.model.CfmDoctor
 import com.up.clinica_digital.domain.repository.CfmRepository
 import javax.inject.Inject
 
-// ANA: Repository implementation for doctor CRM validation using CFM API
 class CfmRepositoryImpl @Inject constructor(
     private val remoteDataSource: CfmRemoteDataSource
 ) : CfmRepository {
