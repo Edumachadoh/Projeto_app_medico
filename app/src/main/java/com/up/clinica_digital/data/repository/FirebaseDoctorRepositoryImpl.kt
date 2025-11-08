@@ -54,4 +54,15 @@ class FirebaseDoctorRepositoryImpl(
             .await()
         return snapshot.documents.mapNotNull { it.toDomain() }
     }
+
+    override suspend fun listBySpeciality(
+        speciality: String
+    ): List<Doctor> {
+        val snapshot = collection
+            .startAt(speciality)
+            .endAt(speciality + '\uf8ff')
+            .get()
+            .await()
+        return snapshot.documents.mapNotNull { it.toDomain() }
+    }
 }

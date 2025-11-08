@@ -46,6 +46,10 @@ object UseCaseModule {
     @Provides @Singleton
     fun provideListDoctorByUFAndSpecialityUseCase(repo: DoctorRepository) =
         ListDoctorByUFAndSpecialityUseCase(repo)
+
+    @Provides @Singleton
+    fun provideListDoctorBySpecialityUseCase(repo: DoctorRepository) =
+        ListDoctorBySpecialityUseCase(repo)
     //endregion DOCTOR
 
     //region PATIENT
