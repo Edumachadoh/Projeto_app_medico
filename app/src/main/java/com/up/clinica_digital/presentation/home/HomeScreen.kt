@@ -1,8 +1,10 @@
 package com.up.clinica_digital.presentation.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -16,29 +18,36 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.up.clinica_digital.presentation.component.YoutubeVideoSection
+import java.util.Locale
 
 @Composable
 fun HomeScreen(
-    userName: String = "Ana",
+    viewModel: HomeViewModel = androidx.hilt.navigation.compose.hiltViewModel(),
     onNavigateToMedicos: () -> Unit = {},
-    onNavigateToPerfil: () -> Unit = {}
 ) {
-    Scaffold(
-    ) { padding ->
+    val user by viewModel.user.collectAsState()
+    val doctors by viewModel.doctors.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.loadHomeData("Cardiologia")
+    }
+
+    Scaffold { padding ->
         Column(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
-                .background(Color(0xFFFDFBFB))
+                .background(MaterialTheme.colorScheme.secondary)
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFF9C2440))
+                    .background(MaterialTheme.colorScheme.primary)
                     .padding(16.dp)
             ) {
                 Text(
-                    text = "Olá, $userName",
+                    text = "Olá, ${user?.name ?: "Usuário"}",
                     color = Color.White,
                     style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
                 )
@@ -64,39 +73,19 @@ fun HomeScreen(
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                items(6) { index ->
+                val specialties = listOf("Cardiologia", "Psicologia", "Dermatologia", "Neurologia", "Geral", "Pediatria")
+                items(specialties.size) { index ->
                     EspecialidadeCard(
-                        nome = listOf("Cardiologista", "Psicólogo", "Dermatologista", "Neurologista", "Geral", "Pediatra")[index]
+                        nome = specialties[index],
+                        onClick = { viewModel.loadHomeData(specialties[index]) }
                     )
                 }
             }
 
-            Card(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                Column {
-                    Box(
-                        modifier = Modifier
-                            .height(180.dp)
-                            .fillMaxWidth()
-                            .background(Color.LightGray),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text("Vídeo Sintomas da Dengue", color = Color.White)
-                    }
-                    Text(
-                        text = "Sintomas da Dengue",
-                        modifier = Modifier.padding(12.dp),
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
-            }
+            YoutubeVideoSection()
 
             Text(
-                text = "Especialistas mais bem avaliados",
+                text = "Especialistas em destaque",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(start = 16.dp, top = 8.dp)
@@ -105,8 +94,10 @@ fun HomeScreen(
                 contentPadding = PaddingValues(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                items(3) {
-                    EspecialistaCard(nome = "Dr. Luke Whitesell", rating = "4.95")
+                items(doctors) { doctor ->
+                    // ANA: Rating mockado!
+                    val randomRating = remember { (4..5).random() + (0..9).random() / 10.0 }
+                    EspecialistaCard(nome = doctor.name, rating = String.format(Locale.US, "%.1f", randomRating))
                 }
             }
         }
@@ -114,11 +105,12 @@ fun HomeScreen(
 }
 
 @Composable
-fun EspecialidadeCard(nome: String) {
+fun EspecialidadeCard(nome: String, onClick: () -> Unit) {
     Card(
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier
             .size(100.dp, 100.dp)
+            .clickable { onClick() },
     ) {
         Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
             Text(nome, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
