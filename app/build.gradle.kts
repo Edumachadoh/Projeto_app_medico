@@ -52,9 +52,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore.ktx)
 
-    // Retrofit
-    /* implementation(libs.retrofit)
-    implementation(libs.converter.gson) */
+    implementation("com.google.accompanist:accompanist-webview:0.32.0")
 
     // Retrofit core
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
