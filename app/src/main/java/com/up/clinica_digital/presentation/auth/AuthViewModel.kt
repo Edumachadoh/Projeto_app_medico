@@ -28,6 +28,30 @@ class AuthViewModel @Inject constructor(
     private val _authState = MutableStateFlow<AuthUiState>(AuthUiState.Idle)
     val authState: StateFlow<AuthUiState> = _authState
 
+    private val _crmValidationResult = MutableStateFlow<List<com.up.clinica_digital.domain.model.CfmDoctor>>(emptyList())
+    val crmValidationResult: StateFlow<List<com.up.clinica_digital.domain.model.CfmDoctor>> = _crmValidationResult
+
+    private val _crmValidationState = MutableStateFlow<CrmUiState>(CrmUiState.Idle)
+    val crmValidationState: StateFlow<CrmUiState> = _crmValidationState
+
+    fun validateDoctorCrm(crm: String, uf: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _crmValidationState.value = CrmUiState.Loading
+            try {
+                val result = validateDoctorCrmUseCase(crm, uf)
+                if (result.isEmpty()) {
+                    _crmValidationState.value = CrmUiState.Error("CRM não encontrado ou inválido")
+                } else {
+                    _crmValidationResult.value = result
+                    _crmValidationState.value = CrmUiState.Success(result)
+                }
+            } catch (e: Exception) {
+                Log.e("AuthViewModel", "Erro ao validar CRM", e)
+                _crmValidationState.value = CrmUiState.Error("Erro ao validar CRM: ${e.message}")
+            }
+        }
+    }
+
     fun login(email: String, password: String) {
         viewModelScope.launch {
             _authState.value = AuthUiState.Loading
@@ -72,7 +96,6 @@ class AuthViewModel @Inject constructor(
                 }
 
                 if (crmValidation.isEmpty()) {
-                    Log.d("AuthViewModel", "CRM inválido — lista vazia retornada")
                     _authState.value = AuthUiState.Error("CRM inválido")
                     return@launch
                 }
