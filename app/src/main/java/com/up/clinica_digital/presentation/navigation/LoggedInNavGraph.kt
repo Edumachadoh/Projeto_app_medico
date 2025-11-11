@@ -68,8 +68,11 @@ fun LoggedInNavGraph(
             // Home
             composable(BottomNavItem.Inicio.route) {
                 HomeScreen(
-                    onNavigateToMedicos = {
-                        bottomNavController.navigate(BottomNavItem.Medicos.route)
+                    onNavigateToMedicos = { specialization -> // 'it' agora é 'specialization'
+                        // Constrói a rota com o parâmetro de consulta
+                        bottomNavController.navigate(
+                            "${BottomNavItem.Medicos.route}?specialization=$specialization"
+                        )
                     },
                     onNavigateToPerfil = {
                         bottomNavController.navigate(BottomNavItem.Perfil.route)
@@ -78,8 +81,20 @@ fun LoggedInNavGraph(
             }
 
             //Lista de Médicos
-            composable(BottomNavItem.Medicos.route) {
-                DoctorsListScreen(navController = bottomNavController)
+            composable(
+                // 1. Adicione o parâmetro de consulta opcional à string da rota
+                route = BottomNavItem.Medicos.route + "?specialization={specialization}",
+                arguments = listOf(
+                    navArgument("specialization") { // 2. Defina o argumento
+                        type = NavType.StringType
+                        nullable = true         // 3. Marque como opcional
+                        defaultValue = null     // 4. Defina o padrão como nulo
+                    }
+                )
+            ) { backStackEntry ->
+                // Esta parte já estava correta e vai funcionar agora
+                val specialization = backStackEntry.arguments?.getString("specialization")
+                DoctorsListScreen(navController = bottomNavController, query = specialization)
             }
 
             //Detalhes Médico

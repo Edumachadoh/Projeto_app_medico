@@ -24,7 +24,7 @@ import java.util.Locale
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = androidx.hilt.navigation.compose.hiltViewModel(),
-    onNavigateToMedicos: () -> Unit = {},
+    onNavigateToMedicos: (String) -> Unit = {},
     onNavigateToPerfil: () -> Unit = {},
 ) {
     val user by viewModel.user.collectAsState()
@@ -76,9 +76,11 @@ fun HomeScreen(
             ) {
                 val specialties = listOf("Cardiologia", "Psicologia", "Dermatologia", "Neurologia", "Geral", "Pediatria")
                 items(specialties.size) { index ->
+                    val especialidade = specialties[index]
                     EspecialidadeCard(
-                        nome = specialties[index],
-                        onClick = { viewModel.loadHomeData(specialties[index]) }
+                        nome = especialidade,
+                        // Chame a nova função de navegação passando a especialidade
+                        onClick = { onNavigateToMedicos(especialidade) } // <-- MUDADO AQUI
                     )
                 }
             }

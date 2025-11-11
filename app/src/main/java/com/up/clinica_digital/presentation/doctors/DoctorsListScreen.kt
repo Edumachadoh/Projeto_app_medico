@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -15,16 +16,23 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.up.clinica_digital.domain.model.Doctor
-import com.up.clinica_digital.presentation.doctors.DoctorsViewModel
 import com.up.clinica_digital.presentation.navigation.Screen
 
 @Composable
 fun DoctorsListScreen(
     viewModel: DoctorsViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
+    query: String?
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
+    LaunchedEffect(Unit) {
+        query?.let { initialQuery ->
+            if (initialQuery.isNotBlank()) {
+                viewModel.onSearchQueryChange(initialQuery)
+            }
+        }
+    }
     Scaffold { paddingValues ->
         Column(
             modifier = Modifier

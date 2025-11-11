@@ -9,6 +9,7 @@ import com.up.clinica_digital.domain.model.Doctor
 import com.up.clinica_digital.domain.usecase.GetEntityByIdUseCase
 import com.up.clinica_digital.domain.usecase.ListEntitiesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -23,13 +24,20 @@ class DoctorsViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(DoctorUIState())
     val uiState = _uiState.asStateFlow()
-
+    private val initJob: Job
     private var allDoctors = listOf<Doctor>()
 
     init {
-        viewModelScope.launch {
-            _uiState.update { it.copy(doctors = getAllDoctorsUseCase.invoke()) }
-            allDoctors = _uiState.value.doctors
+        // 3. ATRIBUA A CORROTINA AO JOB
+        initJob = viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) } // Mostra loading inicial
+            try {
+                val doctors = getAllDoctorsUseCase.invoke()
+                allDoctors = doctors // Popula o cache
+                _uiState.update { it.copy(doctors = doctors, isLoading = false) } // Exibe todos
+            } catch (e: Exception) {
+                _uiState.update { it.copy(error = e.message ?: "Erro", isLoading = false) }
+            }
         }
     }
 
@@ -41,6 +49,8 @@ class DoctorsViewModel @Inject constructor(
     private fun filterDoctors(query: String) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
+
+            initJob.join()
 
             val filteredList = if (query.isBlank()) {
                 allDoctors
