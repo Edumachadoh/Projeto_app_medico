@@ -44,23 +44,24 @@ class FirebaseDoctorRepositoryImpl(
     // ANA: Searches doctors by state and specialty using Firestore range queries
     override suspend fun listByUFAndSpeciality(
         uf: String,
-        speciality: String
+        specialization: String
     ): List<Doctor> {
         val snapshot = collection
             .whereEqualTo("uf", uf)
-            .startAt(speciality)
-            .endAt(speciality + '\uf8ff')
+            .startAt(specialization)
+            .endAt(specialization + '\uf8ff')
             .get()
             .await()
         return snapshot.documents.mapNotNull { it.toDomain() }
     }
 
     override suspend fun listBySpeciality(
-        speciality: String
+        specialization: String
     ): List<Doctor> {
         val snapshot = collection
-            .startAt(speciality)
-            .endAt(speciality + '\uf8ff')
+            .orderBy("specialization")
+            .startAt(specialization)
+            .endAt(specialization + '\uf8ff')
             .get()
             .await()
         return snapshot.documents.mapNotNull { it.toDomain() }

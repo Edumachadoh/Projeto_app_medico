@@ -25,6 +25,7 @@ import java.util.Locale
 fun HomeScreen(
     viewModel: HomeViewModel = androidx.hilt.navigation.compose.hiltViewModel(),
     onNavigateToMedicos: () -> Unit = {},
+    onNavigateToPerfil: () -> Unit = {},
 ) {
     val user by viewModel.user.collectAsState()
     val doctors by viewModel.doctors.collectAsState()
@@ -82,7 +83,7 @@ fun HomeScreen(
                 }
             }
 
-            YoutubeVideoSection()
+//            YoutubeVideoSection()
 
             Text(
                 text = "Especialistas em destaque",

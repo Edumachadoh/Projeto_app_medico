@@ -6,6 +6,6 @@ import com.up.clinica_digital.domain.repository.DoctorRepository
 class ListDoctorBySpecialityUseCase (
     private val repository: DoctorRepository
 ) {
-    suspend fun invoke(speciality: String): List<Doctor> =
-        repository.listBySpeciality(speciality)
+    suspend fun invoke(specialization: String): List<Doctor> =
+        repository.listBySpeciality(specialization)
 }
