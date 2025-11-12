@@ -85,7 +85,7 @@ fun HomeScreen(
                 }
             }
 
-//            YoutubeVideoSection()
+            YoutubeVideoSection()
 
             Text(
                 text = "Especialistas em destaque",
@@ -98,9 +98,11 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(doctors) { doctor ->
-                    // ANA: Rating mockado!
-                    val randomRating = remember { (4..5).random() + (0..9).random() / 10.0 }
-                    EspecialistaCard(nome = doctor.name, rating = String.format(Locale.US, "%.1f", randomRating))
+                    val randomRating = (4..5).random() + (0..9).random()
+                    EspecialistaCard(
+                        nome = doctor.name,
+                        rating = String.format(Locale.US, "%.1f", randomRating)
+                    )
                 }
             }
         }

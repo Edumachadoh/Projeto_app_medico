@@ -32,6 +32,9 @@ fun YoutubeVideoSection() {
 
 @Composable
 fun YouTubeCard(title: String, videoUrl: String) {
+    val embedUrl = videoUrl.replace("youtu.be/", "www.youtube.com/embed/")
+        .substringBefore("?")
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -42,7 +45,22 @@ fun YouTubeCard(title: String, videoUrl: String) {
             factory = { context ->
                 android.webkit.WebView(context).apply {
                     settings.javaScriptEnabled = true
-                    loadUrl(videoUrl)
+                    settings.domStorageEnabled = true
+                    loadData(
+                        """
+                        <html>
+                          <body style="margin:0">
+                            <iframe 
+                              width="100%" height="100%" 
+                              src="$embedUrl"
+                              frameborder="0" allowfullscreen>
+                            </iframe>
+                          </body>
+                        </html>
+                        """.trimIndent(),
+                        "text/html",
+                        "utf-8"
+                    )
                 }
             }
         )
